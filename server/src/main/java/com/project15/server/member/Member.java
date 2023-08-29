@@ -1,4 +1,4 @@
-package com.project15.server.Entity;
+package com.project15.server.member;
 
 import lombok.Getter;
 import lombok.Setter;
