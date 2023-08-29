@@ -31,3 +31,4 @@ build/
 
 # application.yml
 **/application.yml
+application.yml
