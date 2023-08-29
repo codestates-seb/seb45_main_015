@@ -28,7 +28,3 @@ build/
 
 # Gradle files
 .gradle/
-
-# application.yml
-**/application.yml
-application.yml
