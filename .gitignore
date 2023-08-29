@@ -30,4 +30,4 @@ build/
 .gradle/
 
 # application.yml
-application.yml
+**/application.yml
