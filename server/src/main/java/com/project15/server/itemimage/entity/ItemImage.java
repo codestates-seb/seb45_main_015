@@ -1,4 +1,4 @@
-package com.project15.server.itemImage.entity;
+package com.project15.server.itemimage.entity;
 
 import com.project15.server.item.entity.Item;
 import lombok.Getter;
