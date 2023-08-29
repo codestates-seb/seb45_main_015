@@ -1,7 +1,7 @@
 package com.project15.server.item.entity;
 
 import com.project15.server.audit.Auditable;
-import com.project15.server.itemImage.entity.ItemImage;
+import com.project15.server.itemimage.entity.ItemImage;
 import lombok.Getter;
 import lombok.Setter;
 
