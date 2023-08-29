@@ -1,5 +1,6 @@
 package com.project15.server.rating;
 
+import com.project15.server.item.entity.Item;
 import com.project15.server.member.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +16,9 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ratingId;
 
- /*   @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "item_id")
-    private Item item; */
+    private Item item;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
