@@ -1,5 +1,6 @@
-package com.project15.server.Entity;
+package com.project15.server.rating;
 
+import com.project15.server.mamber.Member;
 import lombok.Getter;
 import lombok.Setter;
 
