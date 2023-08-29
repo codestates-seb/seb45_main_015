@@ -1,9 +1,11 @@
 package com.project15.server.chat.entity;
 
+import com.project15.server.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class ChatRoom {
     @Enumerated(EnumType.STRING)
     private ChatRoomStatus status = ChatRoomStatus.ACTIVATE;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_Id")
     private Member seller;
 
