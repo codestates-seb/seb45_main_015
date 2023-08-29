@@ -1,6 +1,6 @@
 package com.project15.server.profileimage;
 
-import com.project15.server.mamber.Member;
+import com.project15.server.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
