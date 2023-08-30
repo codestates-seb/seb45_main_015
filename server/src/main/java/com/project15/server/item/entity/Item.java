@@ -1,7 +1,7 @@
 package com.project15.server.item.entity;
 
 import com.project15.server.audit.Auditable;
-import com.project15.server.itemimage.entity.ItemImage;
+import com.project15.server.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +18,7 @@ public class Item extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long itemId;
 
+//멤버 연관관계로 인한 예외로 주석처리
 //    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member_id")
 //    private Member member;
@@ -31,18 +32,26 @@ public class Item extends Auditable {
 
     private String category;
 
-    private String expireDate;
+    //createdAt과 합산하여 만료일을 계산
+    private int expireDate;
 
-    private long startPrice;
+    private int startPrice;
 
-    private long bidUnit;
+    private int bidUnit;
 
-    private long currentPrice;
+    private int currentPrice;
 
-    private boolean buyNow;
+    private String buyNow;
 
-    private long buyNowPrice;
+    private int buyNowPrice;
 
     @Enumerated(value = EnumType.STRING)
     private ItemStatus status = ItemStatus.PROGRESSING;
+//멤버 연관관계로 인한 예외로 주석처리
+//    public void setMember(Member member) {
+//        Member newMember = new Member();
+//        newMember.setMemberId(member.getMemberId());
+//
+//        this.member = newMember;
+//    }
 }

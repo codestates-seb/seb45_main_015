@@ -1,6 +1,5 @@
-package com.project15.server.itemimage.entity;
+package com.project15.server.item.entity;
 
-import com.project15.server.item.entity.Item;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,4 +23,11 @@ public class ItemImage {
     private String imageUrl;
 
     private String imageType;
+
+    public void setItem(Item item) {
+        Item newItem = new Item();
+        newItem.setItemId(item.getItemId());
+
+        this.item = newItem;
+    }
 }

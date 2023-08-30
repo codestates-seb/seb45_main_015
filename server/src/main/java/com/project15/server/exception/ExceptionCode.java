@@ -14,5 +14,6 @@ public enum ExceptionCode {
     IMAGE_EXISTS,
     BID_EXISTS,
     CHAT_ROOM_EXISTS,
-    MESSAGE_EXISTS
+    MESSAGE_EXISTS,
+    IMAGE_UPLOAD_FAIL
 }

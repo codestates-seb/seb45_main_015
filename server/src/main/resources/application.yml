@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/project015?serverTimezone=Asia/Seoul
     username:
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,3 +18,14 @@ logging:
         type:
           descriptor:
             sql: trace
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}
+    s3:
+      bucketName: project015-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
