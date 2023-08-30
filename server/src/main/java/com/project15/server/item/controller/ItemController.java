@@ -29,18 +29,12 @@ public class ItemController {
                                    @RequestPart(value = "image", required = false) List<MultipartFile> files) {
         Item item = itemMapper.postDtoToItem(postDto);
 
-        item = itemService.createItem(item, files);
-
-        //TODO: Response 정해지면 dto 작성 예정
-
-        return new ResponseEntity<>(item.getItemId(), HttpStatus.OK);
-    }
-
-    @PostMapping("/items")
-    public ResponseEntity postItem(@RequestPart(value = "item_data") ItemDto.PostDto postDto) {
-        Item item = itemMapper.postDtoToItem(postDto);
-
-        item = itemService.createItem(item);
+        if(files == null) {
+            itemService.createItem(item);
+        }
+        else {
+            item = itemService.createItem(item, files);
+        }
 
         //TODO: Response 정해지면 dto 작성 예정
 

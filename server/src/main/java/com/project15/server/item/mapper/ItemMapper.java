@@ -45,8 +45,10 @@ public class ItemMapper {
             ItemImage itemImage = new ItemImage();
             itemImage.setImageName(file.getOriginalFilename());
             itemImage.setImageType(file.getContentType());
-            itemImage.setImageUrl(urlList.get(0));
-            urlList.remove(0);
+            if(urlList.size() != 0) {
+                itemImage.setImageUrl(urlList.get(0));
+                urlList.remove(0);
+            }
             itemImage.setItem(savedItem);
 
             return itemImage;
