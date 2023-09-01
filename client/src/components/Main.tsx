@@ -60,7 +60,6 @@ function Sidebar() {
     "반려동물용품",
     "헬스/건강식품",
   ];
-
   return (
     <MainSidebar>
       <h2>카테고리</h2>
