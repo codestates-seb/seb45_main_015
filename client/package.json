@@ -20,6 +20,8 @@
 		"react-scripts": "5.0.1",
 		"redux": "^4.2.1",
 		"save": "^2.9.0",
+		"styled-components": "^6.0.7",
+		"token-transformer": "^0.0.33",
 		"typescript": "^4.9.5",
 		"web-vitals": "^2.1.4"
 	},
@@ -27,7 +29,9 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"token": "token-transformer src/design_token/tokens.json src/design_tokens/global.json global --expandTypography=true --expandShadow=true --expandComposition=true --expandBorder=true",
+		"chromatic": "npx chromatic --project-token=6a567d6510c8"
 	},
 	"eslintConfig": {
 		"extends": [
