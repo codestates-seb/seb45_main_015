@@ -24,9 +24,9 @@ public class ItemImage {
 
     private String imageType;
 
-    public void setItem(Item item) {
+    public void setItem(Long itemId) {
         Item newItem = new Item();
-        newItem.setItemId(item.getItemId());
+        newItem.setItemId(itemId);
 
         this.item = newItem;
     }

@@ -27,7 +27,7 @@ public class Item extends Auditable {
     @OneToMany(targetEntity = ItemImage.class, mappedBy = "item")
     private List<ItemImage> itemImages = new ArrayList<>();
 
-    @OneToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -50,7 +50,8 @@ public class Item extends Auditable {
 
     @Enumerated(value = EnumType.STRING)
     private ItemStatus status = ItemStatus.WAITING;
-//멤버 연관관계로 인한 예외로 주석처리
+
+//TODO:멤버 연관관계 오류로 인한 주석처리
 //    public void setMember(Member member) {
 //        Member newMember = new Member();
 //        newMember.setMemberId(member.getMemberId());
@@ -58,9 +59,9 @@ public class Item extends Auditable {
 //        this.member = newMember;
 //    }
 
-    public void setCategory(Category category) {
+    public void setCategory(Long categoryId) {
         Category newCategory = new Category();
-        newCategory.setCategoryId(category.getCategoryId());
+        newCategory.setCategoryId(categoryId);
 
         this.category = newCategory;
     }
