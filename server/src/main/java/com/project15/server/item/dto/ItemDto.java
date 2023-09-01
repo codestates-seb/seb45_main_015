@@ -13,22 +13,28 @@ public class ItemDto {
     @Setter
     public static class PostDto {
 
+        private long member_id;
+
         private String title;
 
         private String content;
 
         private String category;
 
-        @Column
-        @DateTimeFormat(pattern = "yy-MM-dd HH:mm:ss")
-        private LocalDateTime expire_date;
+        private int expire_date;
 
-        private long start_price;
+        private int start_price;
 
-        private long bid_unit;
+        private int bid_unit;
 
-        private boolean buy_now;
+        private String buy_now;
 
-        private long buy_now_price;
+        private int buy_now_price;
+    }
+
+    @Getter
+    @Setter
+    public static class ResponseDto {
+        //TODO: Response 정해지면 dto 작성 예정
     }
 }
