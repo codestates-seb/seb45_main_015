@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import TradeNav from "./component_style/TradeNav_style";
 
 function TradeSideVar() {
-  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const [selectedMenu, setSelectedMenu] = useState<number | null>(null);
 
-  const handleItemClick = (index: number) => {
-    setSelectedItem(index);
+  const handleMenuClick = (index: number) => {
+    setSelectedMenu(index);
   };
 
-  const categoryList: string[] = [
+  const TradeList: string[] = [
     "입찰 진행중",
     "거래중",
     "유찰된 거래",
@@ -17,16 +17,16 @@ function TradeSideVar() {
   return (
     <TradeNav>
       <ul>
-        {categoryList.map((category, index) => (
-          <li
-            key={index}
-            onClick={() => handleItemClick(index)}
-            style={{
-              color: selectedItem === index ? "#0064FF" : "",
-            }}
-          >
+        {TradeList.map((category, index) => (
+          <li key={index} onClick={() => handleMenuClick(index)}>
             <div className="img"></div>
-            <p>{category}</p>
+            <p
+              style={{
+                color: selectedMenu === index ? "#0064FF" : "",
+              }}
+            >
+              {category}
+            </p>
           </li>
         ))}
       </ul>

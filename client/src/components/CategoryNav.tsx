@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import CategoryNav from "./component_style/CategoryNav_style";
 
 function CategorySideVar() {
-  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
-  const handleItemClick = (index: number) => {
-    setSelectedItem(index);
+  const handleCategoryClick = (index: number) => {
+    setSelectedCategory(index);
   };
 
   const categoryList: string[] = [
@@ -33,9 +33,9 @@ function CategorySideVar() {
         {categoryList.map((category, index) => (
           <li
             key={index}
-            onClick={() => handleItemClick(index)}
+            onClick={() => handleCategoryClick(index)}
             style={{
-              color: selectedItem === index ? "#0064FF" : "",
+              color: selectedCategory === index ? "#0064FF" : "",
             }}
           >
             {category}
