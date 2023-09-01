@@ -10,11 +10,11 @@ import java.util.List;
 @Service
 public interface ItemService {
 
-    Item createItem(Item item, List<MultipartFile> files);
+    void createImage(Long itemId, List<MultipartFile> files, List<String> urlList);
 
     Item createItem(Item item);
 
-    void verifyExistItem(long itemId);
+    void verifyExistItem(Long itemId);
 
-    Item findVerifiedItem(long itemId);
+    Item findVerifiedItem(Long itemId);
 }

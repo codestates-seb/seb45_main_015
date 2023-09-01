@@ -1,5 +1,6 @@
 package com.project15.server.item.mapper;
 
+import com.project15.server.category.entity.Category;
 import com.project15.server.item.dto.ItemDto;
 import com.project15.server.item.entity.Item;
 import com.project15.server.item.entity.ItemImage;
@@ -22,12 +23,15 @@ public class ItemMapper {
             Item item = new Item();
             item.setTitle(postDto.getTitle());
             item.setContent(postDto.getContent());
-            item.setCategory(postDto.getCategory());
-            item.setExpireDate(postDto.getExpire_date());
+
+            Category category = new Category();
+            category.setName(postDto.getCategory());
+            item.setCategory(category);
+
+            item.setAuctionTime(postDto.getAuction_time());
             item.setStartPrice(postDto.getStart_price());
             item.setBidUnit(postDto.getBid_unit());
             item.setCurrentPrice(postDto.getStart_price());
-            item.setBuyNow(postDto.getBuy_now());
             item.setBuyNowPrice(postDto.getBuy_now_price());
 //            Member member = new Member();
 //            member.setMemberId(postDto.getMember_id());
