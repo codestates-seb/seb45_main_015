@@ -1,5 +1,6 @@
 package com.project15.server.profileimage;
 
+import com.project15.server.audit.Auditable;
 import com.project15.server.member.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class ProfileImage {
+public class ProfileImage extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
