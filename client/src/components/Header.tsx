@@ -1,31 +1,21 @@
+import React from "react";
 import {
   Container,
   LogoWrapper,
   Logo,
   NavWrapper,
-<<<<<<< HEAD
   Button,
-=======
-  NavButton,
->>>>>>> 77e86a3 (feat: header제작)
   HeaderContent,
   SearchWrapper,
   SearchForm,
   Search,
   SearchButton,
   UserWrapper,
-<<<<<<< HEAD
 } from "./style/Header.styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import HeaderDropDown from "./HeaderDropDown";
-=======
-  UserButton,
-} from "./style/Header.styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
->>>>>>> 77e86a3 (feat: header제작)
 
 const Nav = [
   { page: "Home", router: "/" },
@@ -33,11 +23,8 @@ const Nav = [
   { page: "나의거래", router: "/" },
 ];
 
-<<<<<<< HEAD
 const dummy = "로그아웃";
 
-=======
->>>>>>> 77e86a3 (feat: header제작)
 function Header() {
   return (
     <Container>
@@ -47,11 +34,7 @@ function Header() {
         </LogoWrapper>
         <NavWrapper>
           {Nav.map(nav => (
-<<<<<<< HEAD
             <Button key={nav.page}>{nav.page}</Button>
-=======
-            <NavButton>{nav.page}</NavButton>
->>>>>>> 77e86a3 (feat: header제작)
           ))}
         </NavWrapper>
         <SearchWrapper>
@@ -62,7 +45,6 @@ function Header() {
             </SearchButton>
           </SearchForm>
         </SearchWrapper>
-<<<<<<< HEAD
         {dummy !== "로그아웃" ? (
           <UserWrapper>
             <Button>회원가입</Button>
@@ -79,12 +61,6 @@ function Header() {
             </Button>
           </UserWrapper>
         )}
-=======
-        <UserWrapper>
-          <UserButton>회원가입</UserButton>
-          <UserButton>로그인</UserButton>
-        </UserWrapper>
->>>>>>> 77e86a3 (feat: header제작)
       </HeaderContent>
     </Container>
   );
