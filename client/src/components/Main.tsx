@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useEffect } from "react";
 
 const MainSidebar = styled.div`
   width: 240px;
