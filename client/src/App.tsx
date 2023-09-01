@@ -5,12 +5,13 @@ import Toast from "./alret/Toast.";
 import LoginPage from "./page/LoginPage";
 import SignupPage from "./page/SignupPage";
 import FindPasswordPage from "./page/FindPasswordPage";
+import Header from "./components/Header";
 
 const App: React.FC = () => {
   return (
     <div className="App">
       <BrowserRouter>
-        <header></header>
+        <Header />
         <Toast />
         <Routes>
           <Route path="/" element={<LoginPage />} />
