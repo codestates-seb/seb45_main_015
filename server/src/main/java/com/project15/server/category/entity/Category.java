@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,9 +17,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 
-    @OneToOne(targetEntity = Item.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
+    @OneToMany(targetEntity = Item.class, mappedBy = "category")
+    private List<Item> items = new ArrayList<>();
 
     private String name;
 }

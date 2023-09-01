@@ -23,11 +23,7 @@ public class ItemMapper {
             Item item = new Item();
             item.setTitle(postDto.getTitle());
             item.setContent(postDto.getContent());
-
-            Category category = new Category();
-            category.setName(postDto.getCategory());
-            item.setCategory(category);
-
+            item.setCategory(postDto.getCategory_id());
             item.setAuctionTime(postDto.getAuction_time());
             item.setStartPrice(postDto.getStart_price());
             item.setBidUnit(postDto.getBid_unit());
@@ -41,7 +37,7 @@ public class ItemMapper {
         }
     }
 
-    public ItemImage fileToItemImage(MultipartFile file, Item savedItem, List<String> urlList) {
+    public ItemImage fileToItemImage(MultipartFile file, Long itemId, List<String> urlList) {
         if(file == null) {
             return null;
         }
@@ -53,11 +49,9 @@ public class ItemMapper {
                 itemImage.setImageUrl(urlList.get(0));
                 urlList.remove(0);
             }
-            itemImage.setItem(savedItem);
+            itemImage.setItem(itemId);
 
             return itemImage;
         }
     }
-
-
 }

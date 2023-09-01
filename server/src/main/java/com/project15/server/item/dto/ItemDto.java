@@ -21,7 +21,7 @@ public class ItemDto {
 
         private String content;
 
-        private String category;
+        private Long category_id;
 
         private int auction_time;
 
@@ -36,11 +36,5 @@ public class ItemDto {
     @Setter
     public static class ResponseDto {
         //TODO: Response 정해지면 dto 작성 예정
-    }
-
-    @Getter
-    @Setter
-    public static class IdResponseDto {
-        private Long item_id;
     }
 }
