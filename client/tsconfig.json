@@ -4,6 +4,7 @@
 		"lib": ["es6", "dom"],
 		"rootDir": "src",
 		"module": "commonjs",
+		"resolveJsonModule": true,
 		"esModuleInterop": true,
 		"target": "es5",
 		"sourceMap": true,
