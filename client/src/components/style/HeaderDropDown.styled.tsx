@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import globalTokens from "../../design_tokens/global.json";
 
-export const DropDown = styled.header`
+export const DropDown = styled.div`
   position: absolute;
-  right: 410px;
+  overflow: visible;
   margin-top: 5px;
+  margin-left: -212px;
 `;
 
 export const Decoration = styled.div`
