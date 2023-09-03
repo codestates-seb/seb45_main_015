@@ -39,7 +39,7 @@ export const TextContainer = styled.div`
   height: 150px;
   margin-left: 64px;
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1024px) {
     &.footer-git {
       display: none;
     }
