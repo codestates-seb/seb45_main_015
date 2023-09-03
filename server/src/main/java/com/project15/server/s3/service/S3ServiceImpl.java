@@ -1,5 +1,7 @@
 package com.project15.server.s3.service;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.project15.server.exception.ExceptionCode;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -47,6 +50,16 @@ public class S3ServiceImpl implements S3Service {
         }
 
         return amazonS3.getUrl(bucketName, changedName).toString();
+    }
+
+    public void deleteFileAtS3(String url) {
+        if(url != null) {
+            try {
+                amazonS3.deleteObject(new DeleteObjectRequest(bucketName, url));
+            } catch (AmazonServiceException ase) {
+                ase.printStackTrace();
+            }
+        }
     }
 
     private String changedFileName(String originName) {

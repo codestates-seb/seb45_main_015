@@ -40,10 +40,10 @@ public class CategoryMapper {
             responseDto.setPageInfo(
                     PageInfo
                     .builder()
-                            .pageNumber(categoryPage.getNumber() + 1)
-                            .pageSize(categoryPage.getSize())
-                            .totalElements(categoryPage.getTotalElements())
-                            .totalPages(categoryPage.getTotalPages())
+                            .page_number(categoryPage.getNumber() + 1)
+                            .page_size(categoryPage.getSize())
+                            .total_elements(categoryPage.getTotalElements())
+                            .total_pages(categoryPage.getTotalPages())
                     .build()
             );
 

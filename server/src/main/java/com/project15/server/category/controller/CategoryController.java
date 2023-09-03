@@ -39,8 +39,8 @@ public class CategoryController {
     }
 
     //ADMIN ROLE 만 접근 가능
-    @PatchMapping("/{category_id}")
-    public HttpStatus patchCategory(@PathVariable("category_id") Long categoryId,
+    @PatchMapping("/{category-id}")
+    public HttpStatus patchCategory(@PathVariable("category-id") Long categoryId,
                                     @RequestParam("new_category_name") String newCategoryName) {
         categoryService.updateCategory(categoryId, newCategoryName);
 
