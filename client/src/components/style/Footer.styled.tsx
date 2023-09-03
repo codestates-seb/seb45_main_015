@@ -1,11 +1,13 @@
 import styled from "styled-components";
 
 export const Container = styled.footer`
+  padding: 0;
   display: flex;
   align-items: center;
   width: auto;
   height: 264px;
   border-top: solid 1px #e6e8ec;
+  margin-top: 30px;
 `;
 
 export const FooterContent = styled.div`
@@ -50,16 +52,16 @@ export const TextContainer = styled.div`
       display: none;
     }
   }
+
+  @media (max-width: 768px) {
+    & {
+      margin: 0 10px;
+    }
+  }
 `;
 
 export const ContentsPart = styled.div`
   display: flex;
-
-  @media (max-width: 768px) {
-    & {
-      flex-direction: column;
-    }
-  }
 `;
 
 export const TextSection = styled.div`
@@ -79,6 +81,12 @@ export const Theme = styled.h3`
 export const TextWrapper = styled.div`
   display: flex;
   margin-top: 5px;
+
+  @media (max-width: 768px) {
+    & {
+      font-size: 14px;
+    }
+  }
 `;
 
 export const Text = styled.p`

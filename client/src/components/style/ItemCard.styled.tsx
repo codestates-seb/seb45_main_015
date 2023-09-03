@@ -3,6 +3,13 @@ import styled from "styled-components";
 export const Container = styled.div`
   width: 256px;
   height: 383px;
+
+  @media (max-width: 768px) {
+    & {
+      width: 167px;
+      height: 242px;
+    }
+  }
 `;
 
 export const ImgContainer = styled.div`
@@ -16,6 +23,14 @@ export const ImgContainer = styled.div`
   background-color: #b1b5c3;
   border: solid 1px #b1b5c3;
   border-radius: 20px 20px 0 0;
+
+  @media (max-width: 768px) {
+    & {
+      height: 114px;
+      font-size: 56px;
+      border-radius: 12px 12px 0 0;
+    }
+  }
 `;
 
 export const Icon = styled.button`
@@ -33,6 +48,14 @@ export const Icon = styled.button`
   &.favorite-on {
     color: #d32f2f;
   }
+
+  @media (max-width: 768px) {
+    & {
+      height: 114px;
+      font-size: 28px;
+      margin: 0 0 64px 108px;
+    }
+  }
 `;
 
 export const InfoContainer = styled.div`
@@ -40,6 +63,14 @@ export const InfoContainer = styled.div`
   width: 100%;
   border: solid 1px #b1b5c3;
   border-radius: 0 0 20px 20px;
+
+  @media (max-width: 768px) {
+    & {
+      height: 128px;
+      font-size: 56px;
+      border-radius: 0 0 12px 12px;
+    }
+  }
 `;
 
 export const InfoWrapper = styled.div`
@@ -53,6 +84,16 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+
+  @media (max-width: 768px) {
+    & {
+      margin-top: 5px;
+    }
+
+    &.itemCard-product-seller {
+      display: none;
+    }
+  }
 `;
 
 export const Text = styled.p`
@@ -73,5 +114,19 @@ export const Text = styled.p`
 
   &.itemCard-product-value {
     font-size: 14px;
+  }
+
+  @media (max-width: 768px) {
+    & {
+      font-size: 14px;
+    }
+
+    &.itemCard-product-key {
+      font-size: 11px;
+    }
+
+    &.itemCard-product-value {
+      font-size: 11px;
+    }
   }
 `;
