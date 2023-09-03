@@ -6,6 +6,10 @@ export const DropDown = styled.div`
   overflow: visible;
   margin-top: 5px;
   margin-left: -212px;
+
+  &.none {
+    display: none;
+  }
 `;
 
 export const Decoration = styled.div`

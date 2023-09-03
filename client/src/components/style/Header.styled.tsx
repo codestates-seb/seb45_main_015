@@ -26,7 +26,7 @@ export const LogoWrapper = styled.div`
 `;
 
 export const Logo = styled.img`
-  background-color: gray;
+  background-color: #e6e8ec;
   width: 195px;
   height: 48px;
 `;
