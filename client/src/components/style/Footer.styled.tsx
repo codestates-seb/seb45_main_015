@@ -24,6 +24,12 @@ export const LogoWrapper = styled.div`
   border-radius: 16px;
   width: 192px;
   height: 150px;
+
+  @media (max-width: 768px) {
+    & {
+      display: none;
+    }
+  }
 `;
 
 export const Logo = styled.img`
@@ -37,7 +43,7 @@ export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 150px;
-  margin-left: 64px;
+  margin-left: 42px;
 
   @media (max-width: 1024px) {
     &.footer-git {
@@ -48,6 +54,12 @@ export const TextContainer = styled.div`
 
 export const ContentsPart = styled.div`
   display: flex;
+
+  @media (max-width: 768px) {
+    & {
+      flex-direction: column;
+    }
+  }
 `;
 
 export const TextSection = styled.div`

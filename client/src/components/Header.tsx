@@ -51,6 +51,9 @@ function Header() {
           </UserWrapper>
         ) : (
           <UserWrapper>
+            <Button className="Icon none">
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </Button>
             <Button className="Icon">
               <FontAwesomeIcon icon={faHeart} />
             </Button>

@@ -14,6 +14,7 @@ export const HeaderContent = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+
   height: auto;
   margin: 0 160px;
 `;
@@ -57,11 +58,27 @@ export const Button = styled.button`
     font-size: 28px;
     margin-left: 10px;
   }
+
+  &.none {
+    display: none;
+  }
+
+  @media (max-width: 1024px) {
+    &.none {
+      display: block;
+    }
+  }
 `;
 
 export const SearchWrapper = styled.div`
   width: 100%;
   padding: 0 15px 0 15px;
+
+  @media (max-width: 1024px) {
+    & {
+      display: none;
+    }
+  }
 `;
 
 export const SearchForm = styled.div`
