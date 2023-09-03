@@ -6,6 +6,7 @@ import LoginPage from "./page/LoginPage";
 import SignupPage from "./page/SignupPage";
 import FindPasswordPage from "./page/FindPasswordPage";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const App: React.FC = () => {
   return (

@@ -27,7 +27,7 @@ const nav = [
 
 function HeaderDropDown() {
   return (
-    <DropDown>
+    <DropDown className="none">
       <Container>
         <UserName>사용자 이름</UserName>
         {nav.map(item => (
