@@ -34,7 +34,7 @@ function ItemCard() {
             <Text className="itemCard-product-key">최고가</Text>
             <Text className="itemCard-product-value">0원</Text>
           </Wrapper>
-          <Wrapper>
+          <Wrapper className="itemCard-product-seller">
             <Text className="itemCard-product-key">판매자명</Text>
             <Text className="itemCard-product-value">이름</Text>
           </Wrapper>
