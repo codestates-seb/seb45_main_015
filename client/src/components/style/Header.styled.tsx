@@ -17,6 +17,13 @@ export const HeaderContent = styled.div`
 
   height: auto;
   margin: 0 160px;
+
+  @media (max-width: 768px) {
+    & {
+      justify-content: space-between;
+      margin: 0 20px;
+    }
+  }
 `;
 
 export const LogoWrapper = styled.div`
@@ -24,6 +31,12 @@ export const LogoWrapper = styled.div`
   height: 48px;
   padding-right: 42px;
   border-right: solid 1px ${globalTokens.heart.default.value};
+
+  @media (max-width: 768px) {
+    & {
+      border-style: none;
+    }
+  }
 `;
 
 export const Logo = styled.img`
@@ -35,6 +48,12 @@ export const Logo = styled.img`
 export const NavWrapper = styled.div`
   display: flex;
   margin-left: 42px;
+
+  @media (max-width: 768px) {
+    & {
+      display: none;
+    }
+  }
 `;
 
 export const Button = styled.button`
@@ -59,12 +78,24 @@ export const Button = styled.button`
     margin-left: 10px;
   }
 
-  &.none {
+  &.screen-1024px {
     display: none;
+    font-size: 24px;
+  }
+
+  &.screen-768px {
+    display: none;
+    font-size: 36px;
   }
 
   @media (max-width: 1024px) {
-    &.none {
+    &.screen-1024px {
+      display: block;
+    }
+  }
+
+  @media (max-width: 768px) {
+    &.screen-768px {
       display: block;
     }
   }
@@ -114,4 +145,10 @@ export const SearchButton = styled.button`
 export const UserWrapper = styled.div`
   display: flex;
   margin-left: 15px;
+
+  @media (max-width: 768px) {
+    & {
+      display: none;
+    }
+  }
 `;

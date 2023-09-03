@@ -12,7 +12,7 @@ import {
   UserWrapper,
 } from "./style/Header.styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import HeaderDropDown from "./HeaderDropDown";
 
@@ -46,12 +46,15 @@ function Header() {
         </SearchWrapper>
         {dummy !== "로그아웃" ? (
           <UserWrapper>
+            <Button className="Icon screen-1024px">
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </Button>
             <Button>회원가입</Button>
             <Button>로그인</Button>
           </UserWrapper>
         ) : (
           <UserWrapper>
-            <Button className="Icon none">
+            <Button className="Icon screen-1024px">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </Button>
             <Button className="Icon">
@@ -63,6 +66,9 @@ function Header() {
             </Button>
           </UserWrapper>
         )}
+        <Button className="Icon screen-768px">
+          <FontAwesomeIcon icon={faBars} />
+        </Button>
       </HeaderContent>
     </Container>
   );
