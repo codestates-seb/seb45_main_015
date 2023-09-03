@@ -1,12 +1,14 @@
 package com.project15.server.item.entity;
 
 import com.project15.server.audit.Auditable;
+import com.project15.server.bid.entity.Bid;
 import com.project15.server.category.entity.Category;
 import com.project15.server.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +33,16 @@ public class Item extends Auditable {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @OneToMany(targetEntity = Bid.class, mappedBy = "item")
+    private List<Bid> bids = new ArrayList<>();
+
     private String title;
 
+    @Lob
     private String content;
 
     //createdAt과 합산하여 만료일을 계산
-    private int auctionTime;
+    private LocalDateTime endTime;
 
     private int startPrice;
 
@@ -44,17 +50,18 @@ public class Item extends Auditable {
 
     private int currentPrice;
 
-    private String buyNow;
+    // "Y" or "N" only
+    private String buyNow = "N";
 
     private Integer buyNowPrice;
 
     @Enumerated(value = EnumType.STRING)
     private ItemStatus status = ItemStatus.WAITING;
 
-//TODO:멤버 연관관계 오류로 인한 주석처리
-//    public void setMember(Member member) {
+//TODO: MEMBER 구현 후 주석 해제
+//    public void setMember(Long memberId) {
 //        Member newMember = new Member();
-//        newMember.setMemberId(member.getMemberId());
+//        newMember.setMemberId(memberId);
 //
 //        this.member = newMember;
 //    }

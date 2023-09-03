@@ -7,11 +7,11 @@ import lombok.Getter;
 @Builder
 public class PageInfo {
 
-    private int pageNumber;
+    private int page_number;
 
-    private int pageSize;
+    private int page_size;
 
-    private long totalElements;
+    private long total_elements;
 
-    private int totalPages;
+    private int total_pages;
 }
