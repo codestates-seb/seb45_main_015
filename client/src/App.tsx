@@ -15,7 +15,7 @@ const App: React.FC = () => {
         <Toast />
         <div className="Main">
           <Routes>
-            <Route path="/" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/find-password" element={<FindPasswordPage />} />
           </Routes>
