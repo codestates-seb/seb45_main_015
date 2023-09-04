@@ -13,11 +13,13 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Header />
         <Toast />
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/find-password" element={<FindPasswordPage />} />
-        </Routes>
+        <div>
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/find-password" element={<FindPasswordPage />} />
+          </Routes>
+        </div>
         <Footer />
       </BrowserRouter>
     </div>
