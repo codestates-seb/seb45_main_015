@@ -26,6 +26,7 @@ const App: React.FC = () => {
             <Route path="/favoritePage" element={<FavoritePage />} />
             <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route path="/mytrade" element={<MyTrade />} />
+            <Route path="/itemListPage" element={<ItemListPage />} />
           </Routes>
           <MyTrade />
         </div>

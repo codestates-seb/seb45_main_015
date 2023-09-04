@@ -7,6 +7,7 @@
   max-width: 1440px;
   padding: 89px 160px 0 160px;
   margin: 0 auto;
+  height: 100vh;
 }
 
 @media (max-width: 768px) {
