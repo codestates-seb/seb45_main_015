@@ -1,10 +1,16 @@
+<<<<<<< HEAD
 import React from "react";
+=======
+>>>>>>> 702b77d (itemListPage 작업중)
 import ItemListPageContainer from "./page_style/itemListPage_styled";
 import { Link } from "react-router-dom";
 import MainCategory from "../components/MainCategory";
 import MyCarousel from "../components/Carousel";
 import ItemCard from "../components/ItemCard";
+<<<<<<< HEAD
 import { MediumButtonB } from "../components/ButtonComponent";
+=======
+>>>>>>> 702b77d (itemListPage 작업중)
 
 const ItemListPage: React.FC = () => {
   const carouselItems = [
@@ -67,6 +73,7 @@ const ItemListPage: React.FC = () => {
               <ItemCard />
               <ItemCard />
               <ItemCard />
+<<<<<<< HEAD
               <ItemCard />
               <ItemCard />
             </div>
@@ -74,6 +81,10 @@ const ItemListPage: React.FC = () => {
           <div className="buttontest">
             <MediumButtonB value={"더보기"} />
           </div>
+=======
+            </div>
+          </div>
+>>>>>>> 702b77d (itemListPage 작업중)
         </div>
       </div>
     </ItemListPageContainer>

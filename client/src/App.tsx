@@ -35,6 +35,7 @@ const App: React.FC = () => {
 <<<<<<< HEAD
             <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route path="/mytrade" element={<MyTrade />} />
+<<<<<<< HEAD
 =======
             <Route path="/itemListPage" element={<ItemListPage />} />
             <Route path="/favoritePage" element={<FavoritePage />} />
@@ -44,6 +45,9 @@ const App: React.FC = () => {
             <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route path="/mytrade" element={<MyTrade />} />
 >>>>>>> 0977051 ([FE] docs: 비밀번호 변경페이지 라우터 추가)
+=======
+            <Route path="/itemListPage" element={<ItemListPage />} />
+>>>>>>> 5c8f95e (itemListPage 작업중)
           </Routes>
           <MyTrade />
         </div>
