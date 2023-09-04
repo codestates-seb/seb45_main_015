@@ -72,4 +72,8 @@ public class Item extends Auditable {
 
         this.category = newCategory;
     }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

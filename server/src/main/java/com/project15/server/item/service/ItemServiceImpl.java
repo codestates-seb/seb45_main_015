@@ -1,5 +1,7 @@
 package com.project15.server.item.service;
 
+import com.project15.server.category.entity.Category;
+import com.project15.server.category.service.CategoryService;
 import com.project15.server.exception.ExceptionCode;
 import com.project15.server.exception.GlobalException;
 import com.project15.server.item.dto.ItemDto;
@@ -31,6 +33,8 @@ import java.util.stream.Collectors;
 public class ItemServiceImpl implements ItemService{
 
     private final S3ServiceImpl s3Service;
+
+    private final CategoryService categoryService;
 
     private final ItemMapper itemMapper;
 
@@ -113,8 +117,11 @@ public class ItemServiceImpl implements ItemService{
         if(findItem.getStatus().equals(ItemStatus.WAITING) || currentTime.isBefore(findItem.getEndTime())) {
             Optional.ofNullable(patchDto.getTitle()).ifPresent(findItem::setTitle);
             Optional.ofNullable(patchDto.getContent()).ifPresent(findItem::setContent);
-            //test 필요
-            Optional.ofNullable(patchDto.getCategory_id()).ifPresent(categoryId -> findItem.getCategory().setCategoryId(categoryId));
+
+            if(patchDto.getCategory_id() != null) {
+                Category category = categoryService.findVerifiedCategory(patchDto.getCategory_id());
+                findItem.setCategory(category);
+            }
             if(patchDto.getEnd_time() != null) {
                 LocalDateTime endTime;
                 if(patchDto.getEnd_time() < 10) {
@@ -125,9 +132,11 @@ public class ItemServiceImpl implements ItemService{
                 }
                 findItem.setEndTime(endTime);
             }
+
             Optional.ofNullable(patchDto.getStart_price()).ifPresent(findItem::setStartPrice);
             Optional.ofNullable(patchDto.getBid_unit()).ifPresent(findItem::setBidUnit);
             findItem.setBuyNowPrice(patchDto.getBuy_now_price());
+
             if(patchDto.getBuy_now_price() != null) {
                 findItem.setBuyNow("Y");
             }
@@ -139,7 +148,6 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public void removeImage(Long itemId, Long memberId, List<String> deleteImageUrls) {
-
         //TODO: ITEM STATUS 가 WAITING 일때만 UPDATE 가능
         Item findItem = findVerifiedItem(itemId);
         //TODO: MEMBER 구현 후 주석 해제
@@ -147,8 +155,18 @@ public class ItemServiceImpl implements ItemService{
 //            throw new GlobalException(ExceptionCode.MEMBER_MISS_MATCH);
 //        }
 
-        if(isStartAuction(findItem.getStatus(), findItem.getEndTime())) {
-            deleteImageUrls.forEach(s3Service::deleteFileAtS3);
+        List<String> deleteImageKeys = new ArrayList<>();
+        deleteImageUrls.forEach(url -> deleteImageKeys.add(url.substring(url.lastIndexOf("/") + 1)));
+
+        if(isStatusWaiting(findItem.getStatus(), findItem.getEndTime())) {
+            deleteImageKeys.forEach(s3Service::deleteFileAtS3);
+
+            List<ItemImage> findItemImages = deleteImageUrls
+                    .stream()
+                    .map(this::findVerifiedItemImage)
+                    .collect(Collectors.toList());
+
+            findItemImages.forEach(itemImageRepository::delete);
         }
     }
 
@@ -162,11 +180,10 @@ public class ItemServiceImpl implements ItemService{
 //            throw new GlobalException(ExceptionCode.MEMBER_MISS_MATCH);
 //        }
 
-        if(isStartAuction(findItem.getStatus(), findItem.getEndTime())) {
+        if(isStatusWaiting(findItem.getStatus(), findItem.getEndTime())) {
             itemRepository.delete(findItem);
         }
     }
-
 
     @Override
     public Item findVerifiedItem(Long itemId) {
@@ -175,7 +192,14 @@ public class ItemServiceImpl implements ItemService{
                 .orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
     }
 
-    private boolean isStartAuction(ItemStatus itemStatus, LocalDateTime endTime) {
+    @Override
+    public ItemImage findVerifiedItemImage(String imageUrl) {
+        return itemImageRepository
+                .findByImageUrl(imageUrl)
+                .orElseThrow(() -> new GlobalException(ExceptionCode.IMAGE_NOT_FOUND));
+    }
+
+    private boolean isStatusWaiting(ItemStatus itemStatus, LocalDateTime endTime) {
         LocalDateTime currentTime = LocalDateTime.now();
         if(itemStatus.equals(ItemStatus.WAITING) || currentTime.isBefore(endTime)) {
             return true;

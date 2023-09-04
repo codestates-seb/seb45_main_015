@@ -19,14 +19,21 @@ public class ItemDto {
     @Setter
     public static class PostDto {
 
+        @NotEmpty
+        @Pattern(regexp = "^-?\\d+$")
         private Long member_id;
 
+        @NotEmpty
         private String title;
 
+        @NotEmpty
         private String content;
 
+        @NotEmpty
+        @Pattern(regexp = "^-?\\d+$")
         private Long category_id;
 
+        @NotEmpty
         private int end_time;
 
         private int start_price;
@@ -122,5 +129,20 @@ public class ItemDto {
         private Integer bid_unit;
 
         private Integer buy_now_price;
+    }
+
+    @Getter
+    @Setter
+    public static class DeleteDto {
+        @NotEmpty
+        @Pattern(regexp = "^-?\\d+$")
+        private Long item_id;
+
+        @NotEmpty
+        @Pattern(regexp = "^-?\\d+$")
+        private Long member_id;
+
+        @NotEmpty
+        private List<String> delete_image_urls;
     }
 }

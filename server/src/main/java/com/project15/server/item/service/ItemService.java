@@ -29,4 +29,6 @@ public interface ItemService {
     void removeItem(Long itemId, Long memberId);
 
     Item findVerifiedItem(Long itemId);
+
+    ItemImage findVerifiedItemImage(String imageUrl);
 }
