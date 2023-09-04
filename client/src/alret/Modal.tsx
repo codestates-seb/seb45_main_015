@@ -35,7 +35,7 @@ const modes: Modes = {
   },
 };
 
-function Modal({ mode }: { mode: string }) {
+function Modal({ mode, closeModal }: { mode: string; closeModal: () => void }) {
   const [star, setStar] = useState<number>(3);
   const currentMode = modes[mode];
 
@@ -68,7 +68,7 @@ function Modal({ mode }: { mode: string }) {
           </StarWrapper>
         )}
         <ButtonWrapper>
-          <Button>
+          <Button onClick={closeModal}>
             {currentMode.mode !== "registered" ? "확인" : "등록하기"}
           </Button>
           {currentMode.mode !== "star" && (
