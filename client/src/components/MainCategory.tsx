@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CategoryNav from "./component_style/CategoryNav_style";
+import CategoryNav from "./components_style/MainCategory_style";
 
 function CategorySideVar() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
