@@ -10,7 +10,7 @@ import {
   Text,
   UserName,
   Wrapper,
-} from "./style/HeaderDropDown.styled";
+} from "./components_style/HeaderDropDown.styled";
 
 const nav = [
   {

@@ -10,7 +10,7 @@ import {
   TextWrapper,
   TitleWrapper,
   TextContainer,
-} from "./style/ItemListCard.styled";
+} from "./components_style/ItemListCard.styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../alret/Modal";
