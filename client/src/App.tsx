@@ -6,6 +6,7 @@ import SignupPage from "./page/SignupPage";
 import FindPasswordPage from "./page/FindPasswordPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Trade from "./components/TradeNav";
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/find-password" element={<FindPasswordPage />} />
           </Routes>
+          <Trade />
         </div>
         <Footer />
       </BrowserRouter>

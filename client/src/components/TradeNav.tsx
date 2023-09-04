@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import TradeNav from "./components_style/TradeNav_style";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
 
 function TradeSideVar() {
   const [selectedMenu, setSelectedMenu] = useState<number | null>(null);
@@ -9,6 +12,7 @@ function TradeSideVar() {
   };
 
   const TradeList: string[] = [
+    "내가 등록한 물건",
     "입찰 진행중",
     "거래중",
     "유찰된 거래",
@@ -18,16 +22,18 @@ function TradeSideVar() {
     <TradeNav>
       <ul>
         {TradeList.map((category, index) => (
-          <li key={index} onClick={() => handleMenuClick(index)}>
-            <div className="img"></div>
-            <p
-              style={{
-                color: selectedMenu === index ? "#0064FF" : "",
-              }}
-            >
-              {category}
-            </p>
-          </li>
+          <Link to={`TradeNav_${category}`}>
+            <li key={index} onClick={() => handleMenuClick(index)}>
+              <FontAwesomeIcon className="bell-icon" icon={faBell} />
+              <p
+                style={{
+                  color: selectedMenu === index ? "#0064FF" : "",
+                }}
+              >
+                {category}
+              </p>
+            </li>
+          </Link>
         ))}
       </ul>
     </TradeNav>
