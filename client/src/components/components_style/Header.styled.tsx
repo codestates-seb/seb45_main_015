@@ -2,12 +2,17 @@ import styled from "styled-components";
 import globalTokens from "../../design_tokens/global.json";
 
 export const Container = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: auto;
+  background-color: #fff;
+  width: 100%;
   height: 89px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
 `;
 
 export const HeaderContent = styled.div`
