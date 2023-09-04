@@ -1,13 +1,26 @@
+import React from "react";
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Toast from "./alret/Toast.";
+import LoginPage from "./page/LoginPage";
+import SignupPage from "./page/SignupPage";
+import FindPasswordPage from "./page/FindPasswordPage";
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
-      <header></header>
-      <main>Page가 다 들어감</main>
-      <footer></footer>
+      <BrowserRouter>
+        <header></header>
+        <Toast />
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/find-password" element={<FindPasswordPage />} />
+        </Routes>
+        <footer></footer>
+      </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
