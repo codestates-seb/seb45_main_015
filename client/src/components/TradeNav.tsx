@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import TradeNav from "./components_style/TradeNav_styled";
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
+=======
+>>>>>>> 9febfbc (rename: 스타일 파일 이름 수정)
 
 function TradeSideVar() {
   const [selectedMenu, setSelectedMenu] = useState<number | null>(null);

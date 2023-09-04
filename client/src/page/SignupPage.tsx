@@ -3,7 +3,7 @@ import SignupForm from "../components/SignupForm";
 import {
   SignupPageContainer,
   SignupPageImage,
-} from "./page_style/SignupPage_style";
+} from "./page_style/SignupPage_styled";
 
 const SignupPage: React.FC = () => {
   return (
