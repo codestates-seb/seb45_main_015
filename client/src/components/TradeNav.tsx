@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TradeNav from "./components_style/TradeNav_style";
+import TradeNav from "./components_style/TradeNav_styled";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
