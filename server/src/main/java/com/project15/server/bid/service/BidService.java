@@ -6,12 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
-@RequiredArgsConstructor
-public class BidService {
+public interface BidService {
 
-    public Bid createBid(Bid bid) {
-
-        return null;
-    }
+    void createBid(Bid bid);
 }

@@ -15,7 +15,7 @@ public class Bid extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long bidId;
+    private Long bidId;
 
 //    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member_id")
@@ -25,18 +25,18 @@ public class Bid extends Auditable {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private long bidPrice;
+    private int bidPrice;
 
-//    public void setMember(Member member) {
+//    public void setMember(Long memberId) {
 //        Member newMember = new Member();
-//        newMember.setMemberId(member.getMemberId());
+//        newMember.setMemberId(memberId);
 //
 //        this.member = newMember;
 //    }
 
-    public void setItem(Item item) {
+    public void setItem(Long itemId) {
         Item newItem = new Item();
-        newItem.setItemId(item.getItemId());
+        newItem.setItemId(itemId);
 
         this.item = newItem;
     }

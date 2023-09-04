@@ -77,6 +77,16 @@ public class ItemController {
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
+    //마이페이지의 나의 거래 상태별 목록
+    @GetMapping("/status")
+    public ResponseEntity getItemsByStatus(@RequestParam("page_number") int pageNumber,
+                                           @RequestParam("page_size") int pageSize,
+                                           @RequestParam("item_status") String itemStatus,
+                                           @RequestParam("member_id") Long memberId) {
+        //TODO: 경매 상태별(대기, 경매중, 유찰, 거래중, 거래완료) GET 요청 처리
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
     //물품 등록 후 5분 이내 물품 정보 수정
     //추가한 이미지는 postImage 요청, 삭제된 이미지는 deleteImage 요청
     @PatchMapping
@@ -88,9 +98,7 @@ public class ItemController {
 
     //물품 정보 수정 후 업로드 됐던 이미지 중 삭제할 이미지의 삭제 요청
     @DeleteMapping("/images")
-    public HttpStatus deleteImage(@RequestBody @Valid ItemDto.DeleteDto deleteDto) {
-
-        //TODO: ITEM STATUS 가 WAITING 일때만 PATCH 가능
+    public HttpStatus deleteImage(@RequestBody @Valid ItemDto.DeleteImageDto deleteDto) {
         itemService.removeImage(deleteDto.getItem_id(), deleteDto.getMember_id(), deleteDto.getDelete_image_urls());
 
         return HttpStatus.NO_CONTENT;
@@ -98,9 +106,7 @@ public class ItemController {
 
     //물품 등록 후 5분 이내 물품 삭제 요청
     @DeleteMapping
-    public HttpStatus deleteItem(@RequestBody ItemDto.DeleteDto deleteDto) {
-
-        //TODO: ITEM STATUS 가 WAITING 일때만 DELETE 가능
+    public HttpStatus deleteItem(@RequestBody ItemDto.DeleteItemDto deleteDto) {
         itemService.removeItem(deleteDto.getItem_id(), deleteDto.getMember_id());
 
         return HttpStatus.NO_CONTENT;

@@ -19,13 +19,12 @@ public class BidController {
 
     private final BidService bidService;
 
-    @PostMapping("/bid/{item_id}")
-    public ResponseEntity postBid(@PathVariable("item_id") long itemId,
-                                  @RequestBody BidDto.PostDto postDto) {
+    @PostMapping("/items/bids")
+    public HttpStatus postBid(@RequestBody BidDto.PostDto postDto) {
         Bid bid = bidMapper.postToBid(postDto);
 
-        bid = bidService.createBid(bid);
+        bidService.createBid(bid);
 
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return HttpStatus.CREATED;
     }
 }
