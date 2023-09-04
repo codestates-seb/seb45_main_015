@@ -3,7 +3,7 @@ import LoginForm from "../components/LoginForm";
 import {
   LoginPageContainer,
   LoginPageImage,
-} from "./page_style/LoginPage_style";
+} from "./page_style/LoginPage_styled";
 
 const LoginPage: React.FC = () => {
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToastContainer } from "./alret_style/Toast_sytle";
+import { ToastContainer } from "./alret_style/Toast_sytled";
 
 const Toast: React.FC = () => {
   const [slide, setSilde] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TradeNav from "./components_style/TradeNav_style";
+import TradeNav from "./components_style/TradeNav_styled";
 
 function TradeSideVar() {
   const [selectedMenu, setSelectedMenu] = useState<number | null>(null);

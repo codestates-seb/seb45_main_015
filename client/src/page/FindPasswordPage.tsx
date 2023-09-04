@@ -3,7 +3,7 @@ import FindPassword from "../components/FindPassword";
 import {
   FindPasswordPageContainer,
   FindPasswordPageImage,
-} from "./page_style/FindPasswordPage_style";
+} from "./page_style/FindPasswordPage_styled";
 
 const FindPasswordPage: React.FC = () => {
   return (
