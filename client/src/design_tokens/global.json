@@ -1,0 +1,66 @@
+{
+  "Toast_red": {
+    "value": "#d32f2f",
+    "type": "color"
+  },
+  "Toast_orange": {
+    "value": "#ed6c02",
+    "type": "color"
+  },
+  "Toast_blue": {
+    "value": "#0288d1",
+    "type": "color"
+  },
+  "Toast_green": {
+    "value": "#2e7d32",
+    "type": "color"
+  },
+  "Footer": {
+    "value": "#f4f5f6",
+    "type": "color"
+  },
+  "star": {
+    "value": "#ffd84f",
+    "type": "color"
+  },
+  "Button": {
+    "default": {
+      "value": "#0064ff",
+      "type": "color"
+    },
+    "hover": {
+      "value": "#ffffff",
+      "type": "color"
+    }
+  },
+  "Input": {
+    "default": {
+      "value": "#edf2f7",
+      "type": "color"
+    },
+    "focused_border": {
+      "value": "#4d93ff",
+      "type": "color"
+    }
+  },
+  "Message": {
+    "response": {
+      "value": "#e7f3ff",
+      "type": "color"
+    },
+    "request": {
+      "value": "#0288d1",
+      "type": "color"
+    }
+  },
+  "heart": {
+    "default": {
+      "value": "#d7d7d8",
+      "type": "color"
+    },
+    "active": {
+      "value": "#ff3939",
+      "type": "color"
+    }
+  }
+}
