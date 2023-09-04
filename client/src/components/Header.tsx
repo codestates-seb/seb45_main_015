@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import HeaderDropDown from "./HeaderDropDown";
+import { Link } from "react-router-dom";
 
 const Nav = [
   { page: "Home", router: "/" },
@@ -28,9 +29,11 @@ function Header() {
   return (
     <Container>
       <HeaderContent>
-        <LogoWrapper>
-          <Logo />
-        </LogoWrapper>
+        <Link to="/">
+          <LogoWrapper>
+            <Logo />
+          </LogoWrapper>
+        </Link>
         <NavWrapper>
           {Nav.map(nav => (
             <Button key={nav.page}>{nav.page}</Button>
@@ -44,13 +47,17 @@ function Header() {
             </SearchButton>
           </SearchForm>
         </SearchWrapper>
-        {dummy !== "로그아웃" ? (
+        {dummy === "로그아웃" ? (
           <UserWrapper>
             <Button className="Icon screen-1024px">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </Button>
-            <Button>회원가입</Button>
-            <Button>로그인</Button>
+            <Button>
+              <Link to="/signup">회원가입</Link>
+            </Button>
+            <Button>
+              <Link to="/login">로그인</Link>
+            </Button>
           </UserWrapper>
         ) : (
           <UserWrapper>

@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Toast from "./alret/Toast.";
+import Toast from "./alret/Toast";
 import LoginPage from "./page/LoginPage";
 import SignupPage from "./page/SignupPage";
 import FindPasswordPage from "./page/FindPasswordPage";

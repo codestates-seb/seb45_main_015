@@ -6,7 +6,7 @@ import {
   InfoWrapper,
   Wrapper,
   Text,
-} from "./components_style/ItemCard_styled";
+} from "./components_style/ItemCard.styled_styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faImage } from "@fortawesome/free-solid-svg-icons";
 
