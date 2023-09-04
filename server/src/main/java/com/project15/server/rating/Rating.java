@@ -17,9 +17,10 @@ public class Rating extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ratingId;
 
-    @ManyToOne
+    private Long itemId;
+   /* @OneToOne
     @JoinColumn(name = "item_id")
-    private Item item;
+    private Item item; */
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
@@ -29,5 +30,5 @@ public class Rating extends Auditable {
     @JoinColumn(name = "buyer_id")
     private Member buyer;
 
-    private Long star;
+    private int star;
 }
