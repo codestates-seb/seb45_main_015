@@ -24,6 +24,7 @@ public class ItemController {
 
     private final ItemServiceImpl itemService;
 
+    //경매 물품(이미제 제외) 등록
     @PostMapping
     public HttpStatus postItem(@RequestBody @Valid ItemDto.PostDto postDto) {
         Item item = itemMapper.postDtoToItem(postDto);
@@ -33,6 +34,7 @@ public class ItemController {
         return HttpStatus.CREATED;
     }
 
+    //경매 물품의 이미지 등록
     @PostMapping("/{item-id}/images")
     public HttpStatus postImage(@PathVariable("item-id") Long itemId,
                                 @RequestPart(value = "image", required = false) List<MultipartFile> images) {
@@ -42,6 +44,7 @@ public class ItemController {
         return HttpStatus.CREATED;
     }
 
+    //경매 물품 상세 페이지
     @GetMapping("/{item-id}")
     public ResponseEntity getItem(@PathVariable("item-id") Long itemId) {
         Item item = itemService.findItem(itemId);
@@ -51,6 +54,7 @@ public class ItemController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    //경매 물품 카테고리별 목록
     @GetMapping("/categories")
     public ResponseEntity getItems(@RequestParam("page_number") int pageNumber,
                                    @RequestParam("page_size") int pageSize,
@@ -62,6 +66,7 @@ public class ItemController {
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
+    //경매 물품 전체 목록
     @GetMapping
     public ResponseEntity getItems(@RequestParam("page_number") int pageNumber,
                                    @RequestParam("page_size") int pageSize) {
@@ -72,6 +77,8 @@ public class ItemController {
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
+    //물품 등록 후 5분 이내 물품 정보 수정
+    //추가한 이미지는 postImage 요청, 삭제된 이미지는 deleteImage 요청
     @PatchMapping
     public HttpStatus patchItem(@RequestBody ItemDto.PatchDto patchDto) {
 
@@ -82,10 +89,11 @@ public class ItemController {
         return HttpStatus.OK;
     }
 
+    //물품 정보 수정 후 업로드 됐던 이미지 중 삭제할 이미지의 삭제 요청
     @DeleteMapping("/{item-id}/{member-id}/images")
-    public HttpStatus patchImage(@PathVariable("item-id") Long itemId,
+    public HttpStatus deleteImage(@PathVariable("item-id") Long itemId,
                                  @PathVariable("member-id") Long memberId,
-                                 @RequestParam("delete_") List<String> deleteImageUrls) {
+                                 @RequestParam("delete_image_urls") List<String> deleteImageUrls) {
 
         //TODO: ITEM STATUS 가 WAITING 일때만 PATCH 가능
         itemService.removeImage(itemId, memberId, deleteImageUrls);
@@ -93,6 +101,7 @@ public class ItemController {
         return HttpStatus.NO_CONTENT;
     }
 
+    //물품 등록 후 5분 이내 물품 삭제 요청
     @DeleteMapping("/{item-id}/{member-id}")
     public HttpStatus deleteItem(@PathVariable("item-id") Long itemId,
                                  @PathVariable("member-id") Long memberId) {

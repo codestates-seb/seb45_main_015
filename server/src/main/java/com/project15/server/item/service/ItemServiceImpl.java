@@ -1,9 +1,5 @@
 package com.project15.server.item.service;
 
-import com.project15.server.category.entity.Category;
-import com.project15.server.category.repository.CategoryRepository;
-import com.project15.server.category.service.CategoryService;
-import com.project15.server.category.service.CategoryServiceImpl;
 import com.project15.server.exception.ExceptionCode;
 import com.project15.server.exception.GlobalException;
 import com.project15.server.item.dto.ItemDto;
@@ -24,9 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -123,13 +117,13 @@ public class ItemServiceImpl implements ItemService{
             Optional.ofNullable(patchDto.getCategory_id()).ifPresent(categoryId -> findItem.getCategory().setCategoryId(categoryId));
             if(patchDto.getEnd_time() != null) {
                 LocalDateTime endTime;
-
                 if(patchDto.getEnd_time() < 10) {
                     endTime = findItem.getCreatedAt().plusDays(patchDto.getEnd_time());
                 }
                 else {
                     endTime = findItem.getCreatedAt().plusSeconds(patchDto.getEnd_time());
                 }
+                findItem.setEndTime(endTime);
             }
             Optional.ofNullable(patchDto.getStart_price()).ifPresent(findItem::setStartPrice);
             Optional.ofNullable(patchDto.getBid_unit()).ifPresent(findItem::setBidUnit);
@@ -153,8 +147,7 @@ public class ItemServiceImpl implements ItemService{
 //            throw new GlobalException(ExceptionCode.MEMBER_MISS_MATCH);
 //        }
 
-        LocalDateTime currentTime = LocalDateTime.now();
-        if(findItem.getStatus().equals(ItemStatus.WAITING) || currentTime.isBefore(findItem.getEndTime())) {
+        if(isStartAuction(findItem.getStatus(), findItem.getEndTime())) {
             deleteImageUrls.forEach(s3Service::deleteFileAtS3);
         }
     }
@@ -163,7 +156,15 @@ public class ItemServiceImpl implements ItemService{
     public void removeItem(Long itemId, Long memberId) {
 
         //TODO: ITEM STATUS 가 WAITING 일때만 DELETE 가능
+        Item findItem = findVerifiedItem(itemId);
+        //TODO: MEMBER 구현 후 주석 해제
+//        if(findItem.getMember().getMemberId() != memberId) {
+//            throw new GlobalException(ExceptionCode.MEMBER_MISS_MATCH);
+//        }
 
+        if(isStartAuction(findItem.getStatus(), findItem.getEndTime())) {
+            itemRepository.delete(findItem);
+        }
     }
 
 
@@ -172,5 +173,13 @@ public class ItemServiceImpl implements ItemService{
         return itemRepository
                 .findById(itemId)
                 .orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
+    }
+
+    private boolean isStartAuction(ItemStatus itemStatus, LocalDateTime endTime) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        if(itemStatus.equals(ItemStatus.WAITING) || currentTime.isBefore(endTime)) {
+            return true;
+        }
+        return false;
     }
 }
