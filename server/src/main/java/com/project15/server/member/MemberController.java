@@ -24,12 +24,21 @@ public class MemberController {
     @Autowired
     private CustomMemberDetailsService customMemberDetailsService;
 
+    @GetMapping("/{memberId}")
+    public ResponseEntity<Member> getMemberById(@PathVariable Long memberId) {
+        Member member = memberService.getEmailByMemberId(memberId);
+
+        if (member != null) {
+            return ResponseEntity.ok(member);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @PostMapping("/signup")
     public ResponseEntity<String> signupMember(@RequestBody MemberDto memberDto) {
         memberService.createMember(memberDto.getEmail(), memberDto.getPassword(), memberDto.getNickname());
         return ResponseEntity.ok("회원가입 성공");
     }
-
     @PostMapping("/login")
     public ResponseEntity<String> loginMember(@RequestBody MemberDto memberDto) {
         if (memberService.authenticateMember(memberDto.getEmail(), memberDto.getPassword())) {
@@ -38,7 +47,6 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
     }
-
     @PostMapping("/logout")
     public ResponseEntity<String> logoutMember(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
@@ -47,7 +55,6 @@ public class MemberController {
         }
         return ResponseEntity.ok("로그아웃 성공");
     }
-
     //닉네임 수정
     @PatchMapping("/change-nickname/{memberId}")
     public ResponseEntity<String> updateNickname(@PathVariable Long memberId,@RequestBody Map<String, String> requestBody) {
