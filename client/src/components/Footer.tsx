@@ -9,7 +9,7 @@ import {
   TextSection,
   TextWrapper,
   Theme,
-} from "./style/Footer.styled";
+} from "./components_style/Footer.styled";
 
 const member = {
   BE: [
