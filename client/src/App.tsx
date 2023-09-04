@@ -20,7 +20,6 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/find-password" element={<FindPasswordPage />} />
           </Routes>
-          <Trade />
         </div>
         <Footer />
       </BrowserRouter>

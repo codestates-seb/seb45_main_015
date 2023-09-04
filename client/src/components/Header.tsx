@@ -10,7 +10,7 @@ import {
   Search,
   SearchButton,
   UserWrapper,
-} from "./components_style/Header.styled";
+} from "./components_style/Header_styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";

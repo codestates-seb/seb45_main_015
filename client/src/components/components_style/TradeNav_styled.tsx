@@ -36,6 +36,9 @@ const TradeNav = styled.div`
     list-style: none;
     padding-top: 2px;
   }
+  & li p:hover {
+    color: #0056b3;
+  }
 
   & .bell-icon {
     width: 16px;
