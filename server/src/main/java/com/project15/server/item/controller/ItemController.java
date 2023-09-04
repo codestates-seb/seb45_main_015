@@ -81,32 +81,27 @@ public class ItemController {
     //추가한 이미지는 postImage 요청, 삭제된 이미지는 deleteImage 요청
     @PatchMapping
     public HttpStatus patchItem(@RequestBody ItemDto.PatchDto patchDto) {
-
-        //TODO: ITEM STATUS 가 WAITING 일때만 PATCH 가능
-
         itemService.updateItem(patchDto);
 
         return HttpStatus.OK;
     }
 
     //물품 정보 수정 후 업로드 됐던 이미지 중 삭제할 이미지의 삭제 요청
-    @DeleteMapping("/{item-id}/{member-id}/images")
-    public HttpStatus deleteImage(@PathVariable("item-id") Long itemId,
-                                 @PathVariable("member-id") Long memberId,
-                                 @RequestParam("delete_image_urls") List<String> deleteImageUrls) {
+    @DeleteMapping("/images")
+    public HttpStatus deleteImage(@RequestBody @Valid ItemDto.DeleteDto deleteDto) {
 
         //TODO: ITEM STATUS 가 WAITING 일때만 PATCH 가능
-        itemService.removeImage(itemId, memberId, deleteImageUrls);
+        itemService.removeImage(deleteDto.getItem_id(), deleteDto.getMember_id(), deleteDto.getDelete_image_urls());
 
         return HttpStatus.NO_CONTENT;
     }
 
     //물품 등록 후 5분 이내 물품 삭제 요청
-    @DeleteMapping("/{item-id}/{member-id}")
-    public HttpStatus deleteItem(@PathVariable("item-id") Long itemId,
-                                 @PathVariable("member-id") Long memberId) {
+    @DeleteMapping
+    public HttpStatus deleteItem(@RequestBody ItemDto.DeleteDto deleteDto) {
 
         //TODO: ITEM STATUS 가 WAITING 일때만 DELETE 가능
+        itemService.removeItem(deleteDto.getItem_id(), deleteDto.getMember_id());
 
         return HttpStatus.NO_CONTENT;
     }
