@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  SignupFormDiv,
-  SignupFormItem,
-  SignupFormContainer,
-  SignupFormInput,
-} from "./component_style/SignupForm_style";
 import GoogleLogin from "react-google-login-ng";
+import {
+  SignupFormContainer,
+  SignupFormDiv,
+  SignupFormInput,
+  SignupFormItem,
+} from "./components_style/SignupForm_style";
 
 const SignupForm: React.FC = () => {
   return (

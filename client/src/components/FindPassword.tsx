@@ -5,7 +5,7 @@ import {
   FindPasswordFormItem,
   FindPasswordFormContainer,
   FindPasswordFormInput,
-} from "./component_style/FindPassword_style";
+} from "./components_style/FindPassword_style";
 
 const FindPassword: React.FC = () => {
   return (
