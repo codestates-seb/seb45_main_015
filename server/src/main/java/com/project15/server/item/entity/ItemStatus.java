@@ -1,6 +1,8 @@
 package com.project15.server.item.entity;
 
 public enum ItemStatus {
+    //TODO: 경매의 상태 전환 로직 추가해야함
+
     //경매 대기중
     WAITING,
 
@@ -14,5 +16,5 @@ public enum ItemStatus {
     FAILED,
 
     //거래완료
-    COMPLETE
+    CLOSED
 }

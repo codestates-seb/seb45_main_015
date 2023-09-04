@@ -84,6 +84,9 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public Item findItem(Long itemId) {
         Item findItem = findVerifiedItem(itemId);
+        if(isStatusBidding(findItem.getCreatedAt()) && findItem.getStatus().equals(ItemStatus.WAITING)) {
+            findItem.setStatus(ItemStatus.BIDDING);
+        }
 
         return findItem;
     }
@@ -93,6 +96,10 @@ public class ItemServiceImpl implements ItemService{
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
         Page<Item> itemPage = itemRepository.findAll(pageable);
 
+        itemPage.getContent().stream()
+                .filter(item -> isStatusBidding(item.getCreatedAt()) && item.getStatus().equals(ItemStatus.WAITING))
+                .forEach(item -> item.setStatus(ItemStatus.BIDDING));
+
         return itemPage;
     }
 
@@ -101,12 +108,15 @@ public class ItemServiceImpl implements ItemService{
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
         Page<Item> itemPage = itemRepository.findByCategoryCategoryId(categoryId, pageable);
 
+        itemPage.getContent().stream()
+                .filter(item -> isStatusBidding(item.getCreatedAt()) && item.getStatus().equals(ItemStatus.WAITING))
+                .forEach(item -> item.setStatus(ItemStatus.BIDDING));
+
         return itemPage;
     }
 
     @Override
     public void updateItem(ItemDto.PatchDto patchDto) {
-        //TODO: ITEM STATUS 가 WAITING 일때만 UPDATE 가능
         Item findItem = findVerifiedItem(patchDto.getItem_id());
         //TODO: MEMBER 구현 후 주석 해제
 //        if(findItem.getMember().getMemberId() != item.getMember().getMemberId()) {
@@ -148,7 +158,6 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public void removeImage(Long itemId, Long memberId, List<String> deleteImageUrls) {
-        //TODO: ITEM STATUS 가 WAITING 일때만 UPDATE 가능
         Item findItem = findVerifiedItem(itemId);
         //TODO: MEMBER 구현 후 주석 해제
 //        if(findItem.getMember().getMemberId() != memberId) {
@@ -172,8 +181,6 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public void removeItem(Long itemId, Long memberId) {
-
-        //TODO: ITEM STATUS 가 WAITING 일때만 DELETE 가능
         Item findItem = findVerifiedItem(itemId);
         //TODO: MEMBER 구현 후 주석 해제
 //        if(findItem.getMember().getMemberId() != memberId) {
@@ -201,7 +208,17 @@ public class ItemServiceImpl implements ItemService{
 
     private boolean isStatusWaiting(ItemStatus itemStatus, LocalDateTime endTime) {
         LocalDateTime currentTime = LocalDateTime.now();
-        if(itemStatus.equals(ItemStatus.WAITING) || currentTime.isBefore(endTime)) {
+        if(currentTime.isBefore(endTime)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isStatusBidding(LocalDateTime createAt) {
+        LocalDateTime auctionStartTime = createAt.plusMinutes(5);
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        if(auctionStartTime.isBefore(currentTime)) {
             return true;
         }
         return false;

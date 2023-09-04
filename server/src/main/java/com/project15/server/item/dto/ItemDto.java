@@ -133,7 +133,7 @@ public class ItemDto {
 
     @Getter
     @Setter
-    public static class DeleteDto {
+    public static class DeleteImageDto {
         @NotEmpty
         @Pattern(regexp = "^-?\\d+$")
         private Long item_id;
@@ -144,5 +144,17 @@ public class ItemDto {
 
         @NotEmpty
         private List<String> delete_image_urls;
+    }
+
+    @Getter
+    @Setter
+    public static class DeleteItemDto {
+        @NotEmpty
+        @Pattern(regexp = "^-?\\d+$")
+        private Long item_id;
+
+        @NotEmpty
+        @Pattern(regexp = "^-?\\d+$")
+        private Long member_id;
     }
 }

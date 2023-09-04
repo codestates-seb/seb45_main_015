@@ -15,14 +15,9 @@ public class BidMapper {
         }
         else {
             Bid bid = new Bid();
-
-            Item item = new Item();
-            item.setItemId(postDto.getItem_id());
-            bid.setItem(item);
-
-//            Member member = new Member();
-//            member.setMemberId(postDto.getMember_id());
-//            bid.setMember(member);
+            bid.setItem(postDto.getItem_id());
+            //TODO: MEMBER 구현 후 주석 해제
+//            bid.setMember(postDto.getMember_id());
 
             bid.setBidPrice(postDto.getBid_price());
 
