@@ -7,6 +7,13 @@ export const Container = styled.div`
   height: 140px;
   border: solid 1px #d9dadb;
   border-radius: 16px;
+
+  @media (max-width: 768px) {
+    & {
+      height: 120px;
+      max-width: 549px;
+    }
+  }
 `;
 
 export const ItemContent = styled.div`
@@ -26,6 +33,14 @@ export const ImgContainer = styled.div`
   min-width: 120px;
   height: 120px;
   margin-right: 10px;
+
+  @media (max-width: 768px) {
+    & {
+      min-width: 100px;
+      height: 100px;
+      font-size: 36px;
+    }
+  }
 `;
 
 export const InfoContainer = styled.div`
@@ -72,6 +87,12 @@ export const ProductName = styled.h2`
   margin: 0;
   font-size: 26px;
   white-space: nowrap;
+
+  @media (max-width: 768px) {
+    & {
+      font-size: 20px;
+    }
+  }
 `;
 
 export const Text = styled.p`
@@ -86,6 +107,12 @@ export const Text = styled.p`
   }
 
   &.itemListCard-product-value {
+  }
+
+  @media (max-width: 768px) {
+    & {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -104,5 +131,12 @@ export const Button = styled.button`
     border: solid 2px #fff;
     background-color: #0064ff;
     color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    & {
+      font-size: 14px;
+      padding: 2px 20px;
+    }
   }
 `;
