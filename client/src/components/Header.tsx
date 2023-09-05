@@ -18,7 +18,7 @@ import HeaderDropDown from "./HeaderDropDown";
 import { Link } from "react-router-dom";
 
 const Nav = [
-  { page: "Home", router: "/" },
+  { page: "둘러보기", router: "/" },
   { page: "상품등록", router: "/registrate" },
   { page: "나의거래", router: "/" },
 ];
@@ -49,13 +49,10 @@ function Header() {
             </SearchButton>
           </SearchForm>
         </SearchWrapper>
-        {dummy === "로그아웃" ? (
+        {dummy !== "로그아웃" ? (
           <UserWrapper>
-            <Button className="Icon screen-1024px">
+            <Button className="header-icon header-screen-1024px">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </Button>
-            <Button>
-              <Link to="/signup">회원가입</Link>
             </Button>
             <Button>
               <Link to="/login">로그인</Link>
@@ -63,19 +60,19 @@ function Header() {
           </UserWrapper>
         ) : (
           <UserWrapper>
-            <Button className="Icon screen-1024px">
+            <Button className="header-icon header-screen-1024px">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </Button>
-            <Button className="Icon">
+            <Button className="header-icon">
               <FontAwesomeIcon icon={faHeart} />
             </Button>
-            <Button className="Icon">
+            <Button className="header-icon">
               <FontAwesomeIcon icon={faUser} />
               <HeaderDropDown />
             </Button>
           </UserWrapper>
         )}
-        <Button className="Icon screen-768px">
+        <Button className="header-icon header-screen-768px">
           <FontAwesomeIcon icon={faBars} />
         </Button>
       </HeaderContent>

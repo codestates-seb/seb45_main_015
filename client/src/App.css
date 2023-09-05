@@ -1,17 +1,26 @@
 * {
   font-family: "GmarketSansMedium", sans-serif;
   /* font-size: 62.5%; */
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
 }
 
 .Main {
   max-width: 1440px;
-  padding: 89px 160px 0 160px;
+  padding: 75px 160px 0 160px;
   margin: 0 auto;
 }
 
 @media (max-width: 768px) {
   .Main {
-    padding: 89px 40px 0 40px;
+    padding: 75px 40px 0 40px;
     margin: 0 auto;
   }
 }
