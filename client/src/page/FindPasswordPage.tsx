@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FindPasswordPageContainer,
   FindPasswordPageImage,
@@ -7,11 +7,12 @@ import {
   FindPasswordFormItem,
   FindPasswordFormContainer,
 } from "./page_style/FindPasswordPage_styled";
-import { useFind } from "../API/FetchAPI";
+// import { useFind } from "../API/FetchAPI";
 import InputComponent from "../components/InputComponent";
 
 const FindPasswordPage: React.FC = () => {
   const [findEmail, setFindEmail] = useState<string>("");
+  const navigator = useNavigate();
 
   return (
     <FindPasswordPageContainer>
@@ -20,8 +21,8 @@ const FindPasswordPage: React.FC = () => {
         <FindPasswordFormContainer>
           <FindPasswordFormItem>
             <h2>비밀번호 찾기</h2>
-            <label>이메일</label>
             <InputComponent
+              labelText="이메일"
               type="email"
               name="email"
               placeholder="이메일을 입력해주세요"
@@ -30,7 +31,7 @@ const FindPasswordPage: React.FC = () => {
               className="next-btn"
               onClick={e => {
                 e.preventDefault();
-                useFind(findEmail);
+                navigator("/change-password");
               }}
             >
               다음
