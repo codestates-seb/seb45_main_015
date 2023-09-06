@@ -1,24 +1,10 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import React from "react";
-=======
->>>>>>> 702b77d (itemListPage 작업중)
-=======
-import React from "react";
->>>>>>> 5b14b3c (버튼컴포넌트 완성, 전체리스트반응형 작업중)
 import ItemListPageContainer from "./page_style/itemListPage_styled";
 import { Link } from "react-router-dom";
 import MainCategory from "../components/MainCategory";
 import MyCarousel from "../components/Carousel";
 import ItemCard from "../components/ItemCard";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { MediumButtonB } from "../components/ButtonComponent";
-=======
->>>>>>> 702b77d (itemListPage 작업중)
-=======
-import { MediumButtonB } from "../components/ButtonComponent";
->>>>>>> 5b14b3c (버튼컴포넌트 완성, 전체리스트반응형 작업중)
 
 const ItemListPage: React.FC = () => {
   const carouselItems = [
@@ -81,10 +67,6 @@ const ItemListPage: React.FC = () => {
               <ItemCard />
               <ItemCard />
               <ItemCard />
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 5b14b3c (버튼컴포넌트 완성, 전체리스트반응형 작업중)
               <ItemCard />
               <ItemCard />
             </div>
@@ -92,13 +74,6 @@ const ItemListPage: React.FC = () => {
           <div className="buttontest">
             <MediumButtonB value={"더보기"} />
           </div>
-<<<<<<< HEAD
-=======
-            </div>
-          </div>
->>>>>>> 702b77d (itemListPage 작업중)
-=======
->>>>>>> 5b14b3c (버튼컴포넌트 완성, 전체리스트반응형 작업중)
         </div>
       </div>
     </ItemListPageContainer>

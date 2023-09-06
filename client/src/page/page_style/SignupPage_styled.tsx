@@ -1,5 +1,4 @@
 import styled from "styled-components";
-<<<<<<< HEAD
 import globalTokens from "../../design_tokens/global.json";
 
 export const SignupPageContainer = styled.main`
@@ -130,20 +129,4 @@ export const SignupFormItem = styled.div`
     border: 2px solid ${globalTokens.Button.default.value};
     cursor: pointer;
   }
-=======
-
-export const SignupPageContainer = styled.main`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin: 0 auto;
-  gap: 8.4rem;
-`;
-
-export const SignupPageImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
->>>>>>> 1e875df (나의거래 사이드바 수정완료)
 `;
