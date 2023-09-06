@@ -49,7 +49,7 @@ function Header() {
             </SearchButton>
           </SearchForm>
         </SearchWrapper>
-        {dummy !== "로그아웃" ? (
+        {dummy === "로그아웃" ? (
           <UserWrapper>
             <Button className="header-icon header-screen-1024px">
               <FontAwesomeIcon icon={faMagnifyingGlass} />

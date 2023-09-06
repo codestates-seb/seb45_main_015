@@ -3,6 +3,9 @@ import {
   ButtonWrapper,
   CategoryTagWrapper,
   Container,
+  Img,
+  ImgContent,
+  ImgWrapper,
   InfoWrapper,
   InputWrapper,
   RegistrateContent,
@@ -120,6 +123,32 @@ function RegistrateItemPage() {
         <RegistInputForm field={descriptionField} />
         <RegistrateWrapper>
           <SubTitle>이미지 등록</SubTitle>
+          <ImgContent>
+            <ImgWrapper>
+              <Img></Img>
+            </ImgWrapper>
+            <ImgWrapper>
+              <Img></Img>
+            </ImgWrapper>
+            <ImgWrapper>
+              <Img></Img>
+            </ImgWrapper>
+            <ImgWrapper>
+              <Img></Img>
+            </ImgWrapper>
+            <ImgWrapper>
+              <Img></Img>
+            </ImgWrapper>
+            <ImgWrapper>
+              <Img></Img>
+            </ImgWrapper>
+            <ImgWrapper>
+              <Img></Img>
+            </ImgWrapper>
+            <ImgWrapper>
+              <Img></Img>
+            </ImgWrapper>
+          </ImgContent>
           <Text>판매할 상품의 이미지를 등록하세요.</Text>
         </RegistrateWrapper>
         <RegistInputForm field={auctionPeriodField} />

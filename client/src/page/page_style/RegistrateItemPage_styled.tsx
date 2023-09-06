@@ -85,7 +85,7 @@ export const InfoWrapper = styled.div`
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  margin-bottom: 8px;
+  flex-wrap: wrap;
 `;
 
 export const Button = styled.button`
@@ -108,6 +108,7 @@ export const Button = styled.button`
 
   &.registrate-fixed-button {
     margin-right: 8px;
+    margin-bottom: 8px;
     min-width: 90px;
   }
 
@@ -118,6 +119,7 @@ export const Button = styled.button`
 
   &.registrate-category-tag-select {
     margin-left: 5px;
+    margin-bottom: 5px;
     background-color: #0064ff;
     color: #fff;
     border-color: #0064ff;
@@ -130,12 +132,37 @@ export const Button = styled.button`
   }
 `;
 
+export const ImgContent = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: calc(100% + 21px);
+`;
+
+export const ImgWrapper = styled.div`
+  width: 184px;
+  height: 184px;
+  border-radius: 16px;
+  background-color: #777e90;
+  margin-bottom: 8px;
+  margin-right: 21px;
+  overflow: hidden;
+`;
+
+export const Img = styled.img`
+  display: flex;
+  width: 184px;
+  height: 184px;
+`;
+
 export const SeletedCategoryTagWrapper = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   border: solid 1px #b1b5c3;
   border-radius: 6px;
-  height: 50px;
+  padding-top: 5px;
+  padding-right: 5px;
 `;
 
 export const CategoryTagWrapper = styled.div`
