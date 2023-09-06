@@ -140,19 +140,19 @@ export const ImgContent = styled.div`
 `;
 
 export const ImgWrapper = styled.div`
-  width: 184px;
-  height: 184px;
+  width: 194px;
+  height: 194px;
   border-radius: 16px;
   background-color: #777e90;
   margin-bottom: 8px;
-  margin-right: 21px;
+  margin-right: 8px;
   overflow: hidden;
 `;
 
 export const Img = styled.img`
   display: flex;
-  width: 184px;
-  height: 184px;
+  width: 194px;
+  height: 194px;
 `;
 
 export const SeletedCategoryTagWrapper = styled.div`
@@ -163,6 +163,7 @@ export const SeletedCategoryTagWrapper = styled.div`
   border-radius: 6px;
   padding-top: 5px;
   padding-right: 5px;
+  margin-bottom: 8px;
 `;
 
 export const CategoryTagWrapper = styled.div`

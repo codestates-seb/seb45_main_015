@@ -38,7 +38,6 @@ function Footer() {
               {member.BE.map(member => (
                 <TextWrapper key={member.name}>
                   <Text>{member.name}</Text>
-                  <Text>{member.git}</Text>
                 </TextWrapper>
               ))}
             </TextSection>
@@ -46,7 +45,6 @@ function Footer() {
               {member.FE.map(member => (
                 <TextWrapper key={member.name}>
                   <Text>{member.name}</Text>
-                  <Text>{member.git}</Text>
                 </TextWrapper>
               ))}
             </TextSection>
