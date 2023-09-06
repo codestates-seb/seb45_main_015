@@ -20,9 +20,6 @@ const TradeNav = styled.nav`
     height: 100%;
     list-style: none;
   }
-  & li p:hover {
-    color: #0056b3;
-  }
 
   & > ul > li {
     width: 100%;
