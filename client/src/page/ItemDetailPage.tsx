@@ -85,8 +85,21 @@ function ItemDetailPage() {
             </Content>
           </ContentSection>
         </ItemDetailContent>
-        <ItemDetailContent></ItemDetailContent>
-        <ItemDetailContent></ItemDetailContent>
+        <ItemDetailContent className="column">
+          <Wrapper className="detail-moreinfo-wrapper">
+            <Text className="detail-info-init">판매자</Text>
+            <Text className="detail-info">User Name</Text>
+          </Wrapper>
+          <Wrapper className="column">
+            <Text className="detail-info-init">상세정보</Text>
+            <Text className="detail-description">
+              안신는 신발 정리중이예요! 새신발인데이사하18px면서 가지고
+              다녔더니조금 더러워졌네요ㅠ발작은 여성분이나 키즈분들
+              신으시면됩니다 -사이즈는 사진 참조(사이즈문의사절)-반값택배
+              cu가능(착불)
+            </Text>
+          </Wrapper>
+        </ItemDetailContent>
       </ItemDetailContainer>
     </Container>
   );

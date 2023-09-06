@@ -13,6 +13,12 @@ export const ItemDetailContainer = styled.div`
   flex-direction: column;
   max-width: 1120px;
   width: 100%;
+
+  @media (max-width: 1024px) {
+    & {
+      max-width: 420px;
+    }
+  }
 `;
 
 export const ItemDetailContent = styled.div`
@@ -25,10 +31,24 @@ export const ItemDetailContent = styled.div`
   &.space-between {
     justify-content: space-between;
   }
+
+  &.column {
+    flex-direction: column;
+  }
+
+  @media (max-width: 1024px) {
+    &.space-between {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 `;
 
 export const Text = styled.p`
+  display: flex;
+  align-items: center;
   margin: 0;
+  line-height: 1.2;
 
   &.detail-timer {
     font-size: 40px;
@@ -44,7 +64,7 @@ export const Text = styled.p`
   &.detail-title {
     font-size: 35px;
     font-weight: bold;
-    white-space: nowrap;
+    min-width: 260px;
   }
 
   &.detail-info-bidding {
@@ -52,21 +72,41 @@ export const Text = styled.p`
   }
 
   &.detail-info-init {
+    color: #808080;
     font-size: 24px;
     font-weight: bold;
     white-space: nowrap;
+    margin: 16px 0;
+    margin-right: 15px;
   }
 
   &.detail-info {
     font-size: 24px;
-    white-space: nowrap;
+  }
+
+  &.detail-description {
+    max-width: 100%;
+    white-space: pre-wrap; /* 텍스트를 줄 바꿈하도록 설정 */
   }
 `;
 
 export const ContentSection = styled.div`
   display: flex;
   flex-direction: column;
-  width: 520px;
+  width: 420px;
+
+  &:first-of-type {
+    margin-right: 18px;
+    width: 520px;
+  }
+
+  @media (max-width: 1024px) {
+    &:first-of-type {
+      margin-right: 0px;
+      margin-bottom: 48px;
+      width: 420px;
+    }
+  }
 `;
 
 export const Content = styled.div`
@@ -79,7 +119,7 @@ export const Content = styled.div`
   }
 
   &.detail-button-content {
-    height: 420px;
+    height: auto;
   }
 `;
 
@@ -96,6 +136,22 @@ export const ImgWrapper = styled.div`
   &.detail-sub-img {
     width: 75px;
     height: 75px;
+  }
+
+  &:not(:last-child) {
+    margin-right: 5px;
+  }
+
+  @media (max-width: 1024px) {
+    &.detail-main-img {
+      width: 100%;
+      height: 420px;
+    }
+
+    &.detail-sub-img {
+      width: 60px;
+      height: 60px;
+    }
   }
 `;
 
@@ -136,16 +192,27 @@ export const Wrapper = styled.div`
   &.space-between {
     justify-content: space-between;
   }
+
+  &.detail-moreinfo-wrapper {
+    margin-top: 32px;
+  }
 `;
 
 export const Button = styled.button`
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
+  margin-top: 18px;
+  height: 48px;
   width: 100%;
   color: #0064ff;
   background-color: #fff;
   border: solid 1px #0064ff;
   border-radius: 10px;
+
+  &:not(:last-child) {
+    margin-right: 18px;
+  }
 `;
