@@ -21,6 +21,7 @@ const TradeNav = styled.nav`
     list-style: none;
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   & li p:hover {
     color: #0056b3;
   }
@@ -30,6 +31,11 @@ const TradeNav = styled.nav`
     height: 16px;
     color: #777e90;
 =======
+=======
+  & li p:hover {
+    color: #0056b3;
+  }
+>>>>>>> 4f7dedf (병합)
 
 <<<<<<< HEAD
   & > ul > li {
