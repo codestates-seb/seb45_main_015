@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 const CategoryNav = styled.div`
-  width: 240px;
+  width: 187px;
 
   & h2 {
     margin: 48px 0 56px 0;
     font-family: "Gmarket Sans TTF";
-    font-size: 28px;
+    font-size: 1.5rem;
     font-weight: 700;
   }
 
