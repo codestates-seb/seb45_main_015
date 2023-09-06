@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import globalTokens from "../../design_tokens/global.json";
+// import globalTokens from "../../design_tokens/global.json";
 
 export const DropDown = styled.div`
   position: absolute;

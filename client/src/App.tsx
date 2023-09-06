@@ -8,6 +8,9 @@ import ChangePasswordPage from "./page/ChangePasswordPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import MyTrade from "./page/MyTrade";
+import ItemListPage from "./page/ItemListPage";
+import ItemCategoryPage from "./page/ItemCategoryPage";
+import FavoritePage from "./page/FavoritePage";
 
 const App: React.FC = () => {
   return (
@@ -22,6 +25,9 @@ const App: React.FC = () => {
             <Route path="/find-password" element={<FindPasswordPage />} />
             <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route path="/mytrade" element={<MyTrade />} />
+            <Route path="/allList" element={<ItemListPage />} />
+            <Route path="/category" element={<ItemCategoryPage />} />
+            <Route path="/favorite" element={<FavoritePage />} />
           </Routes>
         </div>
         <Footer />

@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
 const CategoryNav = styled.div`
-  width: 240px;
+  width: 187px;
+  margin-right: 10px;
+  border: 1px solid red;
 
   & h2 {
     margin: 48px 0 56px 0;
     font-family: "Gmarket Sans TTF";
-    font-size: 28px;
+    font-size: 1.5rem;
     font-weight: 700;
   }
 
@@ -24,6 +26,7 @@ const CategoryNav = styled.div`
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+    white-space: nowrap;
   }
 
   & li:hover {

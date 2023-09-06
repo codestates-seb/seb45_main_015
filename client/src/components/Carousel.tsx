@@ -1,43 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { StyledImage, StyledSlide } from "./components_style/carousel_styled";
 
-interface CarouselProps {
-  images: string[];
+interface CarouselItem {
+  imageUrl: string;
+  caption: string;
 }
 
-const Carousel: React.FC<CarouselProps> = ({ images }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+interface MyCarouselProps {
+  items: CarouselItem[];
+}
 
-  const handleDotClick = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  const renderDots = () => {
-    return images.map((_, index) => (
-      <span
-        key={index}
-        className={`dot ${currentIndex === index ? "active" : ""}`}
-        onClick={() => handleDotClick(index)}
-      ></span>
-    ));
-  };
-
+const MyCarousel: React.FC<MyCarouselProps> = ({ items }) => {
   return (
-    <div className="carousel-container">
-      <div className="carousel">
-        <div className="image-wrapper">
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`이미지 ${index + 1}`}
-              className={`slide ${currentIndex === index ? "active" : ""}`}
-            />
-          ))}
-        </div>
-      </div>
-      <div className="dots">{renderDots()}</div>
-    </div>
+    <Carousel infiniteLoop={false} showThumbs={false}>
+      {items.map((item, index) => (
+        <StyledSlide key={index}>
+          <StyledImage src={item.imageUrl} alt={item.caption} />
+        </StyledSlide>
+      ))}
+    </Carousel>
   );
 };
 
-export default Carousel;
+export default MyCarousel;
