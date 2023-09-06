@@ -4,11 +4,12 @@ import Toast from "./alret/Toast";
 import LoginPage from "./page/LoginPage";
 import SignupPage from "./page/SignupPage";
 import FindPasswordPage from "./page/FindPasswordPage";
+import ChangePasswordPage from "./page/ChangePasswordPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Trade from "./components/TradeNav";
 import ItemListPage from "./page/ItemListPage";
 import FavoritePage from "./page/FavoritePage";
+import MyTrade from "./page/MyTrade";
 
 const App: React.FC = () => {
   return (
@@ -23,6 +24,8 @@ const App: React.FC = () => {
             <Route path="/find-password" element={<FindPasswordPage />} />
             <Route path="/itemListPage" element={<ItemListPage />} />
             <Route path="/favoritePage" element={<FavoritePage />} />
+            <Route path="/change-password" element={<ChangePasswordPage />} />
+            <Route path="/mytrade" element={<MyTrade />} />
           </Routes>
         </div>
         <Footer />
