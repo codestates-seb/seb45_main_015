@@ -1,8 +1,10 @@
+import React from "react";
 import ItemListPageContainer from "./page_style/itemListPage_styled";
 import { Link } from "react-router-dom";
 import MainCategory from "../components/MainCategory";
 import MyCarousel from "../components/Carousel";
 import ItemCard from "../components/ItemCard";
+import { MediumButtonB } from "../components/ButtonComponent";
 
 const ItemListPage: React.FC = () => {
   const carouselItems = [
@@ -65,7 +67,12 @@ const ItemListPage: React.FC = () => {
               <ItemCard />
               <ItemCard />
               <ItemCard />
+              <ItemCard />
+              <ItemCard />
             </div>
+          </div>
+          <div className="buttontest">
+            <MediumButtonB value={"더보기"} />
           </div>
         </div>
       </div>

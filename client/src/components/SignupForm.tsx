@@ -6,7 +6,7 @@ import {
   SignupFormDiv,
   SignupFormInput,
   SignupFormItem,
-} from "./components_style/SignupForm_style";
+} from "./components_style/SignupForm_styled";
 
 const SignupForm: React.FC = () => {
   return (

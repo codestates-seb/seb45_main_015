@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Trade from "./components/TradeNav";
 import ItemListPage from "./page/ItemListPage";
+import FavoritePage from "./page/FavoritePage";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/find-password" element={<FindPasswordPage />} />
             <Route path="/itemListPage" element={<ItemListPage />} />
+            <Route path="/favoritePage" element={<FavoritePage />} />
           </Routes>
         </div>
         <Footer />

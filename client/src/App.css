@@ -4,7 +4,14 @@
 }
 
 .Main {
-  padding-top:89px;
-  max-width:1440px;
-  margin:0 auto;
+  max-width: 1440px;
+  padding: 89px 160px 0 160px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .Main {
+    padding: 89px 40px 0 40px;
+    margin: 0 auto;
+  }
 }

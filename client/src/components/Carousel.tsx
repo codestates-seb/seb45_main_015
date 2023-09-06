@@ -14,7 +14,7 @@ interface MyCarouselProps {
 
 const MyCarousel: React.FC<MyCarouselProps> = ({ items }) => {
   return (
-    <Carousel>
+    <Carousel infiniteLoop={false} showThumbs={false}>
       {items.map((item, index) => (
         <StyledSlide key={index}>
           <StyledImage src={item.imageUrl} alt={item.caption} />

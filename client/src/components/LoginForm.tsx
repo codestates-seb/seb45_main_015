@@ -5,7 +5,7 @@ import {
   LoginFormItem,
   LoginFormContainer,
   LoginFormInput,
-} from "./components_style/LoginForm_style";
+} from "./components_style/LoginForm_styled";
 import GoogleLogin from "react-google-login-ng";
 
 interface Login {

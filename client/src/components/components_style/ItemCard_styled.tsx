@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   width: 256px;
   height: 383px;
-  margin: 0 25px 20px 0;
+  margin: 25px 0;
 
   @media (max-width: 768px) {
     & {
