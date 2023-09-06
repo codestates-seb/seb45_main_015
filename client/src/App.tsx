@@ -45,6 +45,7 @@ const App: React.FC = () => {
             <Route path="/mytrade" element={<MyTrade />} />
 >>>>>>> 0977051 ([FE] docs: 비밀번호 변경페이지 라우터 추가)
           </Routes>
+          <MyTrade />
         </div>
         <Footer />
       </BrowserRouter>
