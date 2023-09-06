@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 const Nav = [
   { page: "Home", router: "/" },
   { page: "상품등록", router: "/" },
-  { page: "나의거래", router: "/" },
+  { page: "나의거래", router: "/mytrade" },
 ];
 
 const dummy = "로그아웃";
@@ -36,7 +36,9 @@ function Header() {
         </Link>
         <NavWrapper>
           {Nav.map(nav => (
-            <Button key={nav.page}>{nav.page}</Button>
+            <Button key={nav.page}>
+              <Link to={nav.router}>{nav.page}</Link>
+            </Button>
           ))}
         </NavWrapper>
         <SearchWrapper>
