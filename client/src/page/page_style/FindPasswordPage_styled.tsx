@@ -85,7 +85,7 @@ export const FindPasswordFormItem = styled.div`
     background-color: ${globalTokens.Button.default.value};
     font-size: 17pxrem;
     font-weight: bold;
-    margin-top: 20px;
+    margin-top: 30px;
     text-decoration: none;
   }
 
