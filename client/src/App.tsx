@@ -7,6 +7,7 @@ import FindPasswordPage from "./page/FindPasswordPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RegistrateItemPage from "./page/RegistrateItemPage";
+import ItemDetailPage from "./page/ItemDetailPage";
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/find-password" element={<FindPasswordPage />} />
             <Route path="/registrate" element={<RegistrateItemPage />} />
+            <Route path="/detail" element={<ItemDetailPage />} />
           </Routes>
         </div>
         <Footer />
