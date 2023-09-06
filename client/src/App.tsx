@@ -40,6 +40,7 @@ const App: React.FC = () => {
             <Route path="/itemListPage" element={<ItemListPage />} />
             <Route path="/favoritePage" element={<FavoritePage />} />
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4665219 (버튼컴포넌트 완성, 전체리스트반응형 작업중)
 =======
             <Route path="/change-password" element={<ChangePasswordPage />} />
@@ -48,6 +49,8 @@ const App: React.FC = () => {
 =======
             <Route path="/itemListPage" element={<ItemListPage />} />
 >>>>>>> 5c8f95e (itemListPage 작업중)
+=======
+>>>>>>> 93de1fb (버튼컴포넌트 완성, 전체리스트반응형 작업중)
           </Routes>
           <MyTrade />
         </div>
