@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import TradeNav from "./components_style/TradeNav_styled";
@@ -13,6 +14,9 @@ import { faBell } from "@fortawesome/free-regular-svg-icons";
 =======
 =======
 import TradeNav from "./components_style/TradeNav_style";
+=======
+import TradeNav from "./components_style/TradeNav_styled";
+>>>>>>> 20639b4 (나의거래 사이드바 수정완료)
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
