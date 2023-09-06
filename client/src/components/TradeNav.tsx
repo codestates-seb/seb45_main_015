@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
 import TradeNav from "./components_style/TradeNav_styled";
 <<<<<<< HEAD
 import { Link } from "react-router-dom";
@@ -25,6 +27,7 @@ function TradeSideVar() {
     <TradeNav>
       <ul>
         {TradeList.map((category, index) => (
+<<<<<<< HEAD
           <Link to={`TradeNav_${category}`}>
             <li key={index} onClick={() => handleMenuClick(index)}>
               <FontAwesomeIcon className="bell-icon" icon={faBell} />
@@ -37,6 +40,12 @@ function TradeSideVar() {
               </p>
             </li>
           </Link>
+=======
+          <li key={index} onClick={() => handleMenuClick(index)}>
+            <FontAwesomeIcon icon={faBell} className="bell-icon" />
+            <span>{category}</span>
+          </li>
+>>>>>>> 9c59d21 ([FE] design: 나의거래페에지 사이드바 스타일 수정)
         ))}
       </ul>
     </TradeNav>
