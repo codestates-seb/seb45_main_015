@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import globalTokens from "../../design_tokens/global.json";
 
-export const FindPasswordPageContainer = styled.main`
+export const ChangePasswordPageContainer = styled.main`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
@@ -16,7 +16,7 @@ export const FindPasswordPageContainer = styled.main`
   }
 `;
 
-export const FindPasswordPageImage = styled.div`
+export const ChangePasswordPageImage = styled.div`
   background-image: url("https://i.pinimg.com/564x/dd/29/62/dd2962dcc7da60635745235f7377d5f1.jpg");
   width: 100%;
   height: 100%;
@@ -36,26 +36,14 @@ export const FindPasswordPageImage = styled.div`
   }
 `;
 
-export const FindPasswordFormDiv = styled.div`
+export const ChangePasswordFormDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-
-  & > .not-have-account {
-    font-size: 12px;
-    margin-top: 30px;
-  }
-
-  & > .not-have-account > a {
-    margin-left: 5px;
-    font-size: 14px;
-    text-decoration: none;
-    color: ${globalTokens.Button.default.value};
-  }
 `;
 
-export const FindPasswordFormContainer = styled.form`
+export const ChangePasswordFormContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -63,17 +51,41 @@ export const FindPasswordFormContainer = styled.form`
   gap: 20px;
 `;
 
-export const FindPasswordFormItem = styled.div`
+export const ChangePasswordFormItem = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
   width: 100%;
+  gap: 20px;
 
   & > h2 {
     font-size: 36px;
   }
+  & > .password-convention {
+    font-size: 13px;
+    color: #718096;
+    position: absolute;
+    left: 0;
+    bottom: 75px;
+  }
+  @media (max-width: 1250px) and (min-width: 1240px) {
+    .password-convention {
+      bottom: 55px;
+    }
+  }
+  @media (max-width: 1240px) and (min-width: 1025px) {
+    .password-convention {
+      bottom: 57px;
+    }
+  }
 
-  & > .next-btn {
+  @media (max-width: 500px) {
+    .password-convention {
+      bottom: 57px;
+    }
+  }
+
+  & > .change-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,7 +101,7 @@ export const FindPasswordFormItem = styled.div`
     text-decoration: none;
   }
 
-  & > .next-btn:hover {
+  & > .change-btn:hover {
     width: 100%;
     height: 48px;
     background-color: #ffffff;
