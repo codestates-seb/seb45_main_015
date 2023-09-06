@@ -27,6 +27,7 @@ const App: React.FC = () => {
             <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route path="/mytrade" element={<MyTrade />} />
           </Routes>
+          <MyTrade />
         </div>
         <Footer />
       </BrowserRouter>

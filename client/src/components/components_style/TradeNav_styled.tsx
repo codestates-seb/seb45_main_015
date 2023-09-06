@@ -31,6 +31,7 @@ const TradeNav = styled.nav`
     color: #777e90;
 =======
 
+<<<<<<< HEAD
   & > ul > li {
     width: 100%;
     height: 100%;
@@ -48,7 +49,16 @@ const TradeNav = styled.nav`
   & > ul > li > .bell-icon {
     font-size: 15px;
     margin-right: 10px;
+<<<<<<< HEAD
 >>>>>>> 9c59d21 ([FE] design: 나의거래페에지 사이드바 스타일 수정)
+=======
+=======
+  & .bell-icon {
+    width: 16px;
+    height: 16px;
+    color: #777e90;
+>>>>>>> ed41009 (asd)
+>>>>>>> 39bd68f (종회님+태수)
   }
 `;
 

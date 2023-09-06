@@ -1,4 +1,5 @@
 import styled from "styled-components";
+<<<<<<< HEAD
 import globalTokens from "../../design_tokens/global.json";
 
 export const LoginPageContainer = styled.main`
@@ -114,4 +115,20 @@ export const LoginFormItem = styled.div`
     color: ${globalTokens.Button.default.value};
     cursor: pointer;
   }
+=======
+
+export const LoginPageContainer = styled.main`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  gap: 8.4rem;
+`;
+
+export const LoginPageImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+>>>>>>> ed41009 (asd)
 `;
