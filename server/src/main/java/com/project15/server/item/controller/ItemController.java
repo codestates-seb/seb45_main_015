@@ -5,6 +5,7 @@ import com.project15.server.item.entity.Item;
 import com.project15.server.item.mapper.ItemMapper;
 import com.project15.server.item.service.ItemServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/items")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class ItemController {
 
@@ -25,6 +26,7 @@ public class ItemController {
     private final ItemServiceImpl itemService;
 
     //경매 물품(이미제 제외) 등록
+    //@Cacheable
     @PostMapping
     public HttpStatus postItem(@RequestBody @Valid ItemDto.PostDto postDto) {
         Item item = itemMapper.postDtoToItem(postDto);
@@ -35,6 +37,7 @@ public class ItemController {
     }
 
     //경매 물품의 이미지 등록
+    //@Cacheable
     @PostMapping("/{item-id}/images")
     public HttpStatus postImage(@PathVariable("item-id") Long itemId,
                                 @RequestPart(value = "image", required = false) List<MultipartFile> images) {
@@ -45,6 +48,7 @@ public class ItemController {
     }
 
     //경매 물품 상세 페이지
+    //@Cacheable
     @GetMapping("/{item-id}")
     public ResponseEntity getItem(@PathVariable("item-id") Long itemId) {
         Item item = itemService.findItem(itemId);
