@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 const Nav = [
   { page: "둘러보기", router: "/" },
   { page: "상품등록", router: "/registrate" },
-  { page: "나의거래", router: "/" },
+  { page: "나의거래", router: "/mytrade" },
 ];
 
 const dummy = "로그아웃";

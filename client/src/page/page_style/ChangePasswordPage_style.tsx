@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import { styled } from "styled-components";
 import globalTokens from "../../design_tokens/global.json";
 
-export const SignupPageContainer = styled.main`
+export const ChangePasswordPageContainer = styled.main`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
@@ -14,17 +14,10 @@ export const SignupPageContainer = styled.main`
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
   }
-  .google-login-btn {
-    width: 100%;
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-  }
 `;
 
-export const SignupPageImage = styled.div`
+export const ChangePasswordPageImage = styled.div`
   background-image: url("https://i.pinimg.com/564x/dd/29/62/dd2962dcc7da60635745235f7377d5f1.jpg");
-
   width: 100%;
   height: 100%;
   background-size: 100%; //좌우넓이는 100%로 높이는 이미지의 원래 높이를 주자
@@ -38,38 +31,27 @@ export const SignupPageImage = styled.div`
       background-position: center 1100px;
     }
   }
-
   @media (max-width: 1024px) {
     display: none;
   }
 `;
 
-export const SignupFormDiv = styled.div`
+export const ChangePasswordFormDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-
-  & > .already-have-account {
-    font-size: 13px;
-    margin-top: 30px;
-  }
-
-  & > .already-have-account > a {
-    margin-left: 5px;
-    font-size: 15px;
-    text-decoration: none;
-    color: ${globalTokens.Button.default.value};
-  }
 `;
 
-export const SignupFormContainer = styled.form`
+export const ChangePasswordFormContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
+  gap: 20px;
 `;
 
-export const SignupFormItem = styled.div`
+export const ChangePasswordFormItem = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -79,33 +61,31 @@ export const SignupFormItem = styled.div`
   & > h2 {
     font-size: 36px;
   }
-
   & > .password-convention {
     font-size: 13px;
     color: #718096;
     position: absolute;
     left: 0;
-    bottom: 135px;
+    bottom: 75px;
+  }
+  @media (max-width: 1250px) and (min-width: 1240px) {
+    .password-convention {
+      bottom: 55px;
+    }
   }
   @media (max-width: 1240px) and (min-width: 1025px) {
     .password-convention {
-      bottom: 120px;
+      bottom: 57px;
     }
   }
+
   @media (max-width: 500px) {
     .password-convention {
-      bottom: 117px;
+      bottom: 57px;
     }
   }
 
-  & > .sns {
-    font-size: 12px;
-    text-align: center;
-    padding: 0 24px;
-    margin-top: 30px;
-  }
-
-  & > .signup-btn {
+  & > .change-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,13 +95,13 @@ export const SignupFormItem = styled.div`
     border: none;
     border-radius: 90px;
     background-color: ${globalTokens.Button.default.value};
-    font-size: 17px;
+    font-size: 17pxrem;
     font-weight: bold;
-    margin-top: 20px;
-
+    margin-top: 30px;
     text-decoration: none;
   }
-  & > .signup-btn:hover {
+
+  & > .change-btn:hover {
     width: 100%;
     height: 48px;
     background-color: #ffffff;

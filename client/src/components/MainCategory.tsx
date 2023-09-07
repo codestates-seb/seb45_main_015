@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CategoryNav from "./components_style/MainCategory_styled";
+import { Link } from "react-router-dom";
 
 function CategorySideVar() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -31,15 +32,16 @@ function CategorySideVar() {
       <h2>카테고리</h2>
       <ul>
         {categoryList.map((category, index) => (
-          <li
-            key={index}
-            onClick={() => handleCategoryClick(index)}
-            style={{
-              color: selectedCategory === index ? "#0064FF" : "",
-            }}
-          >
-            {category}
-          </li>
+          <Link to={`/ItemCategoryPage_${category}`} key={index}>
+            <li
+              onClick={() => handleCategoryClick(index)}
+              style={{
+                color: selectedCategory === index ? "#0064FF" : "",
+              }}
+            >
+              {category}
+            </li>
+          </Link>
         ))}
       </ul>
     </CategoryNav>
