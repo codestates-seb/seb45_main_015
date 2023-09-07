@@ -8,6 +8,7 @@ export const Container = styled.footer`
   height: 264px;
   border-top: solid 1px #e6e8ec;
   margin-top: 30px;
+  bottom: 0;
 `;
 
 export const FooterContent = styled.div`

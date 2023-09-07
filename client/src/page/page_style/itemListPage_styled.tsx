@@ -2,9 +2,10 @@ import styled from "styled-components";
 import globalTokens from "../../design_tokens/global.json";
 
 const ItemListPageContainer = styled.div`
-  width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 
   & .listPageCarousel {
     width: 100%;
