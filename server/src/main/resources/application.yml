@@ -11,6 +11,11 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create
+  cache:
+    type: redis
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 logging:
   level:
     org:

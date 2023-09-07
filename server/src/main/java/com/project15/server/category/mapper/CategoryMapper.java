@@ -37,7 +37,7 @@ public class CategoryMapper {
                     .collect(Collectors.toList());
 
             responseDto.setCategories(categories);
-            responseDto.setPageInfo(
+            responseDto.setPage_info(
                     PageInfo
                     .builder()
                             .page_number(categoryPage.getNumber() + 1)

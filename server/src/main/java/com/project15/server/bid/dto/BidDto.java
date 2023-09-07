@@ -9,9 +9,9 @@ public class BidDto {
     @Setter
     public static class PostDto {
 
-        private long item_id;
+        private Long item_id;
 
-        private long member_id;
+        private Long member_id;
 
         private int bid_price;
     }
