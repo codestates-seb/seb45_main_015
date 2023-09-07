@@ -179,6 +179,12 @@ export const Icon = styled.div`
   align-items: center;
   font-size: 60px;
   color: #a6a6a6;
+
+  @media (max-width: 1024px) {
+    & {
+      font-size: 50px;
+    }
+  }
 `;
 
 export const Wrapper = styled.div`
