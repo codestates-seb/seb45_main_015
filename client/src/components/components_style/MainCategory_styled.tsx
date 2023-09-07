@@ -31,7 +31,7 @@ const CategoryNav = styled.div`
   & li:hover {
     color: #0056b3;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 950px) {
     display: none;
   }
 `;
