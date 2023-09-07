@@ -20,29 +20,31 @@ const ItemListPageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    @media (max-width: 768px) {
+    list-style: none;
+    @media (max-width: 950px) {
       border: none;
     }
   }
   & .content {
     width: 100%;
   }
-  & .content > div {
+  & .content > div > ul {
     display: grid;
     justify-items: center;
     flex-wrap: wrap;
+    list-style: none;
 
     @media (min-width: 0px) {
-      grid-template-columns: repeat(1, auto);
-    }
-    @media (min-width: 425px) {
       grid-template-columns: repeat(2, auto);
     }
-    @media (min-width: 1210px) {
+    @media (min-width: 1025px) {
       grid-template-columns: repeat(3, auto);
     }
+    @media (min-width: 1210px) {
+      grid-template-columns: repeat(2, auto);
+    }
     @media (min-width: 1485px) {
-      grid-template-columns: repeat(4, auto);
+      grid-template-columns: repeat(3, auto);
     }
   }
   & .content:nth-child() > div {
@@ -53,14 +55,10 @@ const ItemListPageContainer = styled.div`
     padding-left: 35px;
     font-size: 1.8rem;
   }
-  & .buttontest {
+  & .moreButton {
     width: 340px;
-    height: 60px;
-    margin-top: 100px;
-  }
-  & .PAGE {
-    width: 50px;
     height: 50px;
+    margin-top: 100px;
   }
 `;
 

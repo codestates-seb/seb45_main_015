@@ -10,7 +10,7 @@ export const LargeButtonTypeA = styled.button`
   font-size: 21px;
   cursor: pointer;
   border-radius: 20px;
-  border: none;
+  border: 2px solid ${globalTokens.Button.default.value};
 
   &:hover {
     background-color: #ffffff;
@@ -29,7 +29,7 @@ export const LargeButtonTypeB = styled.button`
   font-size: 21px;
   cursor: pointer;
   border-radius: 90px;
-  border: none;
+  border: 2px solid ${globalTokens.Button.default.value};
 
   &:hover {
     background-color: #ffffff;
@@ -88,7 +88,7 @@ export const MediumButtonTypeA = styled.button`
   font-size: 20px;
   cursor: pointer;
   border-radius: 20px;
-  border: none;
+  border: 2px solid ${globalTokens.Button.default.value};
 
   &:hover {
     background-color: #ffffff;
@@ -107,7 +107,7 @@ export const MediumButtonTypeB = styled.button`
   font-size: 21px;
   cursor: pointer;
   border-radius: 90px;
-  border: none;
+  border: 2px solid ${globalTokens.Button.default.value};
 
   &:hover {
     background-color: #ffffff;
@@ -166,7 +166,7 @@ export const SmallButtonTypeA = styled.button`
   font-size: 16px;
   cursor: pointer;
   border-radius: 20px;
-  border: none;
+  border: 2px solid ${globalTokens.Button.default.value};
 
   &:hover {
     background-color: #ffffff;
@@ -186,7 +186,7 @@ export const SmallButtonTypeB = styled.button`
   font-size: 16px;
   cursor: pointer;
   border-radius: 90px;
-  border: none;
+  border: 2px solid ${globalTokens.Button.default.value};
 
   &:hover {
     background-color: #ffffff;
