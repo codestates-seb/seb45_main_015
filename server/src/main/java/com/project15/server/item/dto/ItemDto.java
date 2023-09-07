@@ -42,6 +42,8 @@ public class ItemDto {
 
         private String member_nickname;
 
+        private String status;
+
         private String title;
 
         private String content;
@@ -79,6 +81,8 @@ public class ItemDto {
         private String member_nickname;
 
         private Long item_id;
+
+        private String status;
 
         private String title;
 
