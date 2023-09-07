@@ -7,6 +7,8 @@ import FindPasswordPage from "./page/FindPasswordPage";
 import ChangePasswordPage from "./page/ChangePasswordPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import RegistrateItemPage from "./page/RegistrateItemPage";
+import ItemDetailPage from "./page/ItemDetailPage";
 import MyTrade from "./page/MyTrade";
 import ItemListPage from "./page/ItemListPage";
 import ItemCategoryPage from "./page/ItemCategoryPage";
@@ -23,6 +25,8 @@ const App: React.FC = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/find-password" element={<FindPasswordPage />} />
+            <Route path="/registrate" element={<RegistrateItemPage />} />
+            <Route path="/detail" element={<ItemDetailPage />} />
             <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route path="/mytrade" element={<MyTrade />} />
             <Route path="/allList" element={<ItemListPage />} />

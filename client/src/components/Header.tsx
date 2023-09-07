@@ -18,8 +18,8 @@ import HeaderDropDown from "./HeaderDropDown";
 import { Link } from "react-router-dom";
 
 const Nav = [
-  { page: "Home", router: "/" },
-  { page: "상품등록", router: "/" },
+  { page: "둘러보기", router: "/" },
+  { page: "상품등록", router: "/registrate" },
   { page: "나의거래", router: "/mytrade" },
 ];
 
@@ -45,37 +45,30 @@ function Header() {
           <SearchForm>
             <Search placeholder="검색" />
             <SearchButton>
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
+              <Link to="/detail">
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </Link>
             </SearchButton>
           </SearchForm>
         </SearchWrapper>
-        {dummy === "로그아웃" ? (
-          <UserWrapper>
-            <Button className="Icon screen-1024px">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </Button>
-            <Button>
-              <Link to="/signup">회원가입</Link>
-            </Button>
+        <UserWrapper>
+          <Button className="header-icon header-screen-1024px">
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </Button>
+          <Button className="header-icon">
+            <FontAwesomeIcon icon={faHeart} />
+          </Button>
+          <Button className="header-icon">
+            <FontAwesomeIcon icon={faUser} />
+            <HeaderDropDown />
+          </Button>
+          {dummy === "로그아웃" && (
             <Button>
               <Link to="/login">로그인</Link>
             </Button>
-          </UserWrapper>
-        ) : (
-          <UserWrapper>
-            <Button className="Icon screen-1024px">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </Button>
-            <Button className="Icon">
-              <FontAwesomeIcon icon={faHeart} />
-            </Button>
-            <Button className="Icon">
-              <FontAwesomeIcon icon={faUser} />
-              <HeaderDropDown />
-            </Button>
-          </UserWrapper>
-        )}
-        <Button className="Icon screen-768px">
+          )}
+        </UserWrapper>
+        <Button className="header-icon header-screen-768px">
           <FontAwesomeIcon icon={faBars} />
         </Button>
       </HeaderContent>
