@@ -58,10 +58,12 @@ function Header() {
           <Button className="header-icon">
             <FontAwesomeIcon icon={faHeart} />
           </Button>
-          <Button className="header-icon">
-            <FontAwesomeIcon icon={faUser} />
-            <HeaderDropDown />
-          </Button>
+          <Link to="/mypage">
+            <Button className="header-icon">
+              <FontAwesomeIcon icon={faUser} />
+              <HeaderDropDown />
+            </Button>
+          </Link>
           {dummy === "로그아웃" && (
             <Button>
               <Link to="/login">로그인</Link>
