@@ -3,7 +3,6 @@ import styled from "styled-components";
 const CategoryNav = styled.div`
   width: 187px;
   margin-right: 10px;
-  border: 1px solid red;
 
   & h2 {
     margin: 48px 0 56px 0;
@@ -31,6 +30,9 @@ const CategoryNav = styled.div`
 
   & li:hover {
     color: #0056b3;
+  }
+  @media (max-width: 950px) {
+    display: none;
   }
 `;
 

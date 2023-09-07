@@ -2,13 +2,13 @@ import styled from "styled-components";
 import globalTokens from "../../design_tokens/global.json";
 
 const ItemListPageContainer = styled.div`
-  width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 
   & .listPageCarousel {
     width: 100%;
-    margin: 0 160px 0 160px;
   }
   & .mainListcontainer {
     width: 100%;
@@ -20,26 +20,31 @@ const ItemListPageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    list-style: none;
+    @media (max-width: 950px) {
+      border: none;
+    }
   }
   & .content {
     width: 100%;
   }
-  & .content > div {
+  & .content > div > ul {
     display: grid;
     justify-items: center;
     flex-wrap: wrap;
+    list-style: none;
 
     @media (min-width: 0px) {
-      grid-template-columns: repeat(1, auto);
-    }
-    @media (min-width: 260px) {
       grid-template-columns: repeat(2, auto);
     }
-    @media (min-width: 530px) {
+    @media (min-width: 1025px) {
+      grid-template-columns: repeat(3, auto);
+    }
+    @media (min-width: 1210px) {
       grid-template-columns: repeat(2, auto);
     }
-    @media (min-width: 1050px) {
-      grid-template-columns: repeat(4, auto);
+    @media (min-width: 1485px) {
+      grid-template-columns: repeat(3, auto);
     }
   }
   & .content:nth-child() > div {
@@ -50,14 +55,10 @@ const ItemListPageContainer = styled.div`
     padding-left: 35px;
     font-size: 1.8rem;
   }
-  & .buttontest {
+  & .moreButton {
     width: 340px;
-    height: 60px;
-    margin-top: 100px;
-  }
-  & .PAGE {
-    width: 50px;
     height: 50px;
+    margin-top: 100px;
   }
 `;
 

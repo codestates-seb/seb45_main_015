@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 256px;
+  width: 240px;
   height: 383px;
-  margin: 25px 0;
+  margin: 25px 8px 0 3px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1209px) {
     & {
       width: 167px;
       height: 242px;
@@ -17,20 +17,23 @@ export const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 84px;
   color: #fcfcfd;
   width: 100%;
   height: 188px;
   background-color: #b1b5c3;
   border: solid 1px #b1b5c3;
   border-radius: 20px 20px 0 0;
+  overflow: hidden;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1209px) {
     & {
       height: 114px;
-      font-size: 56px;
       border-radius: 12px 12px 0 0;
     }
+  }
+  & img {
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -50,7 +53,7 @@ export const Icon = styled.button`
     color: #d32f2f;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1209px) {
     & {
       height: 114px;
       font-size: 28px;
@@ -65,7 +68,7 @@ export const InfoContainer = styled.div`
   border: solid 1px #b1b5c3;
   border-radius: 0 0 20px 20px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1209px) {
     & {
       height: 128px;
       font-size: 56px;
@@ -86,7 +89,7 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   margin-top: 10px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1209px) {
     & {
       margin-top: 5px;
     }
@@ -117,7 +120,7 @@ export const Text = styled.p`
     font-size: 14px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1209px) {
     & {
       font-size: 14px;
     }

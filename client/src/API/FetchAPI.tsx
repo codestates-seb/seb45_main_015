@@ -71,3 +71,18 @@ export const useFind = async (email: string) => {
     console.error(error);
   }
 };
+
+// 상품리스트 불러오기 //////////////////////////////////////////////
+export const getItem = async (Url: string) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: Url,
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    alert(`데이터 불러오기를 실패했습니다.${error}`);
+  }
+};
