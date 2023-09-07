@@ -14,7 +14,6 @@ import ItemListPage from "./page/ItemListPage";
 import MyPage from "./page/MyPage";
 // import ItemCategoryPage from "./page/ItemCategoryPage";
 // import FavoritePage from "./page/FavoritePage";
-import MyPage from "./page/MyPage";
 
 const App: React.FC = () => {
   return (
