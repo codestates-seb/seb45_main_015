@@ -68,6 +68,7 @@ public class ItemMapper {
             //responseDto.setMember_nickname(item.getMember().getMemberNickname);
             responseDto.setMember_nickname("테스트닉네임");
 
+            responseDto.setStatus(item.getStatus().name());
             responseDto.setTitle(item.getTitle());
             responseDto.setContent(item.getContent());
 
@@ -103,6 +104,7 @@ public class ItemMapper {
             responseDto.setMember_nickname("테스트닉네임");
 
             responseDto.setItem_id(item.getItemId());
+            responseDto.setStatus(item.getStatus().name());
             responseDto.setTitle(item.getTitle());
 
             String endTimeString = item.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

@@ -5,6 +5,7 @@ import com.project15.server.bid.repository.BidRepository;
 import com.project15.server.exception.ExceptionCode;
 import com.project15.server.exception.GlobalException;
 import com.project15.server.item.entity.Item;
+import com.project15.server.item.entity.ItemStatus;
 import com.project15.server.item.repository.ItemRepository;
 import com.project15.server.item.service.ItemServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,11 @@ public class BidServiceImpl implements BidService {
         Item findItem = itemRepository
                 .findWithIdForUpdate(bid.getItem().getItemId())
                 .orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
+
+        //TODO: Member 엔티티 오류로 인한 주석처리
+//        if(findItem.getMember().getMemberId() == bid.getMember().getMemberId()) {
+//            throw new GlobalException(ExceptionCode.SELLER_CAN_NOT_BIDDING);
+//        }
 
         int startPrice = findItem.getStartPrice();
         int bidUnit = findItem.getBidUnit();
@@ -57,7 +63,7 @@ public class BidServiceImpl implements BidService {
     }
 
     private void verifyBidPrice(int startPrice, int bidUnit, int currentPrice, int bidPrice) {
-        //bidUnit(호가)이 0보다 크고 10보다 작거나 같으면 입찰가는 현재가의 101~110% 이어야 함
+        //bidUnit(호가)이 0보다 크고 10보다 작거나 같으면 bidUnit 을 퍼센트로 간주, 입찰가는 bidUnit 에 따라 현재가의 101~110% 이어야 함
         boolean isPercent = bidUnit >= 1 && bidUnit <= 10;
 
         if(currentPrice == 0 && startPrice != bidPrice) {
@@ -75,5 +81,12 @@ public class BidServiceImpl implements BidService {
         if(currentPrice != 0 && !isPercent && result != bidPrice) {
             throw new GlobalException(ExceptionCode.BID_UNIT_INVALID);
         }
+    }
+
+    public void buyNow(Long memberId, Long itemId) {
+        //TODO: 작업중
+        Item findItem = itemRepository.findWithIdForUpdate(itemId).orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
+
+        findItem.setStatus(ItemStatus.TRADING);
     }
 }
