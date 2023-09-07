@@ -16,6 +16,8 @@ a:visited {
   max-width: 1440px;
   padding: 75px 160px 0 160px;
   margin: 0 auto;
+  border:1px solid red;
+  
 }
 
 @media (max-width: 768px) {
