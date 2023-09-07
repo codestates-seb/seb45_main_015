@@ -3,6 +3,7 @@ package com.project15.server.item.entity;
 import com.project15.server.audit.Auditable;
 import com.project15.server.bid.entity.Bid;
 import com.project15.server.category.entity.Category;
+import com.project15.server.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.repository.Lock;
@@ -21,10 +22,13 @@ public class Item extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
 
-//멤버 연관관계로 인한 예외로 주석처리
-//    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_id")
+    private Member seller;
+
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "buyer_id")
+    private Member buyer;
 
     @OneToMany(targetEntity = ItemImage.class, mappedBy = "item")
     private List<ItemImage> itemImages = new ArrayList<>();
@@ -55,13 +59,20 @@ public class Item extends Auditable {
     @Enumerated(value = EnumType.STRING)
     private ItemStatus status = ItemStatus.WAITING;
 
-//TODO: MEMBER 구현 후 주석 해제
-//    public void setMember(Long memberId) {
-//        Member newMember = new Member();
-//        newMember.setMemberId(memberId);
-//
-//        this.member = newMember;
-//    }
+    public void setSeller(Long sellerId) {
+        Member newSeller = new Member();
+        newSeller.setMemberId(sellerId);
+
+        this.seller = newSeller;
+    }
+
+    public void setBuyer(Long buyerId) {
+        Member newBuyer = new Member();
+        newBuyer.setMemberId(buyerId);
+
+        this.seller = newBuyer;
+    }
+
     public void setCategory(Long categoryId) {
         Category newCategory = new Category();
         newCategory.setCategoryId(categoryId);

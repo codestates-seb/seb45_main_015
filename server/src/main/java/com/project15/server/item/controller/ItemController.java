@@ -86,7 +86,7 @@ public class ItemController {
     public ResponseEntity getItemsByStatus(@RequestParam("page_number") int pageNumber,
                                            @RequestParam("page_size") int pageSize,
                                            @RequestParam("item_status") String itemStatus,
-                                           @RequestParam("member_id") Long memberId) {
+                                           @RequestParam("seller_id") Long sellerId) {
         //TODO: 경매 상태별(대기, 경매중, 유찰, 거래중, 거래완료) GET 요청 처리
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
@@ -103,7 +103,7 @@ public class ItemController {
     //물품 정보 수정 후 업로드 됐던 이미지 중 삭제할 이미지의 삭제 요청
     @DeleteMapping("/images")
     public HttpStatus deleteImage(@RequestBody @Valid ItemDto.DeleteImageDto deleteDto) {
-        itemService.removeImage(deleteDto.getItem_id(), deleteDto.getMember_id(), deleteDto.getDelete_image_urls());
+        itemService.removeImage(deleteDto.getItem_id(), deleteDto.getSeller_id(), deleteDto.getDelete_image_urls());
 
         return HttpStatus.NO_CONTENT;
     }
@@ -111,7 +111,7 @@ public class ItemController {
     //물품 등록 후 5분 이내 물품 삭제 요청
     @DeleteMapping
     public HttpStatus deleteItem(@RequestBody ItemDto.DeleteItemDto deleteDto) {
-        itemService.removeItem(deleteDto.getItem_id(), deleteDto.getMember_id());
+        itemService.removeItem(deleteDto.getItem_id(), deleteDto.getSeller_id());
 
         return HttpStatus.NO_CONTENT;
     }

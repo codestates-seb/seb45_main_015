@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import java.util.Optional;
 
 public interface BidRepository extends JpaRepository<Bid, Long> {
-    //TODO: Member 엔티티 오류로 인한 주석처리
-    //Optional<Bid> findByMemberMemberIdAndItemItemId(Long memberId, Long itemId);
+
+    Optional<Bid> findByBuyerMemberIdAndItemItemId(Long buyerId, Long itemId);
 }

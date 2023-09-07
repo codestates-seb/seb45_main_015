@@ -11,7 +11,7 @@ public class BidDto {
 
         private Long item_id;
 
-        private Long member_id;
+        private Long buyer_id;
 
         private int bid_price;
     }
