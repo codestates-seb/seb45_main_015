@@ -19,7 +19,7 @@ public class ItemDto {
     @Setter
     public static class PostDto {
 
-        private Long member_id;
+        private Long seller_id;
 
         private String title;
 
@@ -40,7 +40,7 @@ public class ItemDto {
     @Setter
     public static class SingleResponseDto {
 
-        private String member_nickname;
+        private String seller_nickname;
 
         private String status;
 
@@ -76,9 +76,9 @@ public class ItemDto {
     @Setter
     public static class ResponseDto {
 
-        private Long member_id;
+        private Long seller_id;
 
-        private String member_nickname;
+        private String seller_nickname;
 
         private Long item_id;
 
@@ -107,7 +107,7 @@ public class ItemDto {
 
         private Long item_id;
 
-        private Long member_id;
+        private Long seller_id;
 
         private String title;
 
@@ -130,7 +130,7 @@ public class ItemDto {
 
         private Long item_id;
 
-        private Long member_id;
+        private Long seller_id;
 
         @NotEmpty
         private List<String> delete_image_urls;
@@ -142,6 +142,6 @@ public class ItemDto {
 
         private Long item_id;
 
-        private Long member_id;
+        private Long seller_id;
     }
 }

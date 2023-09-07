@@ -115,10 +115,11 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public void updateItem(ItemDto.PatchDto patchDto) {
         Item findItem = findVerifiedItem(patchDto.getItem_id());
-        //TODO: MEMBER 구현 후 주석 해제
-//        if(findItem.getMember().getMemberId() != item.getMember().getMemberId()) {
-//            throw new GlobalException(ExceptionCode.MEMBER_MISS_MATCH);
-//        }
+
+        //신청자가 글 작성자인지 확인
+        if(!findItem.getSeller().getMemberId().equals(patchDto.getSeller_id())) {
+            throw new GlobalException(ExceptionCode.SELLER_MISS_MATCH);
+        }
 
         LocalDateTime currentTime = LocalDateTime.now();
         if(findItem.getStatus().equals(ItemStatus.WAITING) && currentTime.isBefore(findItem.getEndTime())) {
@@ -147,12 +148,12 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public void removeImage(Long itemId, Long memberId, List<String> deleteImageUrls) {
+    public void removeImage(Long itemId, Long sellerId, List<String> deleteImageUrls) {
         Item findItem = findVerifiedItem(itemId);
-        //TODO: MEMBER 구현 후 주석 해제
-//        if(findItem.getMember().getMemberId() != memberId) {
-//            throw new GlobalException(ExceptionCode.MEMBER_MISS_MATCH);
-//        }
+
+        if(!findItem.getSeller().getMemberId().equals(sellerId)) {
+            throw new GlobalException(ExceptionCode.SELLER_MISS_MATCH);
+        }
 
         List<String> deleteImageKeys = new ArrayList<>();
         deleteImageUrls.forEach(url -> deleteImageKeys.add(url.substring(url.lastIndexOf("/") + 1)));
@@ -170,12 +171,12 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public void removeItem(Long itemId, Long memberId) {
+    public void removeItem(Long itemId, Long sellerId) {
         Item findItem = findVerifiedItem(itemId);
-        //TODO: MEMBER 구현 후 주석 해제
-//        if(findItem.getMember().getMemberId() != memberId) {
-//            throw new GlobalException(ExceptionCode.MEMBER_MISS_MATCH);
-//        }
+
+        if(findItem.getSeller().getMemberId().equals(sellerId)) {
+            throw new GlobalException(ExceptionCode.SELLER_MISS_MATCH);
+        }
 
         if(isWaiting(findItem.getEndTime())) {
             itemRepository.delete(findItem);

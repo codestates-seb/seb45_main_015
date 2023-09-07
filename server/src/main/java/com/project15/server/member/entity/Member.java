@@ -41,9 +41,12 @@ public class Member extends Auditable {
 
 
 
-   /* @OneToMany(targetEntity = Item.class, mappedBy = "member")
-    private List<Item> items = new ArrayList<>();
+    @OneToMany(targetEntity = Item.class, mappedBy = "seller")
+    private List<Item> sellItems = new ArrayList<>();
 
-    @OneToMany(targetEntity = Bid.class, mappedBy = "member")
-    private List<Bid> bids = new ArrayList<>();*/
+    @OneToMany(targetEntity = Item.class, mappedBy = "buyer")
+    private List<Item> buyItems = new ArrayList<>();
+
+    @OneToMany(targetEntity = Bid.class, mappedBy = "buyer")
+    private List<Bid> bids = new ArrayList<>();
 }

@@ -31,10 +31,9 @@ public class BidServiceImpl implements BidService {
                 .findWithIdForUpdate(bid.getItem().getItemId())
                 .orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
 
-        //TODO: Member 엔티티 오류로 인한 주석처리
-//        if(findItem.getMember().getMemberId() == bid.getMember().getMemberId()) {
-//            throw new GlobalException(ExceptionCode.SELLER_CAN_NOT_BIDDING);
-//        }
+        if(findItem.getSeller().getMemberId() == bid.getBuyer().getMemberId()) {
+            throw new GlobalException(ExceptionCode.SELLER_CAN_NOT_BIDDING);
+        }
 
         int startPrice = findItem.getStartPrice();
         int bidUnit = findItem.getBidUnit();
@@ -46,15 +45,12 @@ public class BidServiceImpl implements BidService {
         //클라이언트 쪽에서도 한번 검증해서 보내주지만 서버에서도 한번 더 검증
         verifyBidPrice(startPrice, bidUnit, currentPrice, bidPrice);
 
-        //TODO: Member 엔티티 오류로 인한 주석처리
-        //Optional<Bid> optionalBid = bidRepository.findByMemberMemberIdAndItemItemId(bid.getMember().getMemberId(), bid.getItem().getItemId());
-        Optional<Bid> optionalBid = Optional.of(bid);
+        Optional<Bid> optionalBid = bidRepository.findByBuyerMemberIdAndItemItemId(bid.getBuyer().getMemberId(), bid.getItem().getItemId());
         if(optionalBid.isPresent()) {
             //한 member 가 동일한 item 에 중복 입찰하면 업데이트
             Bid findBid = optionalBid.get();
-            //TODO: Member 엔티티 오류로 인한 주석처리, 제거 후 아래의 bidRepository.save(bid) 제거
-            //findBid.setBidPrice(bid.getBidPrice());
-            bidRepository.save(bid);
+
+            findBid.setBidPrice(bid.getBidPrice());
         }
         else {
             bidRepository.save(bid);
@@ -83,7 +79,7 @@ public class BidServiceImpl implements BidService {
         }
     }
 
-    public void buyNow(Long memberId, Long itemId) {
+    public void buyNow(Long buyerId, Long itemId) {
         //TODO: 작업중
         Item findItem = itemRepository.findWithIdForUpdate(itemId).orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
 

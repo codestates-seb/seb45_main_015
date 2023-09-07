@@ -28,8 +28,7 @@ public class ItemMapper {
             item.setBidUnit(postDto.getBid_unit());
             item.setStartPrice(postDto.getStart_price());
             item.setBuyNowPrice(postDto.getBuy_now_price());
-            //TODO: MEMBER 구현 후 주석 해제
-//            item.setMember(postDto.getMemberId);
+            item.setSeller(postDto.getSeller_id());
 
             return item;
         }
@@ -59,18 +58,12 @@ public class ItemMapper {
         }
         else {
             ItemDto.SingleResponseDto responseDto = new ItemDto.SingleResponseDto();
-
-            //TODO: Member class 완성되면 주석 안의 코드로 변경
-            //responseDto.setMember_nickname(item.getMember().getMemberNickname);
-            responseDto.setMember_nickname("테스트닉네임");
-
+            responseDto.setSeller_nickname(item.getSeller().getNickname());
             responseDto.setStatus(item.getStatus().name());
             responseDto.setTitle(item.getTitle());
             responseDto.setContent(item.getContent());
-
             String endTimeString = item.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             responseDto.setEnd_time(endTimeString);
-
             responseDto.setCategory(item.getCategory().getName());
             responseDto.setItem_image_urls(item.getItemImages()
                     .stream()
@@ -92,20 +85,13 @@ public class ItemMapper {
         }
         else {
             ItemDto.ResponseDto responseDto = new ItemDto.ResponseDto();
-
-            //TODO: Member class 완성되면 주석 안의 코드로 변경
-            //responseDto.setMember_id(item.getMember().getMemberId);
-            //responseDto.setMember_nickname(item.getMember().getMemberNickname);
-            responseDto.setMember_id(1L);
-            responseDto.setMember_nickname("테스트닉네임");
-
+            responseDto.setSeller_id(item.getSeller().getMemberId());
+            responseDto.setSeller_nickname(item.getSeller().getNickname());
             responseDto.setItem_id(item.getItemId());
             responseDto.setStatus(item.getStatus().name());
             responseDto.setTitle(item.getTitle());
-
             String endTimeString = item.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             responseDto.setEnd_time(endTimeString);
-
             responseDto.setCategory(item.getCategory().getName());
             responseDto.setItem_image_urls(item.getItemImages()
                     .stream()
