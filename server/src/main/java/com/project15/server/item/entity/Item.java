@@ -3,7 +3,6 @@ package com.project15.server.item.entity;
 import com.project15.server.audit.Auditable;
 import com.project15.server.bid.entity.Bid;
 import com.project15.server.category.entity.Category;
-import com.project15.server.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.repository.Lock;

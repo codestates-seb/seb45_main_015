@@ -1,8 +1,7 @@
 package com.project15.server.rating;
 
 import com.project15.server.audit.Auditable;
-import com.project15.server.item.entity.Item;
-import com.project15.server.member.Member;
+import com.project15.server.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
