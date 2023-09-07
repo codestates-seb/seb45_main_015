@@ -1,5 +1,6 @@
 package com.project15.server.category.entity;
 
+import com.project15.server.audit.Auditable;
 import com.project15.server.item.entity.Item;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Category {
+public class Category extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

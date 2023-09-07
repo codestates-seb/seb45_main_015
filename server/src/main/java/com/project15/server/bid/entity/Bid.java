@@ -5,13 +5,15 @@ import com.project15.server.item.entity.Item;
 import com.project15.server.member.Member;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
-public class Bid extends Auditable {
+public class Bid extends Auditable implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

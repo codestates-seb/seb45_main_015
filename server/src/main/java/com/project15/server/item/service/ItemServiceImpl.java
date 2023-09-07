@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +29,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(isolation = Isolation.REPEATABLE_READ)
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService{
 
@@ -62,10 +63,6 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public void createItem(Item item, int dateUntilEnd) {
-        if(item.getBuyNowPrice() != null) {
-            item.setBuyNow("Y");
-        }
-
         Item savedItem = itemRepository.save(item);
 
         //10보다 큰 값으로 들어온 end_time 은 추후 테스트 시현을 위한 초 단위 이므로 따로 초에 더해줌
@@ -124,7 +121,7 @@ public class ItemServiceImpl implements ItemService{
 //        }
 
         LocalDateTime currentTime = LocalDateTime.now();
-        if(findItem.getStatus().equals(ItemStatus.WAITING) || currentTime.isBefore(findItem.getEndTime())) {
+        if(findItem.getStatus().equals(ItemStatus.WAITING) && currentTime.isBefore(findItem.getEndTime())) {
             Optional.ofNullable(patchDto.getTitle()).ifPresent(findItem::setTitle);
             Optional.ofNullable(patchDto.getContent()).ifPresent(findItem::setContent);
 
@@ -146,13 +143,6 @@ public class ItemServiceImpl implements ItemService{
             Optional.ofNullable(patchDto.getStart_price()).ifPresent(findItem::setStartPrice);
             Optional.ofNullable(patchDto.getBid_unit()).ifPresent(findItem::setBidUnit);
             findItem.setBuyNowPrice(patchDto.getBuy_now_price());
-
-            if(patchDto.getBuy_now_price() != null) {
-                findItem.setBuyNow("Y");
-            }
-            else {
-                findItem.setBuyNow("N");
-            }
         }
     }
 
@@ -167,7 +157,7 @@ public class ItemServiceImpl implements ItemService{
         List<String> deleteImageKeys = new ArrayList<>();
         deleteImageUrls.forEach(url -> deleteImageKeys.add(url.substring(url.lastIndexOf("/") + 1)));
 
-        if(isStatusWaiting(findItem.getStatus(), findItem.getEndTime())) {
+        if(isWaiting(findItem.getEndTime())) {
             deleteImageKeys.forEach(s3Service::deleteFileAtS3);
 
             List<ItemImage> findItemImages = deleteImageUrls
@@ -187,7 +177,7 @@ public class ItemServiceImpl implements ItemService{
 //            throw new GlobalException(ExceptionCode.MEMBER_MISS_MATCH);
 //        }
 
-        if(isStatusWaiting(findItem.getStatus(), findItem.getEndTime())) {
+        if(isWaiting(findItem.getEndTime())) {
             itemRepository.delete(findItem);
         }
     }
@@ -206,7 +196,7 @@ public class ItemServiceImpl implements ItemService{
                 .orElseThrow(() -> new GlobalException(ExceptionCode.IMAGE_NOT_FOUND));
     }
 
-    private boolean isStatusWaiting(ItemStatus itemStatus, LocalDateTime endTime) {
+    private boolean isWaiting(LocalDateTime endTime) {
         LocalDateTime currentTime = LocalDateTime.now();
         if(currentTime.isBefore(endTime)) {
             return true;

@@ -19,21 +19,14 @@ public class ItemDto {
     @Setter
     public static class PostDto {
 
-        @NotEmpty
-        @Pattern(regexp = "^-?\\d+$")
         private Long member_id;
 
-        @NotEmpty
         private String title;
 
-        @NotEmpty
         private String content;
 
-        @NotEmpty
-        @Pattern(regexp = "^-?\\d+$")
         private Long category_id;
 
-        @NotEmpty
         private int end_time;
 
         private int start_price;
@@ -108,12 +101,8 @@ public class ItemDto {
     @Setter
     public static class PatchDto {
 
-        @NotEmpty
-        @Pattern(regexp = "^-?\\d+$")
         private Long item_id;
 
-        @NotEmpty
-        @Pattern(regexp = "^-?\\d+$")
         private Long member_id;
 
         private String title;
@@ -134,12 +123,9 @@ public class ItemDto {
     @Getter
     @Setter
     public static class DeleteImageDto {
-        @NotEmpty
-        @Pattern(regexp = "^-?\\d+$")
+
         private Long item_id;
 
-        @NotEmpty
-        @Pattern(regexp = "^-?\\d+$")
         private Long member_id;
 
         @NotEmpty
@@ -149,12 +135,9 @@ public class ItemDto {
     @Getter
     @Setter
     public static class DeleteItemDto {
-        @NotEmpty
-        @Pattern(regexp = "^-?\\d+$")
+
         private Long item_id;
 
-        @NotEmpty
-        @Pattern(regexp = "^-?\\d+$")
         private Long member_id;
     }
 }

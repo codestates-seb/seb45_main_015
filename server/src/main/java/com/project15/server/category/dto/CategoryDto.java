@@ -23,6 +23,6 @@ public class CategoryDto {
 
         private List<CategoryDto.ResponseDto> categories;
 
-        private PageInfo pageInfo;
+        private PageInfo page_info;
     }
 }

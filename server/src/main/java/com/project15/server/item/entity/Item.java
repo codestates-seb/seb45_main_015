@@ -6,6 +6,7 @@ import com.project15.server.category.entity.Category;
 import com.project15.server.member.Member;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.jpa.repository.Lock;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -50,9 +51,6 @@ public class Item extends Auditable {
 
     private int currentPrice;
 
-    // "Y" or "N" only
-    private String buyNow = "N";
-
     private Integer buyNowPrice;
 
     @Enumerated(value = EnumType.STRING)
@@ -65,7 +63,6 @@ public class Item extends Auditable {
 //
 //        this.member = newMember;
 //    }
-
     public void setCategory(Long categoryId) {
         Category newCategory = new Category();
         newCategory.setCategoryId(categoryId);
