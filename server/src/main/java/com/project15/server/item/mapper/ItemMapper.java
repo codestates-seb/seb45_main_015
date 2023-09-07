@@ -1,18 +1,14 @@
 package com.project15.server.item.mapper;
 
-import com.project15.server.category.entity.Category;
 import com.project15.server.item.dto.ItemDto;
 import com.project15.server.item.entity.Item;
 import com.project15.server.item.entity.ItemImage;
-import com.project15.server.member.Member;
 import com.project15.server.utils.PageInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,39 +1,57 @@
-package com.project15.server.member;
+package com.project15.server.member.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project15.server.member.dto.MemberDto;
+import com.project15.server.member.repository.MemberRepository;
+import com.project15.server.member.entity.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomMemberDetailsService customMemberDetailsService;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private CustomMemberDetailsService customMemberDetailsService;
-
-    public Member createMember(String email, String password, String nickname) {
-        if (emailAlreadyUse(email)) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+    public Member signup(MemberDto memberDto) {
+        if (memberRepository.findOneWithAuthoritiesByEmail(memberDto.getEmail()).orElse(null) != null) {
+            throw new RuntimeException("이미 사용중인 이메일 입니다.");
         }
-        if (nicknameAlreadyUse(nickname)) {
+       /* if (nicknameAlreadyUse(memberDto.getNickname())) {
             throw new IllegalArgumentException("이미 사용 중인 이름입니다.");
-        }
-        Member member = new Member();
-        member.setEmail(email);
-        member.setPassword(passwordEncoder.encode(password));
-        member.setNickname(nickname);
+        }*/
+
+        Member authority = Member.builder()
+                .role("ROLE_USER")
+                .build();
+
+        Member member = Member.builder()
+                .email(memberDto.getEmail())
+                .password(passwordEncoder.encode(memberDto.getPassword()))
+                .nickname(memberDto.getNickname())
+                .build();
 
         return memberRepository.save(member);
     }
+    //유저, 권한정보를 가져오는 메소드
+    @Transactional(readOnly = true)
+    public Optional<Member> getMemberWithAuthorities(String email) {
+        return memberRepository.findOneWithAuthoritiesByEmail(email);
+    }
+    @Transactional(readOnly = true)
+    public Optional<Member> getMyUserWithAuthorities() {
+        return SecurityUtil.getCurrentUsername()
+                .flatMap(memberRepository::findOneWithAuthoritiesByEmail);
+    }
+
     //닉네임 변경
     public ResponseEntity<String> updateNickname(Long memberId,String password,String newNickname) {
         Member member = getEmailByMemberId(memberId);
