@@ -71,3 +71,24 @@ export const useFind = async (email: string) => {
     console.error(error);
   }
 };
+
+// 전체상품리스트 불러오기 //////////////////////////////////////////////
+export const getAllItem = async (email: string) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: "http://15.164.84.204:8080/items?page_number=1&page_size=2",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        email: email,
+      },
+    });
+    if (response.status === 200) {
+      // response.data.member_id;
+      // 멤버아이디를 로컬스토리에 저장? 아니면 redux store에 저장?
+      console.log("비밀번호 찾기 OK");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};

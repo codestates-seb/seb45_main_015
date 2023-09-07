@@ -8,7 +8,6 @@ const ItemListPageContainer = styled.div`
 
   & .listPageCarousel {
     width: 100%;
-    margin: 0 160px 0 160px;
   }
   & .mainListcontainer {
     width: 100%;
@@ -20,6 +19,9 @@ const ItemListPageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media (max-width: 768px) {
+      border: none;
+    }
   }
   & .content {
     width: 100%;
@@ -32,13 +34,13 @@ const ItemListPageContainer = styled.div`
     @media (min-width: 0px) {
       grid-template-columns: repeat(1, auto);
     }
-    @media (min-width: 260px) {
+    @media (min-width: 425px) {
       grid-template-columns: repeat(2, auto);
     }
-    @media (min-width: 530px) {
-      grid-template-columns: repeat(2, auto);
+    @media (min-width: 1210px) {
+      grid-template-columns: repeat(3, auto);
     }
-    @media (min-width: 1050px) {
+    @media (min-width: 1485px) {
       grid-template-columns: repeat(4, auto);
     }
   }
