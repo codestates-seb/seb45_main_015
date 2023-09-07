@@ -1,14 +1,14 @@
 import {
   Container,
-  ContentsPart,
-  FooterContent,
-  Logo,
-  LogoWrapper,
-  Text,
-  TextContainer,
-  TextSection,
-  TextWrapper,
-  Theme,
+  // ContentsPart,
+  // FooterContent,
+  // Logo,
+  // LogoWrapper,
+  // Text,
+  // TextContainer,
+  // TextSection,
+  // TextWrapper,
+  // Theme,
 } from "./components_style/Footer.styled_styled";
 
 const member = {
@@ -25,42 +25,7 @@ const member = {
 };
 
 function Footer() {
-  return (
-    <Container>
-      <FooterContent>
-        <LogoWrapper>
-          <Logo />
-        </LogoWrapper>
-        <TextContainer>
-          <Theme>BlackList 팀원</Theme>
-          <ContentsPart>
-            <TextSection>
-              {member.BE.map(member => (
-                <TextWrapper key={member.name}>
-                  <Text>{member.name}</Text>
-                </TextWrapper>
-              ))}
-            </TextSection>
-            <TextSection>
-              {member.FE.map(member => (
-                <TextWrapper key={member.name}>
-                  <Text>{member.name}</Text>
-                </TextWrapper>
-              ))}
-            </TextSection>
-          </ContentsPart>
-        </TextContainer>
-        <TextContainer className="footer-git">
-          <TextSection>
-            <Theme>깃허브</Theme>
-            <TextWrapper>
-              <a>https://github.com/</a>
-            </TextWrapper>
-          </TextSection>
-        </TextContainer>
-      </FooterContent>
-    </Container>
-  );
+  return <Container></Container>;
 }
 
 export default Footer;
