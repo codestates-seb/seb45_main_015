@@ -5,7 +5,7 @@ export const Container = styled.div`
   height: 383px;
   margin: 25px 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: 970px) {
     & {
       width: 167px;
       height: 242px;
@@ -25,7 +25,7 @@ export const ImgContainer = styled.div`
   border: solid 1px #b1b5c3;
   border-radius: 20px 20px 0 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: 970px) {
     & {
       height: 114px;
       font-size: 56px;
@@ -50,7 +50,7 @@ export const Icon = styled.button`
     color: #d32f2f;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 970px) {
     & {
       height: 114px;
       font-size: 28px;
@@ -65,7 +65,7 @@ export const InfoContainer = styled.div`
   border: solid 1px #b1b5c3;
   border-radius: 0 0 20px 20px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 970px) {
     & {
       height: 128px;
       font-size: 56px;
@@ -86,7 +86,7 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   margin-top: 10px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 970px) {
     & {
       margin-top: 5px;
     }
@@ -117,7 +117,7 @@ export const Text = styled.p`
     font-size: 14px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 970px) {
     & {
       font-size: 14px;
     }
