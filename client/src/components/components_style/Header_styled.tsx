@@ -122,6 +122,11 @@ export const SearchForm = styled.div`
   background-color: transparent;
   border: solid 1px #777e90;
   border-radius: 45px;
+
+  &:focus-within {
+    background: #ffffff;
+    border: 1px solid #0064ff;
+  }
 `;
 
 export const Search = styled.input`

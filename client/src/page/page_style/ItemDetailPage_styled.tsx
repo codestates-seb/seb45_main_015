@@ -123,22 +123,12 @@ export const Content = styled.div`
     height: auto;
   }
 
+  & button {
+    padding: 10px 0;
+  }
+
   & > button {
     margin-top: 18px;
-    border-radius: 12px;
-    padding: 5px 0;
-    font-weight: bold;
-    border-width: 1px;
-  }
-
-  & > div > button {
-    padding: 5px 0;
-    border-radius: 12px;
-    font-weight: bold;
-  }
-
-  & > div > button:hover {
-    border-width: 1px;
   }
 
   & > div > button:first-of-type {

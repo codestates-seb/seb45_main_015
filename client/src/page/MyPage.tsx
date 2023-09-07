@@ -1,3 +1,4 @@
+import { LargeButtonB } from "../components/ButtonComponent";
 import InputComponent from "../components/InputComponent";
 import {
   Container,
@@ -44,6 +45,9 @@ function MyPage() {
             labelText={"웹 사이트"}
             placeholder={"웹 사이트 URL"}
           />
+        </Section>
+        <Section className="mypage-button-section">
+          <LargeButtonB value="수정하기" />
         </Section>
       </MyPageContainer>
     </Container>

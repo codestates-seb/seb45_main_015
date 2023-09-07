@@ -31,6 +31,17 @@ export const Section = styled.div`
   & > div > input {
     padding: 0 15px;
   }
+
+  &.mypage-button-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    & > button {
+      padding: 10px 0;
+      width: 420px;
+    }
+  }
 `;
 
 export const SubTitle = styled.h2`

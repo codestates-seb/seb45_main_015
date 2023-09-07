@@ -1,3 +1,4 @@
+import { LargeButtonB } from "../components/ButtonComponent";
 import {
   Button,
   ButtonWrapper,
@@ -179,6 +180,9 @@ function RegistrateItemPage() {
             ))}
           </CategoryTagWrapper>
         </RegistrateWrapper>
+        <ButtonWrapper className="registrate-button-wrapper">
+          <LargeButtonB value="등록하기" />
+        </ButtonWrapper>
       </RegistrateContent>
     </Container>
   );
