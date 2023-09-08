@@ -7,7 +7,8 @@ import com.project15.server.exception.GlobalException;
 import com.project15.server.item.entity.Item;
 import com.project15.server.item.entity.ItemStatus;
 import com.project15.server.item.repository.ItemRepository;
-import com.project15.server.item.service.ItemServiceImpl;
+import com.project15.server.member.entity.Member;
+import com.project15.server.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -22,6 +23,8 @@ public class BidServiceImpl implements BidService {
     private final BidRepository bidRepository;
 
     private final ItemRepository itemRepository;
+
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
@@ -79,10 +82,20 @@ public class BidServiceImpl implements BidService {
         }
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void buyNow(Long buyerId, Long itemId) {
-        //TODO: 작업중
-        Item findItem = itemRepository.findWithIdForUpdate(itemId).orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
+        //TODO: 테스트 해야함
+        Item findItem = itemRepository.findWithIdForUpdate(itemId)
+                .orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
 
+        if(!findItem.getStatus().equals(ItemStatus.BIDDING) || findItem.getBuyNowPrice() == null) {
+            throw new GlobalException(ExceptionCode.BUY_NOW_UNAVAILABLE);
+        }
+
+        Member findBuyer = memberRepository.findById(buyerId)
+                .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        findItem.setBuyer(findBuyer);
         findItem.setStatus(ItemStatus.TRADING);
     }
 }
