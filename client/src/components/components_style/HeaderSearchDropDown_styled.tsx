@@ -4,8 +4,6 @@ export const Container = styled.div`
   display: none;
   width: 100%;
   height: 100%;
-  background-color: #00000025;
-  transition: 0.5s ease-out;
 
   @media (max-width: 1024px) {
     & {

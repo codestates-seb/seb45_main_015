@@ -20,6 +20,7 @@ import HeaderDropDown from "./HeaderDropDown";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import HeaderSearchDropDown from "./HeaderSearchDropDown";
+import HeaderHamburgerDropDown from "./HeaderHamburgerDropDown";
 
 const Nav = [
   { page: "둘러보기", router: "/" },
@@ -32,6 +33,7 @@ const dummy = "로그아웃";
 function Header() {
   const [mypagedropDown, setMypageDropDown] = useState(false);
   const [searchdropDown, setSearchDropDown] = useState(false);
+  const [hamburgerdropDown, setHamburgerDropDown] = useState(false);
 
   const handleShowMypageDropDown = () => {
     setMypageDropDown(true);
@@ -43,6 +45,12 @@ function Header() {
 
   const handleSearchDropDown = () => {
     setSearchDropDown(!searchdropDown);
+    setHamburgerDropDown(false);
+  };
+
+  const handleHamburgerDropDown = () => {
+    setHamburgerDropDown(!hamburgerdropDown);
+    setSearchDropDown(false);
   };
 
   return (
@@ -72,12 +80,14 @@ function Header() {
             </SearchForm>
           </SearchWrapper>
           <UserWrapper>
-            <Button
-              className="header-icon header-screen-1024px"
-              onClick={handleSearchDropDown}
-            >
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </Button>
+            {!searchdropDown && (
+              <Button
+                className="header-icon header-screen-1024px"
+                onClick={handleSearchDropDown}
+              >
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </Button>
+            )}
             <Button className="header-icon">
               <FontAwesomeIcon icon={faHeart} />
             </Button>
@@ -105,13 +115,17 @@ function Header() {
               </Button>
             )}
             <Button className="header-icon hamburger-icon">
-              <FontAwesomeIcon icon={faBars} />
+              <FontAwesomeIcon
+                icon={faBars}
+                onClick={handleHamburgerDropDown}
+              />
             </Button>
           </HamburgerWrapper>
         </HeaderContent>
         {searchdropDown && (
           <HeaderSearchDropDown handleSearchDropDown={handleSearchDropDown} />
         )}
+        {hamburgerdropDown && <HeaderHamburgerDropDown />}
       </HeaderContainer>
     </Container>
   );
