@@ -121,18 +121,19 @@ export const Content = styled.div`
 
   &.detail-button-content {
     height: auto;
-  }
 
-  & button {
-    padding: 10px 0;
-  }
+    & button {
+      height: 48px;
+      border-radius: 16px;
+    }
 
-  & > button {
-    margin-top: 18px;
-  }
+    & > button {
+      margin-top: 18px;
+    }
 
-  & > div > button:first-of-type {
-    margin-right: 18px;
+    & > div > button:first-of-type {
+      margin-right: 18px;
+    }
   }
 `;
 

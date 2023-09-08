@@ -91,12 +91,12 @@ export const InfoWrapper = styled.div`
 export const ButtonWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  height: 48px;
 
   &.registrate-button-wrapper {
     justify-content: center;
 
     & button {
-      padding: 10px 0;
       width: 420px;
     }
   }
