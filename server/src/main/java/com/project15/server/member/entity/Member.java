@@ -5,6 +5,7 @@ import com.project15.server.audit.Auditable;
 import com.project15.server.bid.entity.Bid;
 import com.project15.server.item.entity.Item;
 import com.project15.server.item.entity.ItemImage;
+import com.project15.server.wish.entity.Wish;
 import lombok.*;
 
 import javax.persistence.*;
@@ -49,4 +50,7 @@ public class Member extends Auditable {
 
     @OneToMany(targetEntity = Bid.class, mappedBy = "buyer")
     private List<Bid> bids = new ArrayList<>();
+
+    @OneToMany(targetEntity = Wish.class, mappedBy = "member")
+    private List<Wish> wishes = new ArrayList<>();
 }
