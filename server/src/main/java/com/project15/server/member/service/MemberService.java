@@ -1,6 +1,7 @@
 package com.project15.server.member.service;
 
 import com.project15.server.member.dto.MemberDto;
+import com.project15.server.member.entity.Authority;
 import com.project15.server.member.repository.MemberRepository;
 import com.project15.server.member.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,8 @@ public class MemberService {
             throw new IllegalArgumentException("이미 사용 중인 이름입니다.");
         }*/
 
-        Member authority = Member.builder()
-                .role("ROLE_USER")
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
                 .build();
 
         Member member = Member.builder()
