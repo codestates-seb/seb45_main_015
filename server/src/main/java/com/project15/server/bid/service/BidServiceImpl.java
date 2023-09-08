@@ -34,7 +34,11 @@ public class BidServiceImpl implements BidService {
                 .findWithIdForUpdate(bid.getItem().getItemId())
                 .orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
 
-        if(findItem.getSeller().getMemberId() == bid.getBuyer().getMemberId()) {
+        if(!findItem.getStatus().equals(ItemStatus.BIDDING)) {
+            throw new GlobalException(ExceptionCode.NOT_ON_AUCTION);
+        }
+
+        if(findItem.getSeller().getMemberId().equals(bid.getBuyer().getMemberId())) {
             throw new GlobalException(ExceptionCode.SELLER_CAN_NOT_BIDDING);
         }
 
@@ -84,7 +88,6 @@ public class BidServiceImpl implements BidService {
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void buyNow(Long buyerId, Long itemId) {
-        //TODO: 테스트 해야함
         Item findItem = itemRepository.findWithIdForUpdate(itemId)
                 .orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
 

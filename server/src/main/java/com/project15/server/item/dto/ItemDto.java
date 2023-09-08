@@ -38,33 +38,6 @@ public class ItemDto {
 
     @Getter
     @Setter
-    public static class SingleResponseDto {
-
-        private String seller_nickname;
-
-        private String status;
-
-        private String title;
-
-        private String content;
-
-        private String end_time;
-
-        private String category;
-
-        private List<String> item_image_urls;
-
-        private int start_price;
-
-        private int bid_unit;
-
-        private int current_price;
-
-        private int buy_now_price;
-    }
-
-    @Getter
-    @Setter
     public static class MultiResponseDto {
 
         private List<ResponseDto> items;
@@ -80,11 +53,17 @@ public class ItemDto {
 
         private String seller_nickname;
 
+        private Long buyer_id;
+
+        private String buyer_nickname;
+
         private Long item_id;
 
         private String status;
 
         private String title;
+
+        private String content;
 
         private String end_time;
 

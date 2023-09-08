@@ -32,7 +32,6 @@ public class BidController {
 
     @PostMapping("/items/buy-now")
     public HttpStatus postBuyNow(@RequestBody BidDto.PostDto postDto) {
-        //TODO: 작업중
         bidService.buyNow(postDto.getBuyer_id(), postDto.getItem_id());
 
         return HttpStatus.OK;

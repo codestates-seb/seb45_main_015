@@ -52,33 +52,6 @@ public class ItemMapper {
         }
     }
 
-    public ItemDto.SingleResponseDto itemToSingleResponseDto(Item item) {
-        if(item == null) {
-            return null;
-        }
-        else {
-            ItemDto.SingleResponseDto responseDto = new ItemDto.SingleResponseDto();
-            responseDto.setSeller_nickname(item.getSeller().getNickname());
-            responseDto.setStatus(item.getStatus().name());
-            responseDto.setTitle(item.getTitle());
-            responseDto.setContent(item.getContent());
-            String endTimeString = item.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            responseDto.setEnd_time(endTimeString);
-            responseDto.setCategory(item.getCategory().getName());
-            responseDto.setItem_image_urls(item.getItemImages()
-                    .stream()
-                    .map(ItemImage::getImageUrl)
-                    .collect(Collectors.toList())
-            );
-            responseDto.setStart_price(item.getStartPrice());
-            responseDto.setBid_unit(item.getBidUnit());
-            responseDto.setCurrent_price(item.getCurrentPrice());
-            responseDto.setBuy_now_price(item.getBuyNowPrice());
-
-            return responseDto;
-        }
-    }
-
     public ItemDto.ResponseDto itemToResponseDto(Item item) {
         if(item == null) {
             return null;
@@ -87,9 +60,14 @@ public class ItemMapper {
             ItemDto.ResponseDto responseDto = new ItemDto.ResponseDto();
             responseDto.setSeller_id(item.getSeller().getMemberId());
             responseDto.setSeller_nickname(item.getSeller().getNickname());
+            if(item.getBuyer() != null) {
+                responseDto.setBuyer_id(item.getBuyer().getMemberId());
+                responseDto.setBuyer_nickname(item.getBuyer().getNickname());
+            }
             responseDto.setItem_id(item.getItemId());
             responseDto.setStatus(item.getStatus().name());
             responseDto.setTitle(item.getTitle());
+            responseDto.setContent(item.getContent());
             String endTimeString = item.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             responseDto.setEnd_time(endTimeString);
             responseDto.setCategory(item.getCategory().getName());
