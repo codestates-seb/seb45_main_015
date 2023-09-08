@@ -53,7 +53,7 @@ public class ItemController {
     public ResponseEntity getItem(@PathVariable("item-id") Long itemId) {
         Item item = itemService.findItem(itemId);
 
-        ItemDto.SingleResponseDto responseDto = itemMapper.itemToSingleResponseDto(item);
+        ItemDto.ResponseDto responseDto = itemMapper.itemToResponseDto(item);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

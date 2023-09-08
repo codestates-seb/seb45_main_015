@@ -67,10 +67,7 @@ public class Item extends Auditable {
     }
 
     public void setBuyer(Member buyer) {
-        Member newBuyer = new Member();
-        newBuyer.setMemberId(buyer.getMemberId());
-
-        this.seller = newBuyer;
+        this.buyer = buyer;
     }
 
     public void setCategory(Long categoryId) {
