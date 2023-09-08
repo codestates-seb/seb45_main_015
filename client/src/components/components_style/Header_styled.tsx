@@ -10,9 +10,21 @@ export const Container = styled.header`
   justify-content: center;
   background-color: #fff;
   width: 100%;
-  height: 75px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   z-index: 1000;
+`;
+
+export const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 1120px;
+  margin: 15px 320px;
+
+  @media (max-width: 768px) {
+    & {
+      margin: 15px 0;
+    }
+  }
 `;
 
 export const HeaderContent = styled.div`
@@ -20,12 +32,11 @@ export const HeaderContent = styled.div`
   align-items: center;
   width: 100%;
   height: 44px;
-  margin: 0 160px;
 
   @media (max-width: 768px) {
     & {
       justify-content: space-between;
-      margin: 0 20px;
+      padding: 0 15px;
     }
   }
 `;
@@ -76,7 +87,13 @@ export const Button = styled.button`
 
   &.header-icon {
     line-height: 0;
+    width: 44px;
+    height: 44px;
     font-size: 22px;
+  }
+
+  &.header-dropdown {
+    cursor: default;
   }
 
   &.header-screen-1024px {
@@ -84,19 +101,20 @@ export const Button = styled.button`
     font-size: 18px;
   }
 
-  &.header-screen-768px {
-    display: none;
-    font-size: 36px;
+  &.search-icon {
+    font-size: 26px;
+    width: 55px;
+    height: 55px;
+  }
+
+  &.hamburger-icon {
+    font-size: 32px;
+    width: 55px;
+    height: 55px;
   }
 
   @media (max-width: 1024px) {
     &.header-screen-1024px {
-      display: block;
-    }
-  }
-
-  @media (max-width: 768px) {
-    &.header-screen-768px {
       display: block;
     }
   }
@@ -122,6 +140,11 @@ export const SearchForm = styled.div`
   background-color: transparent;
   border: solid 1px #777e90;
   border-radius: 45px;
+
+  &:focus-within {
+    background: #ffffff;
+    border: 1px solid #0064ff;
+  }
 `;
 
 export const Search = styled.input`
@@ -156,6 +179,17 @@ export const UserWrapper = styled.div`
   @media (max-width: 768px) {
     & {
       display: none;
+    }
+  }
+`;
+
+export const HamburgerWrapper = styled.div`
+  display: none;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    & {
+      display: flex;
     }
   }
 `;

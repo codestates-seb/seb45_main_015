@@ -116,17 +116,35 @@ export const Content = styled.div`
 
   &.detail-info-content {
     height: 100%;
+    margin-bottom: 18px;
   }
 
   &.detail-button-content {
     height: auto;
+
+    & button {
+      height: 48px;
+      border-radius: 16px;
+    }
+
+    & > button {
+      margin-top: 18px;
+    }
+
+    & > div > button:first-of-type {
+      margin-right: 18px;
+    }
   }
 `;
 
 export const ImgWrapper = styled.div`
-  background-color: #b1b5c3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px #b1b5c3;
   border-radius: 20px;
   overflow: hidden;
+  transition: 0.5s ease-out;
 
   &.detail-main-img {
     width: 100%;
@@ -138,8 +156,13 @@ export const ImgWrapper = styled.div`
     height: 75px;
   }
 
+  &.detail-sub-img:hover {
+    transform: scale(1.2);
+    transition: 0.5s ease-out;
+  }
+
   &:not(:last-child) {
-    margin-right: 5px;
+    margin-right: 10px;
   }
 
   @media (max-width: 1024px) {
@@ -163,14 +186,14 @@ export const ImgListContent = styled.div`
 
 export const ImgList = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   margin: 0 5px;
 `;
 
 export const Img = styled.img`
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 `;
 
 export const Icon = styled.div`
@@ -201,24 +224,5 @@ export const Wrapper = styled.div`
 
   &.detail-moreinfo-wrapper {
     margin-top: 32px;
-  }
-`;
-
-export const Button = styled.button`
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  margin-top: 18px;
-  height: 48px;
-  width: 100%;
-  color: #0064ff;
-  background-color: #fff;
-  border: solid 1px #0064ff;
-  border-radius: 10px;
-
-  &:not(:last-child) {
-    margin-right: 18px;
   }
 `;
