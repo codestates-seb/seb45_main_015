@@ -22,6 +22,8 @@ public interface ItemService {
 
     Page<Item> findItems(int pageNumber, int pageSize, Long categoryId);
 
+    Page<Item> findItems(int pageNumber, int pageSize, String status, Long sellerId);
+
     void updateItem(ItemDto.PatchDto patchDto);
 
     void removeImage(Long itemId, Long memberId, List<String> deleteImageUrls);

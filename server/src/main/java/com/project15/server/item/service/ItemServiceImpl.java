@@ -113,6 +113,18 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public Page<Item> findItems(int pageNumber, int pageSize, String itemStatus, Long sellerId) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
+        Page<Item> itemPage = itemRepository.findByStatus(ItemStatus.valueOf(itemStatus), pageable);
+
+        itemPage.getContent().stream()
+                .filter(item -> isStatusBidding(item.getCreatedAt()) && item.getStatus().equals(ItemStatus.WAITING))
+                .forEach(item -> item.setStatus(ItemStatus.BIDDING));
+
+        return itemPage;
+    }
+
+    @Override
     public void updateItem(ItemDto.PatchDto patchDto) {
         Item findItem = findVerifiedItem(patchDto.getItem_id());
 

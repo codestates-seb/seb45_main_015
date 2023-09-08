@@ -1,6 +1,7 @@
 package com.project15.server.item.repository;
 
 import com.project15.server.item.entity.Item;
+import com.project15.server.item.entity.ItemStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select i from Item AS i where i.id = :itemId")
     Optional<Item> findWithIdForUpdate(@Param("itemId") Long itemId);
+
+    Page<Item> findByStatus(ItemStatus itemStatus, Pageable pageable);
 }

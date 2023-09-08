@@ -88,7 +88,11 @@ public class ItemController {
                                            @RequestParam("item_status") String itemStatus,
                                            @RequestParam("seller_id") Long sellerId) {
         //TODO: 경매 상태별(대기, 경매중, 유찰, 거래중, 거래완료) GET 요청 처리
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        Page<Item> itemPage = itemService.findItems(pageNumber, pageSize, itemStatus, sellerId);
+
+        ItemDto.MultiResponseDto multiResponseDto = itemMapper.itemPageToMultiResponseDto(itemPage);
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
     //물품 등록 후 5분 이내 물품 정보 수정
