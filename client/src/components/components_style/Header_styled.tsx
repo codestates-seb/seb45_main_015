@@ -17,7 +17,7 @@ export const Container = styled.header`
 export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 1120px;
   margin: 15px 320px;
 
   @media (max-width: 768px) {
