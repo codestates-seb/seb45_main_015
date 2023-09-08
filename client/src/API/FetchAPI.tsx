@@ -87,7 +87,7 @@ export const getItem = async (Url: string) => {
   }
 };
 
-/*----------상세페이지데이터----------*/
+// 상세페이지데이터 //////////////////////////////////////////////
 export const fetchItemDetail = async (itemId: number) => {
   try {
     const response = await axios.get(
