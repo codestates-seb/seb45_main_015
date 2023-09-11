@@ -20,6 +20,7 @@ public class Item extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
     private Long itemId;
 
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
