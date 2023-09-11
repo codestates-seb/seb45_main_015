@@ -4,6 +4,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import com.project15.server.exception.ExceptionCode;
 import com.project15.server.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,7 @@ public class S3ServiceImpl implements S3Service {
         //업로드되는 이미지의 MIME 유형 설정
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType("image/" + imageType);
+        objectMetadata.setContentLength(image.getSize());
 
         try {
             PutObjectResult putObjectResult = amazonS3 //Amazon S3의 putObject 메서드를 호출하여 이미지를 업로드

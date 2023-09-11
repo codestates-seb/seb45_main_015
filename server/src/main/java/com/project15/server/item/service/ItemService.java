@@ -12,11 +12,11 @@ import java.util.List;
 @Service
 public interface ItemService {
 
-    void createImage(Long itemId, List<MultipartFile> images);
+    ItemDto.ResponseDto createImage(Long itemId, List<MultipartFile> images);
 
     void createItem(Item item, int endTime);
 
-    Item findItem(Long itemId);
+    ItemDto.ResponseDto findItem(Long itemId);
 
     Page<Item> findItems(int pageNumber, int pageSize);
 
@@ -24,7 +24,7 @@ public interface ItemService {
 
     Page<Item> findItems(int pageNumber, int pageSize, String status, Long sellerId);
 
-    void updateItem(ItemDto.PatchDto patchDto);
+    ItemDto.ResponseDto updateItem(ItemDto.PatchDto patchDto, Long itemId);
 
     void removeImage(Long itemId, Long memberId, List<String> deleteImageUrls);
 

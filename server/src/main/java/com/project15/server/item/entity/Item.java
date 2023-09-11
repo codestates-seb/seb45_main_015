@@ -1,5 +1,9 @@
 package com.project15.server.item.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.project15.server.audit.Auditable;
 import com.project15.server.bid.entity.Bid;
 import com.project15.server.category.entity.Category;
@@ -47,6 +51,8 @@ public class Item extends Auditable {
     private String content;
 
     //createdAt과 합산하여 만료일을 계산
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDateTime endTime;
 
     private int startPrice;
@@ -80,5 +86,10 @@ public class Item extends Auditable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "item_" + itemId;
     }
 }

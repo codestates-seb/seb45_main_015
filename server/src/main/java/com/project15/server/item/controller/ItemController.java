@@ -26,7 +26,6 @@ public class ItemController {
     private final ItemServiceImpl itemService;
 
     //경매 물품(이미제 제외) 등록
-    //@Cacheable
     @PostMapping
     public HttpStatus postItem(@RequestBody @Valid ItemDto.PostDto postDto) {
         Item item = itemMapper.postDtoToItem(postDto);
@@ -37,7 +36,6 @@ public class ItemController {
     }
 
     //경매 물품의 이미지 등록
-    //@Cacheable
     @PostMapping("/{item-id}/images")
     public HttpStatus postImage(@PathVariable("item-id") Long itemId,
                                 @RequestPart(value = "image", required = false) List<MultipartFile> images) {
@@ -48,12 +46,9 @@ public class ItemController {
     }
 
     //경매 물품 상세 페이지
-    //@Cacheable
     @GetMapping("/{item-id}")
     public ResponseEntity getItem(@PathVariable("item-id") Long itemId) {
-        Item item = itemService.findItem(itemId);
-
-        ItemDto.ResponseDto responseDto = itemMapper.itemToResponseDto(item);
+        ItemDto.ResponseDto responseDto = itemService.findItem(itemId);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
@@ -87,7 +82,6 @@ public class ItemController {
                                            @RequestParam("page_size") int pageSize,
                                            @RequestParam("item_status") String itemStatus,
                                            @RequestParam("seller_id") Long sellerId) {
-        //TODO: 경매 상태별(대기, 경매중, 유찰, 거래중, 거래완료) GET 요청 처리
         Page<Item> itemPage = itemService.findItems(pageNumber, pageSize, itemStatus, sellerId);
 
         ItemDto.MultiResponseDto multiResponseDto = itemMapper.itemPageToMultiResponseDto(itemPage);
@@ -99,7 +93,7 @@ public class ItemController {
     //추가한 이미지는 postImage 요청, 삭제된 이미지는 deleteImage 요청
     @PatchMapping
     public HttpStatus patchItem(@RequestBody ItemDto.PatchDto patchDto) {
-        itemService.updateItem(patchDto);
+        itemService.updateItem(patchDto, patchDto.getItem_id());
 
         return HttpStatus.OK;
     }

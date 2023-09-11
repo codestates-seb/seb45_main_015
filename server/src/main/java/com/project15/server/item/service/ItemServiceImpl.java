@@ -13,6 +13,9 @@ import com.project15.server.item.repository.ItemRepository;
 import com.project15.server.item.entity.ItemImage;
 import com.project15.server.s3.service.S3ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,8 +47,9 @@ public class ItemServiceImpl implements ItemService{
     private final ItemImageRepository itemImageRepository;
 
     @Override
-    public void createImage(Long itemId, List<MultipartFile> images) {
-        findVerifiedItem(itemId);
+    @CachePut(value = "itemCache", key = "#itemId", cacheManager = "cacheManager")
+    public ItemDto.ResponseDto createImage(Long itemId, List<MultipartFile> images) {
+        Item findItem = findVerifiedItem(itemId);
 
         //file(image)을 S3에 저장하면서 저장된 주소(URL)를 생성
         List<String> urlList = images
@@ -59,6 +63,8 @@ public class ItemServiceImpl implements ItemService{
                 .collect(Collectors.toList());
 
         itemImages.forEach(itemImageRepository::save);
+
+        return itemMapper.itemToResponseDto(findItem);
     }
 
     @Override
@@ -79,13 +85,14 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public Item findItem(Long itemId) {
+    @Cacheable(value = "itemCache", key = "#itemId", cacheManager = "cacheManager")
+    public ItemDto.ResponseDto findItem(Long itemId) {
         Item findItem = findVerifiedItem(itemId);
         if(isStatusBidding(findItem.getCreatedAt()) && findItem.getStatus().equals(ItemStatus.WAITING)) {
             findItem.setStatus(ItemStatus.BIDDING);
         }
 
-        return findItem;
+        return itemMapper.itemToResponseDto(findItem);
     }
 
     @Override
@@ -115,7 +122,7 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public Page<Item> findItems(int pageNumber, int pageSize, String itemStatus, Long sellerId) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
-        Page<Item> itemPage = itemRepository.findByStatus(ItemStatus.valueOf(itemStatus), pageable);
+        Page<Item> itemPage = itemRepository.findBySellerMemberIdAndStatus(sellerId, ItemStatus.valueOf(itemStatus), pageable);
 
         itemPage.getContent().stream()
                 .filter(item -> isStatusBidding(item.getCreatedAt()) && item.getStatus().equals(ItemStatus.WAITING))
@@ -125,38 +132,42 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public void updateItem(ItemDto.PatchDto patchDto) {
+    @CachePut(value = "itemCache", key = "#itemId", cacheManager = "cacheManager")
+    public ItemDto.ResponseDto updateItem(ItemDto.PatchDto patchDto, Long itemId) {
         Item findItem = findVerifiedItem(patchDto.getItem_id());
 
         //신청자가 글 작성자인지 확인
-        if(!findItem.getSeller().getMemberId().equals(patchDto.getSeller_id())) {
+        if (!findItem.getSeller().getMemberId().equals(patchDto.getSeller_id())) {
             throw new GlobalException(ExceptionCode.SELLER_MISS_MATCH);
         }
 
         LocalDateTime currentTime = LocalDateTime.now();
-        if(findItem.getStatus().equals(ItemStatus.WAITING) && currentTime.isBefore(findItem.getEndTime())) {
-            Optional.ofNullable(patchDto.getTitle()).ifPresent(findItem::setTitle);
-            Optional.ofNullable(patchDto.getContent()).ifPresent(findItem::setContent);
-
-            if(patchDto.getCategory_id() != null) {
-                Category category = categoryService.findVerifiedCategory(patchDto.getCategory_id());
-                findItem.setCategory(category);
-            }
-            if(patchDto.getEnd_time() != null) {
-                LocalDateTime endTime;
-                if(patchDto.getEnd_time() < 10) {
-                    endTime = findItem.getCreatedAt().plusDays(patchDto.getEnd_time());
-                }
-                else {
-                    endTime = findItem.getCreatedAt().plusSeconds(patchDto.getEnd_time());
-                }
-                findItem.setEndTime(endTime);
-            }
-
-            Optional.ofNullable(patchDto.getStart_price()).ifPresent(findItem::setStartPrice);
-            Optional.ofNullable(patchDto.getBid_unit()).ifPresent(findItem::setBidUnit);
-            findItem.setBuyNowPrice(patchDto.getBuy_now_price());
+        if (!findItem.getStatus().equals(ItemStatus.WAITING) || currentTime.isAfter(findItem.getEndTime())) {
+            throw new GlobalException(ExceptionCode.NOT_IN_WAITING);
         }
+
+        Optional.ofNullable(patchDto.getTitle()).ifPresent(findItem::setTitle);
+        Optional.ofNullable(patchDto.getContent()).ifPresent(findItem::setContent);
+
+        if (patchDto.getCategory_id() != null) {
+            Category category = categoryService.findVerifiedCategory(patchDto.getCategory_id());
+            findItem.setCategory(category);
+        }
+        if (patchDto.getEnd_time() != null) {
+            LocalDateTime endTime;
+            if (patchDto.getEnd_time() < 10) {
+                endTime = findItem.getCreatedAt().plusDays(patchDto.getEnd_time());
+            } else {
+                endTime = findItem.getCreatedAt().plusSeconds(patchDto.getEnd_time());
+            }
+            findItem.setEndTime(endTime);
+        }
+
+        Optional.ofNullable(patchDto.getStart_price()).ifPresent(findItem::setStartPrice);
+        Optional.ofNullable(patchDto.getBid_unit()).ifPresent(findItem::setBidUnit);
+        findItem.setBuyNowPrice(patchDto.getBuy_now_price());
+
+        return itemMapper.itemToResponseDto(findItem);
     }
 
     @Override
@@ -183,6 +194,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    @CacheEvict(value = "itemCache", key = "#itemId", cacheManager = "cacheManager")
     public void removeItem(Long itemId, Long sellerId) {
         Item findItem = findVerifiedItem(itemId);
 

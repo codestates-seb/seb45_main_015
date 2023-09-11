@@ -31,14 +31,12 @@ public class RedisConfig {
         return new LettuceConnectionFactory(redisHost, redisPort);
     }
 
-    @SuppressWarnings("deprecation")
     @Bean
     public CacheManager cacheManager() {
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory());
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
-                .prefixKeysWith("Bids:") // Key Prefix로 "Bids:"를 앞에 붙여 저장
-                .entryTtl(Duration.ofMinutes(30)); // 캐시 수명 30분
+                .entryTtl(Duration.ofMinutes(5L)); // 캐시 수명 5분
         builder.cacheDefaults(configuration);
         return builder.build();
     }
