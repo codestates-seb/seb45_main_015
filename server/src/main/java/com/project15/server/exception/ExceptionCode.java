@@ -25,5 +25,6 @@ public enum ExceptionCode {
     BID_UNIT_INVALID,
     SELLER_CAN_NOT_BIDDING,
     BUY_NOW_UNAVAILABLE,
-    NOT_ON_AUCTION
+    NOT_ON_AUCTION,
+    NOT_IN_WAITING
 }
