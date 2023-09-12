@@ -87,6 +87,23 @@ export const getItem = async (Url: string) => {
   }
 };
 
+// 상세페이지데이터 //////////////////////////////////////////////
+export const fetchItemDetail = async (itemId: number) => {
+  try {
+    const response = await axios.get(
+      `http://15.164.84.204:8080/items/${itemId}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 // 카테고리 불러오기 //////////////////////////////////////////////
 export const getCategory = async () => {
   try {

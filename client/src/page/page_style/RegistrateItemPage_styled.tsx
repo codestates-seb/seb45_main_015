@@ -49,6 +49,11 @@ export const InputWrapper = styled.div`
   &.budding-unit-field {
     width: calc((100% - 36px) / 2);
   }
+
+  &:focus-within {
+    background: #ffffff;
+    outline: 2px solid #0064ff;
+  }
 `;
 
 export const TextInput = styled.input`
@@ -86,6 +91,15 @@ export const InfoWrapper = styled.div`
 export const ButtonWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  height: 48px;
+
+  &.registrate-button-wrapper {
+    justify-content: center;
+
+    & button {
+      width: 420px;
+    }
+  }
 `;
 
 export const Button = styled.button`
