@@ -12,6 +12,7 @@ const tradeApi = axios.create({
   },
 });
 
+
 // 로그인 ////////////////////////////////////////////
 export const useLogin = async (data: LoginData) => {
   const response = await tradeApi.post("/members/login", data);
@@ -56,7 +57,6 @@ export const getItem = async (Url: string) => {
     const response = await axios({
       method: "get",
       url: Url,
-      headers: { "Content-Type": "application/json" },
     });
     const data = response.data;
     return data;
@@ -65,70 +65,83 @@ export const getItem = async (Url: string) => {
   }
 };
 
-//
-//
-// 로그인 ////////////////////////////////////////////
-// export const useLogin = async (data: LoginData) => {
-//   try {
-//     const response = await axios({
-//       method: "post",
-//       url: "http://15.164.84.204:8080/members/login",
-//       headers: { "Content-Type": "application/json" },
-//       data: {
-//         email: data.email,
-//         password: data.password,
-//       },
-//     });
-//     if (response.status === 200) {
-//       console.log("로그인 성공");
-//       // 멤버아이디저장코드
-//       console.log(`서버:${response.data} `);
-//     }
-//   } catch (error) {
-//     console.error("로그인 실패");
-//   }
-// };
 
-// 회원가입 ////////////////////////////////////////////
-// export const useSignup = async (data: SignupData) => {
-//   try {
-//     const response = await axios({
-//       method: "post",
-//       url: "http://15.164.84.204:8080/members/signup",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       data: {
-//         nickname: data.nickname,
-//         email: data.email,
-//         password: data.password,
-//       },
-//     });
-//     if (response.status === 200) {
-//       console.log("회원가입 성공");
-//     }
-//   } catch (error) {
-//     console.error("회원가입 실패");
-//   }
-// };
+// 상세페이지데이터 //////////////////////////////////////////////
+export const fetchItemDetail = async (itemId: number) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://15.164.84.204:8080/items/${itemId}`,
+      headers: { "Content-Type": "application/json" },
+    });
 
-// 비밀번호 찾기 이메일 입력 ////////////////////////////////////////
-// export const useFind = async (data: FindPWData) => {
-//   try {
-//     const response = await axios({
-//       method: "get",
-//       url: "http://15.164.84.204:8080/members/",
-//       headers: { "Content-Type": "application/json" },
-//       data: {
-//         email: data.email,
-//       },
-//     });
-//     if (response.status === 200) {
-//       // response.data.member_id;
-//       // 멤버아이디를 로컬스토리에 저장? 아니면 redux store에 저장?
-//       console.log("비밀번호 찾기 OK");
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 상품등록 //////////////////////////////////////////////
+export const postRegistrateItem = async (
+  seller_id: string,
+  title: string,
+  content: string,
+  auction_time: number,
+  category_id: number,
+  start_price: number,
+  bid_unit: number,
+  buy_now_price: number,
+) => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `http://15.164.84.204:8080/items`,
+      headers: { "Content-Type": "application/json" },
+      data: {
+        seller_id,
+        title,
+        content,
+        auction_time,
+        category_id,
+        start_price,
+        bid_unit,
+        buy_now_price,
+      },
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 카테고리 불러오기 //////////////////////////////////////////////
+export const getCategory = async () => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: "http://15.164.84.204:8080/categories?page_number=1&page_size=16",
+    });
+    const data = response.data.categories;
+    return data;
+  } catch (error) {
+    alert(`데이터 불러오기를 실패했습니다.${error}`);
+  }
+};
+
+// 찜목록 추가하기 /////////////////////////////////////////////////////////
+export const postItem = async (itemId: number, memberId: number) => {
+  try {
+    const request = await axios({
+      method: "post",
+      url: `http://15.164.84.204:8080/items/${itemId}/favorites/${memberId}`,
+    });
+  } catch (error) {
+    alert(`데이터 불러오기를 실패했습니다.${error}`);
+  }
+};
+

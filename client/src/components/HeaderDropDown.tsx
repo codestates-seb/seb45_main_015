@@ -11,12 +11,13 @@ import {
   UserName,
   Wrapper,
 } from "./components_style/HeaderDropDown_styled";
+import { Link } from "react-router-dom";
 
 const nav = [
   {
     page: "마이페이지",
     icon: <FontAwesomeIcon icon={faUser} />,
-    router: "/",
+    router: "/mypage",
   },
   {
     page: "로그아웃",
@@ -27,14 +28,16 @@ const nav = [
 
 function HeaderDropDown() {
   return (
-    <DropDown className="none">
+    <DropDown>
       <Container>
-        <UserName>사용자 이름</UserName>
+        <UserName>(사용자 이름) 님</UserName>
         {nav.map(item => (
-          <Wrapper key={item.page}>
-            <Icon>{item.icon}</Icon>
-            <Text>{item.page}</Text>
-          </Wrapper>
+          <Link to={item.router} key={item.page}>
+            <Wrapper>
+              <Icon>{item.icon}</Icon>
+              <Text>{item.page}</Text>
+            </Wrapper>
+          </Link>
         ))}
       </Container>
       <Decoration />

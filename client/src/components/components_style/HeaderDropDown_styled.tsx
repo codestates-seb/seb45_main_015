@@ -4,12 +4,10 @@ import styled from "styled-components";
 export const DropDown = styled.div`
   position: absolute;
   overflow: visible;
-  margin-top: 5px;
+  margin-top: 10px;
   margin-left: -212px;
-
-  &.none {
-    display: none;
-  }
+  width: 256px;
+  height: 20px;
 `;
 
 export const Decoration = styled.div`
@@ -34,9 +32,9 @@ export const Container = styled.div`
 
 export const UserName = styled.h2`
   display: flex;
-  font-size: 24px;
+  font-size: 18px;
   margin: 0;
-  margin-bottom: 8px;
+  margin-bottom: 24px;
   font-weight: bold;
   color: #23262f;
 `;

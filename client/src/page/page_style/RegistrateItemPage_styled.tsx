@@ -49,6 +49,11 @@ export const InputWrapper = styled.div`
   &.budding-unit-field {
     width: calc((100% - 36px) / 2);
   }
+
+  &:focus-within {
+    background: #ffffff;
+    outline: 2px solid #0064ff;
+  }
 `;
 
 export const TextInput = styled.input`
@@ -58,7 +63,12 @@ export const TextInput = styled.input`
   padding: 0;
   background-color: transparent;
   border-style: none;
-  margin: 0 15px;
+  margin: 0 10px;
+
+  &.registrate-price {
+    text-align: right;
+    margin: 0 1px;
+  }
 `;
 
 export const Text = styled.p`
@@ -86,6 +96,15 @@ export const InfoWrapper = styled.div`
 export const ButtonWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+
+  &.registrate-button-wrapper {
+    justify-content: center;
+    height: 48px;
+
+    & button {
+      width: 420px;
+    }
+  }
 `;
 
 export const Button = styled.button`
@@ -100,7 +119,8 @@ export const Button = styled.button`
   height: 40px;
   padding: 0 20px;
 
-  &:hover {
+  &:hover,
+  &.selected {
     background-color: #0064ff;
     color: #fff;
     border-color: #0064ff;
@@ -123,12 +143,6 @@ export const Button = styled.button`
     background-color: #0064ff;
     color: #fff;
     border-color: #0064ff;
-
-    &:hover {
-      background-color: #fff;
-      color: #2a2a2a;
-      border-color: #b1b5c3;
-    }
   }
 `;
 
@@ -161,6 +175,7 @@ export const SeletedCategoryTagWrapper = styled.div`
   flex-wrap: wrap;
   border: solid 1px #b1b5c3;
   border-radius: 6px;
+  min-height: 52px;
   padding-top: 5px;
   padding-right: 5px;
   margin-bottom: 8px;
