@@ -16,7 +16,7 @@ import {
 } from "./components_style/ButtonComponent_styled";
 
 interface ButtonTypeAProps {
-  onClick: () => void;
+  onClick?: () => void;
   value: string;
 }
 
