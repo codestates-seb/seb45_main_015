@@ -6,6 +6,8 @@ const ItemListPageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  @media (max-width: 1209px) {
+  }
 
   & .listPageCarousel {
     width: 100%;
@@ -13,6 +15,9 @@ const ItemListPageContainer = styled.div`
   & .mainListcontainer {
     width: 100%;
     display: flex;
+    @media (max-width: 1209px) {
+      flex-direction: column;
+    }
   }
   & .contentWrap {
     width: 100%;
@@ -57,7 +62,7 @@ const ItemListPageContainer = styled.div`
   }
   & .moreButton {
     width: 340px;
-    height: 50px;
+    height: 48px;
     margin-top: 100px;
   }
 `;

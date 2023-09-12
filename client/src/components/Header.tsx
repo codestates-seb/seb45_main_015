@@ -18,7 +18,7 @@ import HeaderDropDown from "./HeaderDropDown";
 import { Link } from "react-router-dom";
 
 const Nav = [
-  { page: "둘러보기", router: "/" },
+  { page: "둘러보기", router: "/allList" },
   { page: "상품등록", router: "/registrate" },
   { page: "나의거래", router: "/mytrade" },
 ];
@@ -56,7 +56,9 @@ function Header() {
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </Button>
           <Button className="header-icon">
-            <FontAwesomeIcon icon={faHeart} />
+            <Link to="/favorite">
+              <FontAwesomeIcon icon={faHeart} />
+            </Link>
           </Button>
           <Button className="header-icon">
             <FontAwesomeIcon icon={faUser} />

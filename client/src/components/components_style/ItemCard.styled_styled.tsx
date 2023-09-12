@@ -52,6 +52,9 @@ export const Icon = styled.button`
   &.favorite-on {
     color: #d32f2f;
   }
+  &.favorite-off {
+    color: #d7d7d8;
+  }
 
   @media (max-width: 1209px) {
     & {
@@ -119,7 +122,10 @@ export const Text = styled.p`
   &.itemCard-product-value {
     font-size: 14px;
   }
-
+  &.card-date {
+    font-size: 13px;
+    margin-top: -2px;
+  }
   @media (max-width: 1209px) {
     & {
       font-size: 14px;
@@ -131,6 +137,9 @@ export const Text = styled.p`
 
     &.itemCard-product-value {
       font-size: 11px;
+    }
+    &.card-date {
+      font-size: 10px;
     }
   }
 `;
