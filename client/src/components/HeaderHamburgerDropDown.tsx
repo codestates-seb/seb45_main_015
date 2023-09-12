@@ -9,27 +9,27 @@ function HeaderHamburgerDropDown() {
   return (
     <Container>
       <HamburgerContainer>
-        <Link to="/allList">
-          <Button>둘러보기</Button>
-        </Link>
-        <Link to="/registrate">
-          <Button>상품등록</Button>
-        </Link>
-        <Link to="/mytrade">
-          <Button>나의거래</Button>
-        </Link>
-        <Link to="/favorite">
-          <Button>찜목록</Button>
-        </Link>
-        <Link to="/mypage">
-          <Button>마이페이지</Button>
-        </Link>
-        <Link to="/">
-          <Button>로그아웃</Button>
-        </Link>
-        <Link to="/login">
-          <Button>로그인</Button>
-        </Link>
+        <Button>
+          <Link to="/allList">둘러보기</Link>
+        </Button>
+        <Button>
+          <Link to="/registrate">상품등록</Link>
+        </Button>
+        <Button>
+          <Link to="/mytrade">나의거래</Link>
+        </Button>
+        <Button>
+          <Link to="/favorite">찜목록</Link>
+        </Button>
+        <Button>
+          <Link to="/mypage">마이페이지</Link>
+        </Button>
+        <Button>
+          <Link to="/">로그아웃</Link>
+        </Button>
+        <Button>
+          <Link to="/login">로그인</Link>
+        </Button>
       </HamburgerContainer>
     </Container>
   );
