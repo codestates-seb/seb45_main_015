@@ -18,7 +18,7 @@ function HeaderHamburgerDropDown() {
         <Link to="/mytrade">
           <Button>나의거래</Button>
         </Link>
-        <Link to="/">
+        <Link to="/favorite">
           <Button>찜목록</Button>
         </Link>
         <Link to="/mypage">
