@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import { FindPWData, LoginData, SignupData, ChangePWData } from "../type/type";
 
 const BASE_URL = "http://15.164.84.204:8080";
@@ -6,18 +7,23 @@ const BASE_URL = "http://15.164.84.204:8080";
 // Axios Instance
 const tradeApi = axios.create({
   baseURL: BASE_URL,
-  // timeout: 2000,
   headers: {
     "Content-Type": "application/json",
+    Authorization: localStorage.getItem("token"),
   },
 });
 
 // 로그인 ////////////////////////////////////////////
 export const useLogin = async (data: LoginData) => {
   const response = await tradeApi.post("/members/login", data);
+
   if (response.status === 200) {
-    localStorage.setItem("memberID", response.data);
-    localStorage.setItem("token", `Bearer ${response.data.token}`);
+    const token: string = response.data.token;
+
+    const memberId = jwtDecode(token);
+
+    localStorage.setItem("token", `Bearer ${token}`);
+    console.log(memberId);
   } else {
     console.log("로그인 실패");
   }
@@ -70,7 +76,9 @@ export const fetchItemDetail = async (itemId: number) => {
     const response = await axios({
       method: "get",
       url: `http://15.164.84.204:8080/items/${itemId}`,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     if (response.status === 200) {
