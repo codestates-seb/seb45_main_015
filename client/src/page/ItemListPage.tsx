@@ -36,7 +36,7 @@ const ItemListPage: React.FC = () => {
         );
         setIsData(result.items);
       } catch (error) {
-        alert(`데이터 불러오기를 실패했습니다.${error}`);
+        console.log(`데이터 불러오기를 실패했습니다.${error}`);
       }
     };
 

@@ -56,6 +56,10 @@ export const useChange = async (data: ChangePWData) => {
   return response.data;
 };
 
+const headers = {
+  Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0NUBuYXZlci5jb20iLCJhdXRoIjoiIiwiZXhwIjoxNjk0NTEzMzI4fQ.ShpgEv4M30gQLd5QEE6VZQuE04zMJCdU5Cf0JLeztRq0Ijq8GxK_lcbCip9q3EDAfChRjIgQQ21OVOtklc2fbA`,
+  "Content-Type": "application/json",
+};
 // 상품리스트 불러오기 //////////////////////////////////////////////
 export const getItem = async (Url: string) => {
   try {
@@ -66,7 +70,7 @@ export const getItem = async (Url: string) => {
     const data = response.data;
     return data;
   } catch (error) {
-    alert(`데이터 불러오기를 실패했습니다.${error}`);
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
 };
 
@@ -135,7 +139,7 @@ export const getCategory = async () => {
     const data = response.data.categories;
     return data;
   } catch (error) {
-    alert(`데이터 불러오기를 실패했습니다.${error}`);
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
 };
 
@@ -147,6 +151,6 @@ export const postItem = async (itemId: number, memberId: number) => {
       url: `http://15.164.84.204:8080/items/${itemId}/favorites/${memberId}`,
     });
   } catch (error) {
-    alert(`데이터 불러오기를 실패했습니다.${error}`);
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
 };
