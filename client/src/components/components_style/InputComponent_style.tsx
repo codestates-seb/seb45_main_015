@@ -20,6 +20,7 @@ export const Input = styled.input`
   border-radius: 6px;
   border: none;
   background-color: ${globalTokens.Input.default.value};
+  padding-left: 10px;
 
   & > ::placeholder {
     font-size: 15px;

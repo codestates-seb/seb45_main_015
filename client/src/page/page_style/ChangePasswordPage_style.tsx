@@ -70,43 +70,24 @@ export const ChangePasswordFormItem = styled.div`
   }
   @media (max-width: 1250px) and (min-width: 1240px) {
     .password-convention {
-      bottom: 55px;
+      bottom: 60px;
     }
   }
   @media (max-width: 1240px) and (min-width: 1025px) {
     .password-convention {
-      bottom: 57px;
+      bottom: 60px;
     }
   }
 
   @media (max-width: 500px) {
     .password-convention {
-      bottom: 57px;
+      bottom: 60px;
     }
   }
 
-  & > .change-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 48px;
-    color: #ffffff;
-    border: none;
-    border-radius: 90px;
-    background-color: ${globalTokens.Button.default.value};
-    font-size: 17pxrem;
-    font-weight: bold;
+  & > .button-container {
     margin-top: 30px;
-    text-decoration: none;
-  }
-
-  & > .change-btn:hover {
-    width: 100%;
     height: 48px;
-    background-color: #ffffff;
-    color: ${globalTokens.Button.default.value};
-    border: 2px solid ${globalTokens.Button.default.value};
-    cursor: pointer;
+    width: 100%;
   }
 `;

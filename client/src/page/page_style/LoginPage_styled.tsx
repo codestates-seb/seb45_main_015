@@ -68,7 +68,7 @@ export const LoginFormItem = styled.div`
     color: #718096;
     position: absolute;
     right: 0;
-    bottom: 195px;
+    bottom: 205px;
   }
 
   & > .find > a {
@@ -83,31 +83,33 @@ export const LoginFormItem = styled.div`
     padding: 0 24px;
     margin-top: 30px;
   }
+  & > .button-container {
+    margin-top: 30px;
+    height: 116px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-  & > .login-btn,
-  & > .signup-btn {
+  & > .button-container > .signup-btn {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 48px;
+    height: 100%;
     color: #ffffff;
     border: none;
     border-radius: 90px;
     background-color: ${globalTokens.Button.default.value};
-    font-size: 17px;
+    font-size: 21px;
     font-weight: bold;
     text-decoration: none;
   }
 
-  & > .login-btn {
-    margin-top: 20px;
-  }
-
-  & > .login-btn:hover,
-  & > .signup-btn:hover {
+  & > .button-container > .signup-btn:hover {
     width: 100%;
-    height: 48px;
+    height: 100%;
     background-color: #ffffff;
     color: ${globalTokens.Button.default.value};
     border: 2px solid ${globalTokens.Button.default.value};
