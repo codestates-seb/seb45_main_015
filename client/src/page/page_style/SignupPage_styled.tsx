@@ -85,16 +85,16 @@ export const SignupFormItem = styled.div`
     color: #718096;
     position: absolute;
     left: 0;
-    bottom: 135px;
+    bottom: 140px;
   }
-  @media (max-width: 1240px) and (min-width: 1025px) {
+  @media (max-width: 1249px) and (min-width: 1025px) {
     .password-convention {
-      bottom: 120px;
+      bottom: 125px;
     }
   }
   @media (max-width: 500px) {
     .password-convention {
-      bottom: 117px;
+      bottom: 125px;
     }
   }
 
@@ -104,29 +104,9 @@ export const SignupFormItem = styled.div`
     padding: 0 24px;
     margin-top: 30px;
   }
-
-  & > .signup-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  & > .button-container {
+    margin-top: 30px;
     height: 48px;
-    color: #ffffff;
-    border: none;
-    border-radius: 90px;
-    background-color: ${globalTokens.Button.default.value};
-    font-size: 17px;
-    font-weight: bold;
-    margin-top: 20px;
-
-    text-decoration: none;
-  }
-  & > .signup-btn:hover {
     width: 100%;
-    height: 48px;
-    background-color: #ffffff;
-    color: ${globalTokens.Button.default.value};
-    border: 2px solid ${globalTokens.Button.default.value};
-    cursor: pointer;
   }
 `;

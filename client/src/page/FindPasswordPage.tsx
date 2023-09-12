@@ -7,35 +7,43 @@ import {
   FindPasswordFormItem,
   FindPasswordFormContainer,
 } from "./page_style/FindPasswordPage_styled";
-// import { useFind } from "../API/FetchAPI";
+import { useFind } from "../API/FetchAPI";
+import { LargeButtonB } from "../components/ButtonComponent";
 import InputComponent from "../components/InputComponent";
+import { FindPWData } from "../type/type";
 
 const FindPasswordPage: React.FC = () => {
-  const [findEmail, setFindEmail] = useState<string>("");
   const navigator = useNavigate();
+  const [userInfo, setUserInfo] = useState<FindPWData>({
+    email: "",
+  });
+  const [emailMessage, setEmailMessage] = useState("");
+  const [isEmail, setIsEmail] = useState(false);
+
+  const handleFindPWSumbit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    useFind(userInfo);
+  };
 
   return (
     <FindPasswordPageContainer>
       <FindPasswordPageImage />
       <FindPasswordFormDiv>
-        <FindPasswordFormContainer>
+        <FindPasswordFormContainer onSubmit={handleFindPWSumbit}>
           <FindPasswordFormItem>
             <h2>비밀번호 찾기</h2>
             <InputComponent
-              labelText="이메일"
               type="email"
               name="email"
+              labelText="이메일"
               placeholder="이메일을 입력해주세요"
+              stateValue={userInfo}
+              setStateValue={setUserInfo}
+              errorMessage={emailMessage}
             />
-            <button
-              className="next-btn"
-              onClick={e => {
-                e.preventDefault();
-                navigator("/change-password");
-              }}
-            >
-              다음
-            </button>
+            <div className="button-container">
+              <LargeButtonB value="다음" />
+            </div>
           </FindPasswordFormItem>
         </FindPasswordFormContainer>
         <span className="not-have-account">
