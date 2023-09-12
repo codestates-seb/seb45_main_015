@@ -32,8 +32,8 @@ function HeaderDropDown() {
       <Container>
         <UserName>(사용자 이름) 님</UserName>
         {nav.map(item => (
-          <Link to={item.router}>
-            <Wrapper key={item.page}>
+          <Link to={item.router} key={item.page}>
+            <Wrapper>
               <Icon>{item.icon}</Icon>
               <Text>{item.page}</Text>
             </Wrapper>
