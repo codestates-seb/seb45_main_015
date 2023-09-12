@@ -90,12 +90,47 @@ export const getItem = async (Url: string) => {
 // 상세페이지데이터 //////////////////////////////////////////////
 export const fetchItemDetail = async (itemId: number) => {
   try {
-    const response = await axios.get(
-      `http://15.164.84.204:8080/items/${itemId}`,
-      {
-        headers: { "Content-Type": "application/json" },
+    const response = await axios({
+      method: "get",
+      url: `http://15.164.84.204:8080/items/${itemId}`,
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 상품등록 //////////////////////////////////////////////
+export const postRegistrateItem = async (
+  seller_id: string,
+  title: string,
+  content: string,
+  auction_time: number,
+  category_id: number,
+  start_price: number,
+  bid_unit: number,
+  buy_now_price: number,
+) => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `http://15.164.84.204:8080/items`,
+      headers: { "Content-Type": "application/json" },
+      data: {
+        seller_id,
+        title,
+        content,
+        auction_time,
+        category_id,
+        start_price,
+        bid_unit,
+        buy_now_price,
       },
-    );
+    });
 
     if (response.status === 200) {
       return response.data;
