@@ -4,6 +4,7 @@ import com.project15.server.category.dto.CategoryDto;
 import com.project15.server.category.entity.Category;
 import com.project15.server.category.mapper.CategoryMapper;
 import com.project15.server.category.service.CategoryServiceImpl;
+import com.project15.server.member.repository.TokenBlacklistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
