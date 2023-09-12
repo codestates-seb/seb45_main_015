@@ -16,6 +16,7 @@ import {
 } from "./components_style/ButtonComponent_styled";
 
 interface ButtonTypeAProps {
+  onClick: () => void;
   value: string;
 }
 
@@ -45,8 +46,11 @@ export const MediumButtonA: React.FC<ButtonTypeAProps> = ({ value }) => {
   return <MediumButtonTypeA>{value}</MediumButtonTypeA>;
 };
 // Medium,파란배경,radius:90
-export const MediumButtonB: React.FC<ButtonTypeAProps> = ({ value }) => {
-  return <MediumButtonTypeB>{value}</MediumButtonTypeB>;
+export const MediumButtonB: React.FC<ButtonTypeAProps> = ({
+  onClick,
+  value,
+}) => {
+  return <MediumButtonTypeB onClick={onClick}>{value}</MediumButtonTypeB>;
 };
 // Medium,하얀배경,radius:20
 export const MediumButtonC: React.FC<ButtonTypeAProps> = ({ value }) => {

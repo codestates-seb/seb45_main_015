@@ -1,83 +1,94 @@
-// import React from "react";
-// import ItemListPageContainer from "./page_style/itemListPage_styled";
-// import { Link } from "react-router-dom";
-// import MainCategory from "../components/MainCategory";
-// import MyCarousel from "../components/Carousel";
-// import ItemCard from "../components/ItemCard";
-// import { MediumButtonB } from "../components/ButtonComponent";
+import React, { useEffect, useState } from "react";
+import ItemListPageContainer from "./page_style/itemListPage_styled";
+import MainCategory from "../components/MainCategory";
+import { ItemCard } from "../components/ItemCard";
+import { MediumButtonB } from "../components/ButtonComponent";
+import { getItem, getCategory } from "../API/FetchAPI";
+import { useParams, Link } from "react-router-dom";
 
-// const ItemCategoryPage: React.FC = () => {
-//   const carouselItems = [
-//     {
-//       imageUrl:
-//         "https://i.pinimg.com/564x/1c/72/93/1c7293afa416f1a1a51c3c723536bba9.jpg",
-//       caption: "Image 1",
-//     },
-//     {
-//       imageUrl:
-//         "https://i.pinimg.com/564x/6c/b3/3a/6cb33ac0c0a2c5942d007014da8c6c44.jpg",
-//       caption: "Image 2",
-//     },
-//     {
-//       imageUrl:
-//         "https://i.pinimg.com/564x/dd/bf/38/ddbf38f2067578c9da22378a83eaddb3.jpg",
-//       caption: "Image 3",
-//     },
-//   ];
-//   return (
-//     <ItemListPageContainer>
-//       <div className="listPageCarousel">
-//         <MyCarousel items={carouselItems} />
-//       </div>
-//       <div className="mainListcontainer">
-//         <MainCategory />
-//         <div className="contentWrap">
-//           <div className="content">
-//             <h2 className="contenTitle">추천 상품</h2>
-//             <div>
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//             </div>
-//           </div>
-//           <div className="content">
-//             <h2 className="contenTitle">인기 상품</h2>
-//             <div>
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//             </div>
-//           </div>
-//           <div className="content">
-//             <h2 className="contenTitle">전체 상품</h2>
-//             <div>
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//               <ItemCard />
-//             </div>
-//           </div>
-//           <div className="buttontest">
-//             <MediumButtonB value={"더보기"} />
-//           </div>
-//         </div>
-//       </div>
-//     </ItemListPageContainer>
-//   );
-// };
+interface GetItemProperty {
+  member_id: number;
+  member_nickname: string;
+  item_id: number;
+  title: string;
+  end_time: string;
+  category: string;
+  item_image_urls: string[];
+  start_price: number;
+  bid_unit: number;
+  current_price: number;
+  buy_now_price: number;
+}
 
-// export default ItemCategoryPage;
+const CategoryListPage: React.FC = () => {
+  const { id } = useParams();
+  const [isData, setIsData] = useState<any[]>([]);
+  const [page, setPage] = useState<number>(30);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const categoryData = await getCategory();
+        const categoryIdName = categoryData.filter(
+          (el: { id: any; name: string }) => {
+            return el.id == Number(id);
+          },
+        );
+        const result = await getItem(
+          `http://15.164.84.204:8080/items?page_number=1&page_size=${page}`,
+        );
+        setIsData(
+          result.items.filter((el: GetItemProperty) => {
+            return el.category === categoryIdName[0].name;
+          }),
+        );
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        alert(`데이터 불러오기를 실패했습니다.${error}`);
+      }
+    };
+
+    fetchData();
+  }, [page, id]);
+
+  const handleLoadMore = () => {
+    setPage(page + 20);
+  };
+
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
+    <ItemListPageContainer>
+      <div className="mainListcontainer">
+        <MainCategory />
+        <div className="contentWrap">
+          <div className="content">
+            <h2 className="contenTitle">
+              {isData.length > 0 ? isData[0].category : "매물이 없습니다"}
+            </h2>
+            <div>
+              <ul>
+                {isData.map((el, index) => (
+                  <li key={index + 1}>
+                    <ItemCard cardData={el} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="moreButton">
+            {isData.length > 0 ? (
+              <MediumButtonB onClick={handleLoadMore} value={"더보기"} />
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      </div>
+    </ItemListPageContainer>
+  );
+};
+
+export default CategoryListPage;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { idText } from "typescript";
 
 // 로그인 ////////////////////////////////////////////
 export const useLogin = async (email: string, password: string) => {
@@ -78,7 +79,6 @@ export const getItem = async (Url: string) => {
     const response = await axios({
       method: "get",
       url: Url,
-      headers: { "Content-Type": "application/json" },
     });
     const data = response.data;
     return data;
@@ -102,5 +102,30 @@ export const fetchItemDetail = async (itemId: number) => {
     }
   } catch (error) {
     console.error(error);
+  }
+};
+// 카테고리 불러오기 //////////////////////////////////////////////
+export const getCategory = async () => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: "http://15.164.84.204:8080/categories?page_number=1&page_size=16",
+    });
+    const data = response.data.categories;
+    return data;
+  } catch (error) {
+    alert(`데이터 불러오기를 실패했습니다.${error}`);
+  }
+};
+
+// 찜목록 추가하기 /////////////////////////////////////////////////////////
+export const postItem = async (itemId: number, memberId: number) => {
+  try {
+    const request = await axios({
+      method: "post",
+      url: `http://15.164.84.204:8080/items/${itemId}/favorites/${memberId}`,
+    });
+  } catch (error) {
+    alert(`데이터 불러오기를 실패했습니다.${error}`);
   }
 };
