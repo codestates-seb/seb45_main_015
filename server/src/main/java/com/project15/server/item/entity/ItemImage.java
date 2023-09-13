@@ -1,6 +1,5 @@
-package com.project15.server.itemimage.entity;
+package com.project15.server.item.entity;
 
-import com.project15.server.item.entity.Item;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +12,7 @@ public class ItemImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long itemImageId;
+    private Long itemImageId;
 
     @ManyToOne(targetEntity = Item.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
@@ -24,4 +23,11 @@ public class ItemImage {
     private String imageUrl;
 
     private String imageType;
+
+    public void setItem(Long itemId) {
+        Item newItem = new Item();
+        newItem.setItemId(itemId);
+
+        this.item = newItem;
+    }
 }

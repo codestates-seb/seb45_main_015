@@ -1,11 +1,19 @@
 package com.project15.server.item.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.project15.server.audit.Auditable;
-import com.project15.server.itemimage.entity.ItemImage;
+import com.project15.server.bid.entity.Bid;
+import com.project15.server.category.entity.Category;
+import com.project15.server.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.jpa.repository.Lock;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,33 +24,72 @@ public class Item extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long itemId;
+    @Column(name = "item_id")
+    private Long itemId;
 
-//    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_id")
+    private Member seller;
+
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "buyer_id")
+    private Member buyer;
 
     @OneToMany(targetEntity = ItemImage.class, mappedBy = "item")
     private List<ItemImage> itemImages = new ArrayList<>();
 
+    @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(targetEntity = Bid.class, mappedBy = "item")
+    private List<Bid> bids = new ArrayList<>();
+
     private String title;
 
+    @Lob
     private String content;
 
-    private String category;
+    //createdAt과 합산하여 만료일을 계산
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDateTime endTime;
 
-    private String expireDate;
+    private int startPrice;
 
-    private long startPrice;
+    private int bidUnit;
 
-    private long bidUnit;
+    private int currentPrice;
 
-    private long currentPrice;
-
-    private boolean buyNow;
-
-    private long buyNowPrice;
+    private Integer buyNowPrice;
 
     @Enumerated(value = EnumType.STRING)
-    private ItemStatus status = ItemStatus.PROGRESSING;
+    private ItemStatus status = ItemStatus.WAITING;
+
+    public void setSeller(Long sellerId) {
+        Member newSeller = new Member();
+        newSeller.setMemberId(sellerId);
+
+        this.seller = newSeller;
+    }
+
+    public void setBuyer(Member buyer) {
+        this.buyer = buyer;
+    }
+
+    public void setCategory(Long categoryId) {
+        Category newCategory = new Category();
+        newCategory.setCategoryId(categoryId);
+
+        this.category = newCategory;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "item_" + itemId;
+    }
 }

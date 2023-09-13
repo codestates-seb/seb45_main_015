@@ -1,18 +1,21 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/?serverTimezone=Asia/Seoul
-    username:
-    password:
+    url: jdbc:mysql://localhost:3306/project015?serverTimezone=Asia/Seoul
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     properties:
       hibernate:
         show_sql: true
         format_sql: true
     hibernate:
-       ddl-auto: create
-
+      ddl-auto: create
+  cache:
+    type: redis
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 logging:
   level:
     org:
@@ -20,3 +23,19 @@ logging:
         type:
           descriptor:
             sql: trace
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}
+    s3:
+      bucketName: project015-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+jwt:
+  header: Authorization
+  secret: a2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbQ==
+  token-validity-in-seconds: 86400

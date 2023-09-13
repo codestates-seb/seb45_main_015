@@ -1,6 +1,6 @@
 package com.project15.server.chat.entity;
 
-import com.project15.server.member.Member;
+import com.project15.server.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
