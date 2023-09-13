@@ -76,6 +76,17 @@ public class ItemController {
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity getItems(@RequestParam("page_number") int pageNumber,
+                                   @RequestParam("page_size") int pageSize,
+                                   @RequestParam("keyword") String keyword) {
+        Page<Item> itemPage = itemService.findItems(pageNumber, pageSize, keyword);
+
+        ItemDto.MultiResponseDto multiResponseDto = itemMapper.itemPageToMultiResponseDto(itemPage);
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
+    }
+
     //마이페이지의 나의 거래 상태별 목록
     @GetMapping("/status")
     public ResponseEntity getItemsByStatus(@RequestParam("page_number") int pageNumber,

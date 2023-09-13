@@ -22,7 +22,7 @@ public class TokenBlacklistRepository {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    static final String KEY_PREFIX = "memberId_";
+    final String KEY_PREFIX = "memberId_";
 
     public void save(String accessToken, Long memberId) {
         ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();

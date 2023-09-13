@@ -11,6 +11,7 @@ import com.project15.server.item.mapper.ItemMapper;
 import com.project15.server.item.repository.ItemImageRepository;
 import com.project15.server.item.repository.ItemRepository;
 import com.project15.server.item.entity.ItemImage;
+import com.project15.server.item.repository.ItemSpecification;
 import com.project15.server.s3.service.S3ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -20,13 +21,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,6 +51,9 @@ public class ItemServiceImpl implements ItemService{
     private final ItemRepository itemRepository;
 
     private final ItemImageRepository itemImageRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     @CachePut(value = "itemCache", key = "#itemId", cacheManager = "cacheManager")
@@ -129,6 +138,21 @@ public class ItemServiceImpl implements ItemService{
                 .forEach(item -> item.setStatus(ItemStatus.BIDDING));
 
         return itemPage;
+    }
+
+    @Override
+    public Page<Item> findItems(int pageNumber, int pageSize, String keyword) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
+
+        String[] keywordArray = keyword.split(" ");
+
+        List<String> keywords = new ArrayList<>(Arrays.asList(keywordArray));
+
+        keywords.removeIf(String::isEmpty);
+
+        Specification<Item> itemSpecification = ItemSpecification.contentContainsKeywords(keywords);
+
+        return itemRepository.findAll(itemSpecification, pageable);
     }
 
     @Override
