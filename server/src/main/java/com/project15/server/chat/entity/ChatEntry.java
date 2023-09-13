@@ -4,23 +4,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
 
 @Entity
 @Getter @Setter
-public class ChatMessage {
+public class ChatEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long messageId;
 
-    private Long senderId;
+    private Long chatEntryId;
 
-    private String content;
+    private Long memberId;
 
-    //private LocalDateTime createdAt = LocalDateTime.now();
+    //private LocalDateTime deleteAt;
+
 
     @ManyToOne
     @JoinColumn(name = "chat_room_id")
+
     private ChatRoom chatRoom;
 }

@@ -6,36 +6,43 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 public class ChatRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatroomId;
+    private Long chatRoomId;
 
-    private Long sellerId;
+//    private Long buyerId;
+    
 
-    private Long buyerId;
-
-    private String chatroomName;
-
-    private String lastMessage;
-
-    private LocalDateTime createdAt;
+    private Long productId;
 
     @Enumerated(EnumType.STRING)
     private ChatRoomStatus status = ChatRoomStatus.ACTIVATE;
 
-    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_Id")
-    private Member seller;
+   // private LocalDateTime createdAt = LocalDateTime.now();
+
+//    @OneToOne
+//    @JoinColumn(name = "delete_id")
+//    private ChatRoomDelete chatRoomDelete;
+
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private Member seller;
 
     @OneToMany(mappedBy = "chatRoom")
-    private List<ChatMessage> messages;
+
+    private List<ChatMessage> messages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "chatRoom")
+
+    private List<ChatEntry> chatEntryList = new ArrayList<>();
 
 }
