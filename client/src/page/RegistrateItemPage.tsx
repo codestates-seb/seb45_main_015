@@ -66,9 +66,6 @@ function RegistInputForm({
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setButton(e.currentTarget.textContent);
     setData(e.currentTarget.value);
-    if (button !== "직접입력") {
-      setInputValue("");
-    }
   };
 
   return (
@@ -176,14 +173,6 @@ function RegistrateItemPage() {
     subTitle: "입찰 단위",
     description: "입찰 단위를 선택해 주세요.",
     inputType: "number",
-    button: [
-      { value: 1000, btn: "1000원" },
-      { value: 5000, btn: "5000원" },
-      { value: 10000, btn: "10000원" },
-      { value: 5, btn: "5%" },
-      { value: 10, btn: "10%" },
-      { value: 0, btn: "직접입력" },
-    ],
     maxLength: 9,
   };
 

@@ -54,6 +54,12 @@ export const InputWrapper = styled.div`
     background: #ffffff;
     outline: 2px solid #0064ff;
   }
+
+  @media (max-width: 768px) {
+    &.budding-unit-field {
+      width: 100%;
+    }
+  }
 `;
 
 export const TextInput = styled.input`
@@ -90,6 +96,16 @@ export const InfoWrapper = styled.div`
 
   & > div:first-child {
     margin-right: 36px;
+  }
+
+  @media (max-width: 768px) {
+    & {
+      flex-direction: column;
+    }
+
+    & > div:first-child {
+      margin-right: 0;
+    }
   }
 `;
 
