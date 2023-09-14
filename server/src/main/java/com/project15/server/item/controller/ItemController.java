@@ -5,7 +5,6 @@ import com.project15.server.item.entity.Item;
 import com.project15.server.item.mapper.ItemMapper;
 import com.project15.server.item.service.ItemServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,12 +27,12 @@ public class ItemController {
 
     //경매 물품(이미제 제외) 등록
     @PostMapping
-    public HttpStatus postItem(@RequestBody @Valid ItemDto.PostDto postDto) {
+    public ResponseEntity postItem(@RequestBody @Valid ItemDto.PostDto postDto) {
         Item item = itemMapper.postDtoToItem(postDto);
 
-        itemService.createItem(item, postDto.getEnd_time());
+        ItemDto.ResponseDto responseDto = itemService.createItem(item, postDto.getEnd_time());
 
-        return HttpStatus.CREATED;
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     //경매 물품의 이미지 등록
@@ -47,42 +47,42 @@ public class ItemController {
 
     //경매 물품 상세 페이지
     @GetMapping("/{item-id}")
-    public ResponseEntity getItem(@PathVariable("item-id") Long itemId) {
-        ItemDto.ResponseDto responseDto = itemService.findItem(itemId);
+    public ResponseEntity getItem(@PathVariable("item-id") Long itemId,
+                                  @RequestParam("member_id") Long memberId) {
+        ItemDto.ResponseDto responseDto = itemService.findItem(itemId, memberId);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    //경매 물품 전체 목록
+    @GetMapping
+    public ResponseEntity getItems(@RequestParam("page_number") int pageNumber,
+                                   @RequestParam("page_size") int pageSize,
+                                   @RequestParam("member_id") Long memberId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findItems(pageNumber, pageSize, memberId);
+
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
     //경매 물품 카테고리별 목록
     @GetMapping("/categories")
     public ResponseEntity getItems(@RequestParam("page_number") int pageNumber,
                                    @RequestParam("page_size") int pageSize,
-                                   @RequestParam("category_id") Long categoryId) {
-        Page<Item> itemPage = itemService.findItems(pageNumber, pageSize, categoryId);
-
-        ItemDto.MultiResponseDto multiResponseDto = itemMapper.itemPageToMultiResponseDto(itemPage);
-
-        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
-    }
-
-    //경매 물품 전체 목록
-    @GetMapping
-    public ResponseEntity getItems(@RequestParam("page_number") int pageNumber,
-                                   @RequestParam("page_size") int pageSize) {
-        Page<Item> itemPage = itemService.findItems(pageNumber, pageSize);
-
-        ItemDto.MultiResponseDto multiResponseDto = itemMapper.itemPageToMultiResponseDto(itemPage);
+                                   @RequestParam("category_id") Long categoryId,
+                                   @RequestParam("member_id") Long memberId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findItems(pageNumber, pageSize, categoryId, memberId);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
+    //거래 물품들의 제목에 입력한 키워드가 포함되는 물품 검색
     @GetMapping("/search")
     public ResponseEntity getItems(@RequestParam("page_number") int pageNumber,
                                    @RequestParam("page_size") int pageSize,
-                                   @RequestParam("keyword") String keyword) {
-        Page<Item> itemPage = itemService.findItems(pageNumber, pageSize, keyword);
-
-        ItemDto.MultiResponseDto multiResponseDto = itemMapper.itemPageToMultiResponseDto(itemPage);
+                                   @RequestParam("keyword") String keyword,
+                                   @RequestParam("member_id") Long memberId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findItems(pageNumber, pageSize, keyword, memberId);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
@@ -92,10 +92,9 @@ public class ItemController {
     public ResponseEntity getItemsByStatus(@RequestParam("page_number") int pageNumber,
                                            @RequestParam("page_size") int pageSize,
                                            @RequestParam("item_status") String itemStatus,
-                                           @RequestParam("seller_id") Long sellerId) {
-        Page<Item> itemPage = itemService.findItems(pageNumber, pageSize, itemStatus, sellerId);
-
-        ItemDto.MultiResponseDto multiResponseDto = itemMapper.itemPageToMultiResponseDto(itemPage);
+                                           @RequestParam("seller_id") Long sellerId,
+                                           @RequestParam("member_id") Long memberId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findItems(pageNumber, pageSize, itemStatus, sellerId, memberId);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
