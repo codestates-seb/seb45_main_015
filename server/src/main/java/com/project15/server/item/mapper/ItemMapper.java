@@ -4,6 +4,7 @@ import com.project15.server.item.dto.ItemDto;
 import com.project15.server.item.entity.Item;
 import com.project15.server.item.entity.ItemImage;
 import com.project15.server.utils.PageInfo;
+import com.project15.server.wish.entity.Wish;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,7 +53,7 @@ public class ItemMapper {
         }
     }
 
-    public ItemDto.ResponseDto itemToResponseDto(Item item) {
+    public ItemDto.ResponseDto itemToResponseDto(Item item, List<Long> itemIds) {
         if(item == null) {
             return null;
         }
@@ -80,22 +81,25 @@ public class ItemMapper {
             responseDto.setBid_unit(item.getBidUnit());
             responseDto.setCurrent_price(item.getCurrentPrice());
             responseDto.setBuy_now_price(item.getBuyNowPrice());
+            if(itemIds != null && itemIds.contains(item.getItemId())) {
+                responseDto.setInWishList(true);
+            }
 
             return responseDto;
         }
     }
 
-    public ItemDto.MultiResponseDto itemPageToMultiResponseDto(Page<Item> itemPage) {
+    public ItemDto.MultiResponseDto itemPageToMultiResponseDto(Page<Item> itemPage, List<Long> itemIds) {
         if(itemPage == null) {
             return null;
         }
         else {
-            List<ItemDto.ResponseDto> responseDtos = itemPage
+            List<ItemDto.ResponseDto> responseDtoList = itemPage
                     .stream()
-                    .map(this::itemToResponseDto)
+                    .map(item -> itemToResponseDto(item, itemIds))
                     .collect(Collectors.toList());
             ItemDto.MultiResponseDto multiResponseDto = new ItemDto.MultiResponseDto();
-            multiResponseDto.setItems(responseDtos);
+            multiResponseDto.setItems(responseDtoList);
             multiResponseDto.setPage_info(PageInfo
                     .builder()
                             .page_number(itemPage.getNumber() + 1)

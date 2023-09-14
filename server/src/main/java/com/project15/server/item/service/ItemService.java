@@ -14,17 +14,17 @@ public interface ItemService {
 
     ItemDto.ResponseDto createImage(Long itemId, List<MultipartFile> images);
 
-    void createItem(Item item, int endTime);
+    ItemDto.ResponseDto createItem(Item item, int endTime);
 
-    ItemDto.ResponseDto findItem(Long itemId);
+    ItemDto.ResponseDto findItem(Long itemId, Long memberId);
 
-    Page<Item> findItems(int pageNumber, int pageSize);
+    ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, Long memberId);
 
-    Page<Item> findItems(int pageNumber, int pageSize, Long categoryId);
+    ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, Long categoryId, Long memberId);
 
-    Page<Item> findItems(int pageNumber, int pageSize, String status, Long sellerId);
+    ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, String status, Long sellerId, Long memberId);
 
-    Page<Item> findItems(int pageNumber, int pageSize, String keyword);
+    ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, String keyword, Long memberId);
 
     ItemDto.ResponseDto updateItem(ItemDto.PatchDto patchDto, Long itemId);
 

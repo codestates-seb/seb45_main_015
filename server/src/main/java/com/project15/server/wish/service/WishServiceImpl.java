@@ -29,15 +29,9 @@ public class WishServiceImpl implements WishService{
 
     private final WishRepository wishRepository;
 
-    private final ItemRepository itemRepository;
-
     private final MemberRepository memberRepository;
 
     private final ItemServiceImpl itemService;
-
-    private final MemberService memberService;
-
-    private final WishMapper wishMapper;
 
     @Override
     public void createWish(Wish wish) {
