@@ -49,47 +49,51 @@ public class ItemController {
     //경매 물품 상세 페이지
     @GetMapping("/{item-id}")
     public ResponseEntity getItem(@PathVariable("item-id") Long itemId,
-                                  @RequestBody PageDto pageDto) {
-        ItemDto.ResponseDto responseDto = itemService.findItem(itemId, pageDto.getWatcher_id());
+                                  @RequestParam(name = "watcher_id", required = false) Long watcherId) {
+        ItemDto.ResponseDto responseDto = itemService.findItem(itemId, watcherId);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     //경매 물품 전체 목록
     @GetMapping
-    public ResponseEntity getItems(@RequestBody PageDto pageDto) {
-        ItemDto.MultiResponseDto multiResponseDto = itemService
-                .findItems(pageDto.getPage_number(), pageDto.getPage_size(), pageDto.getWatcher_id());
+    public ResponseEntity getItems(@RequestParam("page_number") int pageNumber,
+                                   @RequestParam("page_size") int pageSize,
+                                   @RequestParam(name = "watcher_id", required = false) Long watcherId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findItems(pageNumber, pageSize, watcherId);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
     //경매 물품 카테고리별 목록
     @GetMapping("/categories")
-    public ResponseEntity getItemsByCategory(@RequestBody PageDto pageDto) {
-        ItemDto.MultiResponseDto multiResponseDto = itemService
-                .findItemsByCategory(pageDto.getPage_number(), pageDto.getPage_size(),
-                        pageDto.getCategory_id(), pageDto.getWatcher_id());
+    public ResponseEntity getItemsByCategory(@RequestParam("page_number") int pageNumber,
+                                             @RequestParam("page_size") int pageSize,
+                                             @RequestParam("category_id") Long categoryId,
+                                             @RequestParam(name = "watcher_id", required = false) Long watcherId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findItemsByCategory(pageNumber, pageSize, categoryId, watcherId);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
     //거래 물품들의 제목에 입력한 키워드가 포함되는 물품 검색
     @GetMapping("/search")
-    public ResponseEntity getItemsByKeywords(@RequestBody PageDto pageDto) {
-        ItemDto.MultiResponseDto multiResponseDto = itemService
-                .findItemsByKeyword(pageDto.getPage_number(), pageDto.getPage_size(),
-                        pageDto.getKeyword(), pageDto.getWatcher_id());
+    public ResponseEntity getItemsByKeyword(@RequestParam("page_number") int pageNumber,
+                                            @RequestParam("page_size") int pageSize,
+                                            @RequestParam("keyword") String keyword,
+                                            @RequestParam(name = "watcher_id", required = false) Long watcherId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findItemsByKeyword(pageNumber, pageSize, keyword, watcherId);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
     //마이페이지의 나의 거래 상태별 목록
     @GetMapping("/status")
-    public ResponseEntity getItemsByStatus(@RequestBody PageDto pageDto) {
-        ItemDto.MultiResponseDto multiResponseDto = itemService
-                .findItemsByStatus(pageDto.getPage_number(), pageDto.getPage_size(),
-                        pageDto.getItem_status(), pageDto.getSeller_id());
+    public ResponseEntity getItemsByStatus(@RequestParam("page_number") int pageNumber,
+                                           @RequestParam("page_size") int pageSize,
+                                           @RequestParam("item_status") String itemStatus,
+                                           @RequestParam("seller_id") Long sellerId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findItemsByStatus(pageNumber, pageSize, itemStatus, sellerId);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
