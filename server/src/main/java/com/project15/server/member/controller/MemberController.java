@@ -37,8 +37,8 @@ public class MemberController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    @GetMapping("/{memberId}")
-    public ResponseEntity<Member> getMemberById(@PathVariable Long memberId) {
+    @GetMapping("/{member-id}")
+    public ResponseEntity<Member> getMemberById(@PathVariable("member-id") Long memberId) {
         Member member = memberService.getEmailByMemberId(memberId);
 
         if (member != null) {
@@ -84,13 +84,13 @@ public class MemberController {
         }
         return ResponseEntity.ok("로그아웃 성공");
     }
-    @PatchMapping("/change-nickname/{memberId}")
-    public ResponseEntity<String> updateNickname(@PathVariable Long memberId, @RequestBody Map<String, String> requestBody) {
+    @PatchMapping("/change-nickname/{member-id}")
+    public ResponseEntity<String> updateNickname(@PathVariable("member-id") Long memberId, @RequestBody Map<String, String> requestBody) {
         String newNickname = requestBody.get("newNickname");
         return memberService.updateNickname(memberId, newNickname);
     }
-    @PatchMapping("/change-password/{memberId}")
-    public ResponseEntity<String> updatePassword(@PathVariable Long memberId,
+    @PatchMapping("/change-password/{member-id}")
+    public ResponseEntity<String> updatePassword(@PathVariable("member-id") Long memberId,
                                                  @RequestBody MemberDto.PasswordChangeRequest request) {
 
         boolean isPasswordUpdated = memberService.updatePassword(memberId, request.getOldPassword(), request.getNewPassword());
@@ -110,8 +110,8 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
         }
     }
-    @PatchMapping("/find-password/{memberId}")
-    public ResponseEntity<String> changePassword(@PathVariable Long memberId,
+    @PatchMapping("/find-password/{member-id}")
+    public ResponseEntity<String> changePassword(@PathVariable("member-id") Long memberId,
                                                  @RequestParam("new_password") String newPassword,
                                                  @RequestParam("confirm_password") String confirmPassword) {
         try {
