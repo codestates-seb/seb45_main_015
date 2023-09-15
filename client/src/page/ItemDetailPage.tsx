@@ -23,7 +23,7 @@ import { useEffect } from "react";
 import { LargeButtonA, LargeButtonC } from "../components/ButtonComponent";
 
 function ItemDetailPage() {
-  const itemId = 104;
+  const itemId = 1;
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery(

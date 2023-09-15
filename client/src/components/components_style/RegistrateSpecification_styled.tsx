@@ -43,7 +43,10 @@ export const Title = styled.h2`
 export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+<<<<<<< HEAD
   align-items: center;
+=======
+>>>>>>> abb179d (feat: RegistrateItemPage 명세서 제작)
   margin-top: 24px;
   width: 100%;
 `;
@@ -53,15 +56,22 @@ export const ContentWrapper = styled.div`
 `;
 
 export const Text = styled.p`
+<<<<<<< HEAD
   text-align: end;
+=======
+>>>>>>> abb179d (feat: RegistrateItemPage 명세서 제작)
   margin: 0;
   font-size: 20px;
 
   &.fixed-text {
+<<<<<<< HEAD
     text-align: start;
     color: #808080;
     white-space: nowrap;
     margin-right: 10px;
+=======
+    color: #808080;
+>>>>>>> abb179d (feat: RegistrateItemPage 명세서 제작)
   }
 `;
 
