@@ -24,7 +24,6 @@ public class CustomMemberDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    // 로그인시에 DB에서 유저정보와 권한정보를 가져와서 해당 정보를 기반으로 userdetails.User 객체를 생성해 리턴
     public UserDetails loadUserByUsername(final String email) {
 
         return memberRepository.findOneWithAuthoritiesByEmail(email)
@@ -33,9 +32,6 @@ public class CustomMemberDetailsService implements UserDetailsService {
     }
 
     private org.springframework.security.core.userdetails.User createMember(String email, Member member) {
-        /*if (!member.isActivated()) {
-            throw new RuntimeException(email + " -> 활성화되어 있지 않습니다.");
-        }*/
 
         List<GrantedAuthority> grantedAuthorities = member.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
