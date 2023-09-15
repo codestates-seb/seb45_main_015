@@ -9,7 +9,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: #00000025;
-  z-index: 10003;
+  z-index: 1001;
 `;
 
 export const Content = styled.div`
@@ -19,23 +19,53 @@ export const Content = styled.div`
   justify-content: space-between;
   background-color: #fff;
   min-width: 420px;
-  min-height: 600px;
+  min-height: 500px;
   margin: 100px auto;
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;
 
+export const ContentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 90%;
+`;
+
 export const Title = styled.h2`
   margin: 0;
+  font-size: 28px;
+  margin-top: 24px;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  width: 100%;
+`;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+`;
+
+export const Text = styled.p`
+  margin: 0;
+  font-size: 20px;
+
+  &.fixed-text {
+    color: #808080;
+  }
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
   width: 100%;
   height: 40px;
 
-  & > button:first-of-type {
+  &:first-of-type {
     margin-right: 20px;
   }
 `;

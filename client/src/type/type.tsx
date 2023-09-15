@@ -57,3 +57,9 @@ export interface RegistrateItemDataField {
   bid_unit: number;
   buy_now_price?: number;
 }
+
+export interface SpecificationField {
+  title: string;
+  value: string | number;
+  unit?: string;
+}

@@ -168,6 +168,8 @@ function RegistrateItemPage() {
   const [itemCategory, setItemCategory] = useState<CategoryField[]>([]);
   const [itemImageFile, setItemImageFile] = useState<File[]>([]);
   const [categoryTag, setCategoryTag] = useState<CategoryField[]>([]);
+  const [totalItemInfo, setTotalItemInfo] = useState<RegistrateItemDataField>();
+  const [specification, setSpecification] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -278,18 +280,30 @@ function RegistrateItemPage() {
       buy_now_price: Number(itemBuyNowPrice),
     };
 
-    useRegistrateItem(requestData)
-      .then(data => {
-        useRegistrateItemImage(itemImageFile, data.item_id);
-      })
-      .catch(() => {
-        alert("이미지 등록에 실패하였습니다.");
-      });
+    setTotalItemInfo(requestData);
+
+    if (specification) {
+      useRegistrateItem(requestData)
+        .then(data => {
+          useRegistrateItemImage(itemImageFile, data.item_id);
+        })
+        .catch(() => {
+          alert("이미지 등록에 실패하였습니다.");
+        });
+    }
+    setSpecification(true);
   };
 
   return (
     <Container>
-      {/* <RegistrateSpecification /> */}
+      {specification && totalItemInfo && (
+        <RegistrateSpecification
+          totalItemInfo={totalItemInfo}
+          itemCategory={itemCategory}
+          handlePostRegistrateItem={handlePostRegistrateItem}
+          setSpecification={setSpecification}
+        />
+      )}
       <RegistrateContent>
         <Title>상품 등록</Title>
         <RegistInputForm field={itemTitleField} setData={setItemTitle} />
