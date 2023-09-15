@@ -80,9 +80,11 @@ public class ItemMapper {
             responseDto.setStart_price(item.getStartPrice());
             responseDto.setBid_unit(item.getBidUnit());
             responseDto.setCurrent_price(item.getCurrentPrice());
-            responseDto.setBuy_now_price(item.getBuyNowPrice());
+            if(item.getBuyNowPrice() != null) {
+                responseDto.setBuy_now_price(item.getBuyNowPrice());
+            }
             if(itemIds != null && itemIds.contains(item.getItemId())) {
-                responseDto.setInWishList(true);
+                responseDto.setIn_wish_list(true);
             }
 
             return responseDto;
