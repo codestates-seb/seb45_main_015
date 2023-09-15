@@ -26,3 +26,34 @@ export interface InputField {
     SetStateAction<SignupData | LoginData | FindPWData | ChangePWData>
   >;
 }
+
+// 아이템 등록
+export interface RegistrateField {
+  subTitle: string;
+  placeholder?: string;
+  description: string;
+  inputType?: string;
+  button?: RegistrateButtonField[];
+  maxLength?: number;
+}
+
+export interface RegistrateButtonField {
+  value: number;
+  btn: string;
+}
+
+export interface CategoryField {
+  id: number;
+  name: string;
+}
+
+export interface RegistrateItemDataField {
+  seller_id: string;
+  title: string;
+  content: string;
+  auction_time: number;
+  category_id: number;
+  start_price: number;
+  bid_unit: number;
+  buy_now_price?: number;
+}

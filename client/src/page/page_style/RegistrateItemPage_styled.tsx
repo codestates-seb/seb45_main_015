@@ -142,6 +142,10 @@ export const Button = styled.button`
     border-color: #0064ff;
   }
 
+  &.selected {
+    cursor: default;
+  }
+
   &.registrate-fixed-button {
     margin-right: 8px;
     margin-bottom: 8px;
@@ -154,6 +158,7 @@ export const Button = styled.button`
   }
 
   &.registrate-category-tag-select {
+    cursor: default;
     margin-left: 5px;
     margin-bottom: 5px;
     background-color: #0064ff;
@@ -170,6 +175,10 @@ export const ImgContent = styled.div`
 `;
 
 export const ImgWrapper = styled.div`
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 194px;
   height: 194px;
   border-radius: 16px;
@@ -177,12 +186,32 @@ export const ImgWrapper = styled.div`
   margin-bottom: 8px;
   margin-right: 8px;
   overflow: hidden;
+  border: solid 1px #b1b5c3;
+
+  &.registrate-image {
+    background-color: #fff;
+  }
+`;
+
+export const ImgLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-size: 64px;
+  color: #fff;
+`;
+
+export const ImgInput = styled.input`
+  display: none;
 `;
 
 export const Img = styled.img`
   display: flex;
-  width: 194px;
-  height: 194px;
+  max-width: 194px;
+  max-height: 194px;
 `;
 
 export const SeletedCategoryTagWrapper = styled.div`
