@@ -79,7 +79,7 @@ public class ItemDto {
 
         private int buy_now_price;
 
-        private boolean inWishList;
+        private boolean in_wish_list;
     }
 
     @Getter
