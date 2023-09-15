@@ -6,8 +6,9 @@ import com.project15.server.member.dto.TokenDto;
 import com.project15.server.member.jwt.JwtFilter;
 import com.project15.server.member.jwt.TokenProvider;
 import com.project15.server.member.service.MemberService;
-import com.project15.server.member.service.CustomMemberDetailsService;
 import com.project15.server.member.entity.Member;
+import com.project15.server.member.service.PasswordResetException;
+import com.project15.server.member.service.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -17,26 +18,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/members")
 public class MemberController {
 
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private CustomMemberDetailsService customMemberDetailsService;
+    private final MemberService memberService;
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -59,21 +56,24 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
 
+        Optional<Member> optionalMember = Optional.ofNullable(memberService.findByEmail(loginDto.getEmail()));
+        Member member = null;
+        if (optionalMember.isPresent()) {
+            member = optionalMember.get();
+        }
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
-        // authenticate 메소드가 실행이 될 때 CustomUserDetailsService class의 loadUserByUsername 메소드가 실행
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        // 해당 객체를 SecurityContextHolder에 저장하고
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        // authentication 객체를 createToken 메소드를 통해서 JWT Token을 생성
-        String jwt = tokenProvider.createToken(authentication);
+
+        String jwt = tokenProvider.createToken(authentication, member);
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        // response header에 jwt token에 넣어줌
+
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        // tokenDto를 이용해 response body에도 넣어서 리턴
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
     @PostMapping("/logout")
@@ -84,12 +84,10 @@ public class MemberController {
         }
         return ResponseEntity.ok("로그아웃 성공");
     }
-    //닉네임 수정
     @PatchMapping("/change-nickname/{memberId}")
-    public ResponseEntity<String> updateNickname(@PathVariable Long memberId,@RequestBody Map<String, String> requestBody) {
-        String password = requestBody.get("password");
+    public ResponseEntity<String> updateNickname(@PathVariable Long memberId, @RequestBody Map<String, String> requestBody) {
         String newNickname = requestBody.get("newNickname");
-        return memberService.updateNickname(memberId, password, newNickname);
+        return memberService.updateNickname(memberId, newNickname);
     }
     @PatchMapping("/change-password/{memberId}")
     public ResponseEntity<String> updatePassword(@PathVariable Long memberId,
@@ -103,6 +101,26 @@ public class MemberController {
             return ResponseEntity.badRequest().body("비밀번호 변경 실패");
         }
     }
+    @PostMapping("/verify-email")
+    public ResponseEntity<String> verifyEmail(@RequestParam("email") String email) {
+        try {
+            memberService.verifyEmail(email);
+            return ResponseEntity.ok("이메일 인증 성공");
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+        }
+    }
+    @PatchMapping("/find-password/{memberId}")
+    public ResponseEntity<String> changePassword(@PathVariable Long memberId,
+                                                 @RequestParam("new_password") String newPassword,
+                                                 @RequestParam("confirm_password") String confirmPassword) {
+        try {
+            memberService.changePassword(memberId, newPassword, confirmPassword);
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
-
-

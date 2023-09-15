@@ -19,9 +19,7 @@ public class MemberDto {
     @NotNull
     private String nickname;
     private String role;
-  /*  private boolean activated = true;*/
 
-   /*private String item;*/
    @Getter
    @Setter
    public static class PasswordChangeRequest {

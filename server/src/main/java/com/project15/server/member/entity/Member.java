@@ -30,16 +30,10 @@ public class Member extends Auditable {
     private String password;
     private String nickname;
     private String role;
-    /*@JsonIgnore
-    private boolean activated;*/
+
 
    @ManyToMany
-  /* @JoinTable(
-            name = "authority",
-            joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "memberId")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authorityName")})*/
     private Set<Authority> authorities;
-
 
 
     @OneToMany(targetEntity = Item.class, mappedBy = "seller")
