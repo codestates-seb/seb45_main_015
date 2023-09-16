@@ -5,6 +5,15 @@ export const StyledImage = styled.img`
   height: 630px;
   display: block;
   margin: 0 auto;
+  @media (min-width: 0px) {
+    height: 350px;
+  }
+  @media (min-width: 1025px) {
+    height: 450px;
+  }
+  @media (min-width: 1210px) {
+    height: 580px;
+  }
 `;
 
 export const StyledSlide = styled.div`
