@@ -219,7 +219,7 @@ export const useRegistrateItem = async (
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0ZXN0MTAzIiwibWVtYmVySWQiOjMsImV4cCI6MTY5NDg0NjA1Nn0.JLSOoIK7EdpJQxC0_ZTwXSUFaxKBGCcjPAxDfjPJ6VAkesch795SVNjEMvynyNsmfJNyyslyokxVBejl_JSC4Q",
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
       },
       data: requestData,
     });
@@ -248,7 +248,7 @@ export const useRegistrateItemImage = async (
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0ZXN0MTAzIiwibWVtYmVySWQiOjMsImV4cCI6MTY5NDg0NjA1Nn0.JLSOoIK7EdpJQxC0_ZTwXSUFaxKBGCcjPAxDfjPJ6VAkesch795SVNjEMvynyNsmfJNyyslyokxVBejl_JSC4Q",
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
       },
       data: formData,
     });
@@ -269,6 +269,11 @@ export const getCategory = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
+<<<<<<< HEAD
+=======
+        Authorization:
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
+>>>>>>> 42dbb72 (feat: Chat 폼 제작)
       },
     });
     const data = response.data.categories;
