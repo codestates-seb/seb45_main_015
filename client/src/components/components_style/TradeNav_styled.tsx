@@ -33,6 +33,7 @@ const TradeNav = styled.nav`
 
   & > ul > li:hover {
     color: #0056b3;
+    cursor: pointer;
   }
 
   & > ul > li > .bell-icon {
