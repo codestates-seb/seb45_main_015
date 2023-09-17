@@ -77,11 +77,13 @@ export const getItem = async (Url: string) => {
 };
 
 // 상세페이지데이터 //////////////////////////////////////////////
-export const fetchItemDetail = async (itemId: number) => {
+export const fetchItemDetail = async (itemId: number, watcherId?: number) => {
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/items/${itemId}`,
+      url: `http://15.164.84.204:8080/items/${itemId}?page_number=1&page_size=2${
+        watcherId && `&watcher_id=${watcherId}`
+      }`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -105,7 +107,6 @@ export const useRegistrateItem = async (
       url: `http://15.164.84.204:8080/items`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer token",
       },
       data: requestData,
     });
@@ -133,7 +134,6 @@ export const useRegistrateItemImage = async (
       url: `http://15.164.84.204:8080/items/${itemId}/images`,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: "Bearer token",
       },
       data: formData,
     });
@@ -152,7 +152,6 @@ export const getCategory = async () => {
       url: "http://15.164.84.204:8080/categories?page_number=1&page_size=16",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer token",
       },
     });
     const data = response.data.categories;

@@ -26,8 +26,8 @@ function ChatList({
         <Title>채팅리스트</Title>
       </Header>
       <Main>
-        {Array.from({ length: 15 }, (v, i) => (
-          <Chat onClick={() => handleActiveChange("Room")}>
+        {Array.from({ length: 15 }, (_, index) => (
+          <Chat key={index} onClick={() => handleActiveChange("Room")}>
             <ProfileWrapper>
               <Image />
             </ProfileWrapper>

@@ -50,6 +50,11 @@ export const InputWrapper = styled.div`
     width: calc((100% - 36px) / 2);
   }
 
+  &.text-area {
+    height: 130px;
+    padding: 10px 0;
+  }
+
   &:focus-within {
     background: #ffffff;
     outline: 2px solid #0064ff;
@@ -74,6 +79,31 @@ export const TextInput = styled.input`
   &.registrate-price {
     text-align: right;
     margin: 0 1px;
+  }
+`;
+
+export const TextArea = styled.textarea`
+  outline: none;
+  resize: none;
+  font-size: 16px;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background-color: transparent;
+  border-style: none;
+  margin-left: 10px;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #808080;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 3px solid transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
   }
 `;
 

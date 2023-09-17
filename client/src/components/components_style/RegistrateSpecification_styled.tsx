@@ -43,6 +43,7 @@ export const Title = styled.h2`
 export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 24px;
   width: 100%;
 `;
@@ -52,11 +53,15 @@ export const ContentWrapper = styled.div`
 `;
 
 export const Text = styled.p`
+  text-align: end;
   margin: 0;
   font-size: 20px;
 
   &.fixed-text {
+    text-align: start;
     color: #808080;
+    white-space: nowrap;
+    margin-right: 10px;
   }
 `;
 

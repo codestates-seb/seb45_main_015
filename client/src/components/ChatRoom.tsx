@@ -44,8 +44,8 @@ function ChatRoom({
         </InfoWrapper>
       </Header>
       <Main>
-        {Array.from({ length: 15 }, (v, i) => (
-          <Message className="another-user-message">
+        {Array.from({ length: 15 }, (_, index) => (
+          <Message key={index} className="another-user-message">
             <MessageWrapper className="another-user-message">
               <Text className="another-user-message">안녕하세요!</Text>
             </MessageWrapper>

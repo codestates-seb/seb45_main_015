@@ -17,16 +17,13 @@ import {
   SeletedCategoryTagWrapper,
   SubTitle,
   Text,
+  TextArea,
   TextInput,
   Title,
 } from "./page_style/RegistrateItemPage_styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import {
-  getCategory,
-  useRegistrateItem,
-  useRegistrateItemImage,
-} from "../API/FetchAPI";
+import { getCategory } from "../API/FetchAPI";
 import {
   CategoryField,
   RegistrateField,
@@ -45,7 +42,11 @@ function RegistInputForm({
   const [button, setButton] = useState<string | null>("");
   const previousValueRef = useRef("");
 
-  const handleInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputValueChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
     let value = e.target.value;
 
     if (field.inputType === "number") {
@@ -59,7 +60,9 @@ function RegistInputForm({
       setInputValue(numberValue);
       setData(numberValue + "000");
     } else {
-      setInputValue(value);
+      if (field.maxLength && value.length <= field.maxLength) {
+        setInputValue(value);
+      }
       setData(value);
     }
   };
@@ -88,7 +91,7 @@ function RegistInputForm({
           ))}
         </ButtonWrapper>
       )}
-      {field.subTitle !== "경매기간" && (
+      {field.subTitle !== "경매기간" && field.subTitle !== "상세설명" ? (
         <InputWrapper
           className={field.subTitle === "입찰 단위" ? "budding-unit-field" : ""}
         >
@@ -104,6 +107,17 @@ function RegistInputForm({
             <Text className="registrate-input-text">000원</Text>
           )}
         </InputWrapper>
+      ) : (
+        field.subTitle === "상세설명" && (
+          <InputWrapper className="text-area">
+            <TextArea
+              placeholder={field.placeholder}
+              value={inputValue}
+              onChange={handleInputValueChange}
+              maxLength={field.maxLength}
+            />
+          </InputWrapper>
+        )
       )}
       <Text>{field.description}</Text>
     </RegistrateWrapper>
@@ -124,7 +138,7 @@ function RegistrateItemPage() {
     placeholder: "상품을 소개해보세요.",
     description: "자세한 설명은 좋은 판매전략이 됩니다.",
     inputType: "text",
-    maxLength: 50,
+    maxLength: 200,
   };
 
   const itemAuctionTimeField: RegistrateField = {
@@ -210,10 +224,10 @@ function RegistrateItemPage() {
         }
       }
 
-      if (itemImageFile.length + newImages.length <= 5) {
+      if (itemImageFile.length + newImages.length <= 8) {
         setItemImageFile([...itemImageFile, ...newImages]);
       } else {
-        alert("이미지는 최대 5개까지 선택할 수 있습니다.");
+        alert("이미지는 최대 8개까지 선택할 수 있습니다.");
       }
     }
   };
@@ -281,16 +295,6 @@ function RegistrateItemPage() {
     };
 
     setTotalItemInfo(requestData);
-
-    if (specification) {
-      useRegistrateItem(requestData)
-        .then(data => {
-          useRegistrateItemImage(itemImageFile, data.item_id);
-        })
-        .catch(() => {
-          alert("이미지 등록에 실패하였습니다.");
-        });
-    }
     setSpecification(true);
   };
 
@@ -300,8 +304,8 @@ function RegistrateItemPage() {
         <RegistrateSpecification
           totalItemInfo={totalItemInfo}
           itemCategory={itemCategory}
-          handlePostRegistrateItem={handlePostRegistrateItem}
           setSpecification={setSpecification}
+          itemImageFile={itemImageFile}
         />
       )}
       <RegistrateContent>

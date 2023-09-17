@@ -1,3 +1,4 @@
+import { useRegistrateItem, useRegistrateItemImage } from "../API/FetchAPI";
 import {
   CategoryField,
   RegistrateItemDataField,
@@ -18,13 +19,13 @@ import {
 function RegistrateSpecification({
   totalItemInfo,
   itemCategory,
-  handlePostRegistrateItem,
   setSpecification,
+  itemImageFile,
 }: {
   totalItemInfo: RegistrateItemDataField;
   itemCategory: CategoryField[];
-  handlePostRegistrateItem: () => Promise<void>;
   setSpecification: (value: boolean) => void;
+  itemImageFile: File[];
 }) {
   const total: SpecificationField[] = [
     { title: "상품명", value: totalItemInfo.title },
@@ -49,6 +50,12 @@ function RegistrateSpecification({
 
   const handleCloseSpecification = () => {
     setSpecification(false);
+  };
+
+  const handlePostRegistrateItem = () => {
+    useRegistrateItem(totalItemInfo).then(data => {
+      useRegistrateItemImage(itemImageFile, data.item_id);
+    });
   };
 
   return (
