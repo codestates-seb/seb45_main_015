@@ -8,12 +8,7 @@ import {
   Text,
 } from "./components_style/ItemCard.styled_styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart,
-  faTimes,
-  faCheck,
-  faImage,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { postItem, deleteItem } from "../API/FetchAPI";
@@ -39,6 +34,10 @@ interface wishesItemCardProps {
   };
   onItemRefetch: () => void;
   favoriteState?: boolean;
+  buttonOption: string;
+  selectMode: boolean;
+  handledAddOrDeleteId: (newId: number) => void;
+  checkList: number[];
 }
 
 interface ItemCardProps {
@@ -144,66 +143,17 @@ export function ItemCard({
   );
 }
 
-export function SelectItemCard({ cardData }: wishesItemCardProps) {
-  const [favorite, setFavorite] = useState(false);
-  const handleFavorite = () => {
-    setFavorite(!favorite);
-    // postItem(cardData.item_id, memberId);
-  };
-  return (
-    <Container>
-      <ImgContainer>
-        <img src={`${cardData.item_image_urls[0]}`} />
-        <Icon
-          className={favorite ? "favorite-on" : "favorite-off"}
-          onClick={handleFavorite}
-        >
-          <FontAwesomeIcon icon={faCheck} />
-        </Icon>
-      </ImgContainer>
-      <InfoContainer>
-        <InfoWrapper>
-          <Text className="itemCard-product-name">{cardData.title}</Text>
-          <Wrapper>
-            <Text className="itemCard-product-key">최저가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.start_price}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">입찰가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.current_price}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">최고가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.buy_now_price}
-            </Text>
-          </Wrapper>
-          <Wrapper className="itemCard-product-seller">
-            <Text className="itemCard-product-key">판매자명</Text>
-            <Text className="itemCard-product-value">
-              {cardData.seller_nickname}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">종료</Text>
-            <Text className="itemCard-product-value card-date">
-              {cardData.end_time}
-            </Text>
-          </Wrapper>
-        </InfoWrapper>
-      </InfoContainer>
-    </Container>
-  );
-}
-
 export function DeleteItemCard({
-  cardData,
-  onItemRefetch,
+  cardData, //카드 데이터
+  onItemRefetch, //카드가 삭제되면 리패치
+  buttonOption, //현재 찜목록 버튼옵션(선택모드,전체선택,전체삭제)
+  selectMode, //현재 찜목록 페이지가 선택모드인지
+  handledAddOrDeleteId, // 선택모드에서 카드 선택 추가
+  checkList, // 현재 선택되어있는 카드들 [1,2,3,4]
 }: wishesItemCardProps) {
+  const [isCheck, setIsCheck] = useState(false);
+
+  //------X눌러서 찜목록 삭제
   const DeleteData = async () => {
     const result = await deleteItem(1, [cardData.item_id]);
     return result;
@@ -217,13 +167,33 @@ export function DeleteItemCard({
     mutate();
   };
 
+  //--------선택모드일때 카드 눌러서 선택
+  const handleCheckButtonClick = () => {
+    handledAddOrDeleteId(cardData.item_id);
+    setIsCheck(!isCheck);
+  };
   return (
-    <Container>
+    <Container
+      onClick={selectMode ? handleCheckButtonClick : undefined}
+      isCheck={selectMode && isCheck ? true : false}
+    >
       <ImgContainer>
         <img src={`${cardData.item_image_urls[0]}`} />
-        <Icon className={"favorite-off"} onClick={handleDeleteButtonClick}>
-          <FontAwesomeIcon icon={faTimes} />
-        </Icon>
+        {buttonOption === "select" || buttonOption === "allSelect" ? (
+          <Icon>
+            <FontAwesomeIcon
+              icon={faCheck}
+              className={
+                checkList.includes(cardData.item_id) ? "check" : "unCheck"
+              }
+            />
+          </Icon>
+        ) : (
+          <Icon onClick={handleDeleteButtonClick}>
+            <FontAwesomeIcon icon={faTimes} />
+          </Icon>
+        )}
+        ;
       </ImgContainer>
       <InfoContainer>
         <InfoWrapper>

@@ -1,55 +1,116 @@
 import FavoritePageContainer from "./page_style/FavoritePage_styled";
 import { Link } from "react-router-dom";
-import { SelectItemCard, DeleteItemCard } from "../components/ItemCard";
+import { DeleteItemCard } from "../components/ItemCard";
 import { SmallButtonB, SmallButtonD } from "../components/ButtonComponent";
 import { getFavorite, deleteItem } from "../API/FetchAPI";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
+interface objTest {
+  bid_unit: number;
+  buy_now_price: number;
+  buyer_id: null;
+  buyer_nickname: null;
+  category: string;
+  content: string;
+  current_price: number;
+  end_time: string;
+  item_id: number;
+  item_image_urls: string[];
+  seller_id: number;
+  seller_nickname: string;
+  start_price: number;
+  status: string;
+  title: string;
+  wish_id: number;
+}
+
 const FavoritePage: React.FC = () => {
-  // const [page, setPage] = useState<number>(18);
-  // const [isData, setIsData] = useState<number[]>([]);
-  const [page, setPage] = useState<number>(100);
-  const [buttonOption, setButtonOption] = useState<string>("");
-  const handleItemRefetch = () => {
-    refetch();
-  };
-  const handleSelect = () => {
-    if (buttonOption === "select") {
-      return setButtonOption("");
+  const [page, setPage] = useState<number>(100); //찜목록100개 불러오기
+  const [selectMode, setSelectMode] = useState<boolean>(false); //선택모드
+  const [buttonOption, setButtonOption] = useState<string>("delete"); //현재 선택된버튼
+  const [deleteList, setDeleteList] = useState<number[]>([]); //체크된목록
+
+  //찜목록 선택항목 추가or삭제--------------------
+  const handledAddOrDeleteId = (newId: number) => {
+    if (deleteList.includes(newId)) {
+      const result = deleteList.filter(el => {
+        return el !== newId;
+      });
+      return setDeleteList(result);
     } else {
-      return setButtonOption("select");
-    }
-  };
-  const handleAllSelect = () => {
-    if (buttonOption === "allSelect") {
-      return setButtonOption("");
-    } else {
-      return setButtonOption("allSelect");
+      setDeleteList([...deleteList, newId]);
     }
   };
 
-  //------------------------------------------------------------------
-  interface objTest {
-    bid_unit: number;
-    buy_now_price: number;
-    buyer_id: null;
-    buyer_nickname: null;
-    category: string;
-    content: string;
-    current_price: number;
-    end_time: string;
-    item_id: number;
-    item_image_urls: string[];
-    seller_id: number;
-    seller_nickname: string;
-    start_price: number;
-    status: string;
-    title: string;
-    wish_id: number;
-  }
+  //찜목록 선택 옵션(선택모드,전체선택,전체삭제) --------------
+  const handleItemRefetch = () => {
+    refetch();
+  };
+
+  //선택모드
+  const handleSelect = () => {
+    if (buttonOption === "select") {
+      setButtonOption("delete");
+      setSelectMode(false);
+      setDeleteList([]);
+    } else if (buttonOption === "allSelect") {
+      setButtonOption("select");
+      setSelectMode(true);
+      setDeleteList([]);
+    } else {
+      setButtonOption("select");
+      setSelectMode(true);
+      setDeleteList([]);
+    }
+  };
+
+  //전체선택
+  const handleAllSelect = () => {
+    if (buttonOption === "allSelect") {
+      const selectedItems = data.map((el: objTest) => el.item_id);
+      setDeleteList(selectedItems);
+      setButtonOption("delete");
+      setSelectMode(false);
+      setDeleteList([]);
+    } else if (buttonOption === "select") {
+      const selectedItems = data.map((el: objTest) => el.item_id);
+      setDeleteList(selectedItems);
+      setButtonOption("allSelect");
+      setSelectMode(true);
+    } else {
+      const selectedItems = data.map((el: objTest) => el.item_id);
+      setDeleteList(selectedItems);
+      setButtonOption("allSelect");
+      setSelectMode(true);
+    }
+  };
+  useEffect(() => {
+    console.log(deleteList);
+  }, [deleteList]);
+
+  //선택항목 삭제
+  const selectDelete = async () => {
+    const result = await deleteItem(1, deleteList);
+    return result;
+  };
+  const { mutate: deleteSelectMutate } = useMutation(
+    ["deleteItem"],
+    selectDelete,
+    {
+      onSuccess: () => {
+        setDeleteList([]);
+        refetch();
+      },
+    },
+  );
+  const handleSelectDelete = () => {
+    deleteSelectMutate();
+  };
+
+  //전체삭제
   const allFavoriteItemId = async () => {
     const result = await getFavorite(1, 1000);
     const all_Id = result.wishes.map((el: objTest) => {
@@ -71,8 +132,7 @@ const FavoritePage: React.FC = () => {
     deleteMutate();
   };
 
-  //-------------------------------------------------
-
+  //더보기
   const moreFavoriteItem = () => {
     setPage(page + 20);
   };
@@ -123,49 +183,30 @@ const FavoritePage: React.FC = () => {
             전체상품 삭제
           </button>
         </div>
+        {buttonOption === "select" || buttonOption === "allSelect" ? (
+          <div className="topButton">
+            <button className="allDelete" onClick={handleSelectDelete}>
+              선택상품 삭제
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       <div className="itemcontainer">
         <ul>
-          {buttonOption === "allDelete" //첫번째 조건
-            ? data.map((el: any, index: number) => (
-                <li key={index}>
-                  <DeleteItemCard
-                    cardData={el}
-                    onItemRefetch={handleItemRefetch}
-                  />
-                </li>
-              ))
-            : buttonOption === "allSelect" //두번째 조건
-            ? data.map((el: any, index: number) => (
-                <li key={index}>
-                  <SelectItemCard
-                    cardData={el}
-                    onItemRefetch={handleItemRefetch}
-                  />
-                </li>
-              ))
-            : data.map((el: any, index: number) => (
-                <li key={index}>
-                  <DeleteItemCard
-                    cardData={el}
-                    onItemRefetch={handleItemRefetch}
-                  />
-                </li>
-              ))}
-          {/* 첫번째 두번째 가 false일 경우 무조건 세번째 반환 */}
-
-          {/* ------------------------------------------- */}
-          {/* //삼항연산자 여러조건 사용시
-  const result =
-    condition1
-    ? '첫 번째 조건'
-    : condition2
-    ? '두 번째 조건'
-    : '세 번째 조건';
-
-   위의 코드에서 condition1이 참이면 '첫 번째 조건이 참'을 반환
-   그렇지 않으면 condition2가 참이면 '두 번째 조건이 참'을 반환
-   그렇지 않으면 '세 번째 조건이 참'을 반환 */}
+          {data.map((el: any, index: number) => (
+            <li key={index}>
+              <DeleteItemCard
+                cardData={el}
+                onItemRefetch={handleItemRefetch}
+                buttonOption={buttonOption}
+                selectMode={selectMode}
+                handledAddOrDeleteId={handledAddOrDeleteId}
+                checkList={deleteList}
+              />
+            </li>
+          ))}
         </ul>
       </div>
       <div className="bottomButton">

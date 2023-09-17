@@ -63,7 +63,7 @@ export const getItem = async (page: number, memberID: number) => {
       method: "get",
       url: `http://15.164.84.204:8080/items?page_number=1&page_size=${page}&watcher_id=${memberID}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0MTBAbmF2ZXIuY29tIiwiYXV0aCI6IiIsImV4cCI6MTY5NDgyODAxN30.C-ZSA1VNT0QRlIl4tOKA9BIbigNnR1bPlJ_JFaQv9PvK0T8nGxvjJzJ252alxKHXtODJH5Vc2FXRp-ZqMQVtkg`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
         "Content-Type": "application/json",
       },
     });
@@ -135,7 +135,7 @@ export const getCategory = async () => {
       method: "get",
       url: "http://15.164.84.204:8080/categories?page_number=1&page_size=16",
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0MTBAbmF2ZXIuY29tIiwiYXV0aCI6IiIsImV4cCI6MTY5NDgyODAxN30.C-ZSA1VNT0QRlIl4tOKA9BIbigNnR1bPlJ_JFaQv9PvK0T8nGxvjJzJ252alxKHXtODJH5Vc2FXRp-ZqMQVtkg`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
         "Content-Type": "application/json",
       },
     });
@@ -152,7 +152,7 @@ export const getCategoryItem = async (page: number, id: number) => {
       method: "get",
       url: `http://15.164.84.204:8080/items/categories?page_number=1&page_size=${page}&category_id=${id}&member_id=1`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0MTBAbmF2ZXIuY29tIiwiYXV0aCI6IiIsImV4cCI6MTY5NDgyODAxN30.C-ZSA1VNT0QRlIl4tOKA9BIbigNnR1bPlJ_JFaQv9PvK0T8nGxvjJzJ252alxKHXtODJH5Vc2FXRp-ZqMQVtkg`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
         "Content-Type": "application/json",
       },
     });
@@ -171,7 +171,7 @@ export const getFavorite = async (memberId: number, length: number) => {
       method: "get",
       url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${length}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0MTBAbmF2ZXIuY29tIiwiYXV0aCI6IiIsImV4cCI6MTY5NDgyODAxN30.C-ZSA1VNT0QRlIl4tOKA9BIbigNnR1bPlJ_JFaQv9PvK0T8nGxvjJzJ252alxKHXtODJH5Vc2FXRp-ZqMQVtkg`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
         "Content-Type": "application/json",
       },
     });
@@ -189,7 +189,7 @@ export const postItem = async (itemId: number, memberId: number) => {
       method: "post",
       url: `http://15.164.84.204:8080/items/${itemId}/wishes/${memberId}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0MTBAbmF2ZXIuY29tIiwiYXV0aCI6IiIsImV4cCI6MTY5NDgyODAxN30.C-ZSA1VNT0QRlIl4tOKA9BIbigNnR1bPlJ_JFaQv9PvK0T8nGxvjJzJ252alxKHXtODJH5Vc2FXRp-ZqMQVtkg`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
         "Content-Type": "application/json",
       },
     });
@@ -209,7 +209,7 @@ export const deleteItem = async (
       method: "delete",
       url: `http://15.164.84.204:8080/members/${memberId}/wishes`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0MTBAbmF2ZXIuY29tIiwiYXV0aCI6IiIsImV4cCI6MTY5NDgyODAxN30.C-ZSA1VNT0QRlIl4tOKA9BIbigNnR1bPlJ_JFaQv9PvK0T8nGxvjJzJ252alxKHXtODJH5Vc2FXRp-ZqMQVtkg`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
         "Content-Type": "application/json",
       },
       data: deleteId,
@@ -245,16 +245,31 @@ export const deleteAllFavorite = async (memberId: number, length: number) => {
       method: "delete",
       url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${length}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0MTBAbmF2ZXIuY29tIiwiYXV0aCI6IiIsImV4cCI6MTY5NDgyODAxN30.C-ZSA1VNT0QRlIl4tOKA9BIbigNnR1bPlJ_JFaQv9PvK0T8nGxvjJzJ252alxKHXtODJH5Vc2FXRp-ZqMQVtkg`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
         "Content-Type": "application/json",
       },
     });
     const data = response.data;
-    const test = data.wishes.map((el: objTest) => {
-      const test1 = el.item_id;
-      return test1;
+    return data;
+  } catch (error) {
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+  }
+};
+
+// 검색 /////////////////////////////////////////
+export const searchItem = async (keyWord: string, memberId?: number) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://15.164.84.204:8080/items/search?page_number=1&page_size=18&keyword=${keyWord}${
+        memberId ? `&watcher_id=${memberId}` : ""
+      }`,
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        "Content-Type": "application/json",
+      },
     });
-    console.log(test);
+    const data = response.data;
     return data;
   } catch (error) {
     console.log(`데이터 불러오기를 실패했습니다.${error}`);

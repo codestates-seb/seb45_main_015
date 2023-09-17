@@ -56,6 +56,9 @@ const FavoritePageContainer = styled.div`
     @media (min-width: 0px) {
       grid-template-columns: repeat(2, auto);
     }
+    @media (min-width: 605px) {
+      grid-template-columns: repeat(3, auto);
+    }
     @media (min-width: 1025px) {
       grid-template-columns: repeat(4, auto);
     }
