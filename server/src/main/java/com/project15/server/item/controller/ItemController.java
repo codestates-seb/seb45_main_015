@@ -65,6 +65,16 @@ public class ItemController {
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
+    //나의 거래 페이지 내가 올린 물품의 전체 목록
+    @GetMapping("/my-item")
+    public ResponseEntity getMyItems(@RequestParam("page_number") int pageNumber,
+                                     @RequestParam("page_size") int pageSize,
+                                     @RequestParam("member_id") Long memberId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findMyItems(pageNumber, pageSize, memberId);
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
+    }
+
     //경매 물품 카테고리별 목록
     @GetMapping("/categories")
     public ResponseEntity getItemsByCategory(@RequestParam("page_number") int pageNumber,

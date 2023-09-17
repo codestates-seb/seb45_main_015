@@ -150,6 +150,36 @@ public class ItemServiceImpl implements ItemService{
         return itemMapper.itemPageToMultiResponseDto(itemPage, itemIds);
     }
 
+    public ItemDto.MultiResponseDto findMyItems(int pageNumber, int pageSize, Long memberId) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
+        Page<Item> itemPage = itemRepository.findBySellerMemberId(memberId, pageable);
+
+        Member findMember;
+        List<Wish> wishes;
+        List<Long> itemIds;
+
+        //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
+        if(memberId == null) {
+            itemIds = null;
+        }
+        else {
+            findMember = memberRepository
+                    .findById(memberId)
+                    .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
+
+            wishes = findMember.getWishes();
+            itemIds = wishes.stream()
+                    .map(wish -> wish.getItem().getItemId())
+                    .collect(Collectors.toList());
+        }
+
+        itemPage.getContent().stream()
+                .filter(item -> isStatusBidding(item.getCreatedAt()) && item.getStatus().equals(ItemStatus.WAITING))
+                .forEach(item -> item.setStatus(ItemStatus.BIDDING));
+
+        return itemMapper.itemPageToMultiResponseDto(itemPage, itemIds);
+    }
+
     @Override
     public ItemDto.MultiResponseDto findItemsByCategory(int pageNumber, int pageSize, Long categoryId, Long watcherId) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
