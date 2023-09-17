@@ -21,7 +21,6 @@ export const useLogin = async (data: LoginData) => {
     const token: string = response.data.token;
 
     localStorage.setItem("token", `Bearer ${token}`);
-    console.log(memberId);
   } else {
     console.log("로그인 실패");
   }
