@@ -1,8 +1,11 @@
-import React, { FormEvent, useState } from "react";
-import InputComponent from "../components/InputComponent";
-import { LoginData } from "../type/type";
-import { useLogin } from "../API/FetchAPI";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleLogin from "react-google-login-ng";
+
+import useInputValidate from "../hooks/InputValidata";
+import InputComponent from "../components/InputComponent";
+
+import { useLogin, useGuestLogin } from "../API/FetchAPI";
 import {
   LoginPageContainer,
   LoginPageImage,
@@ -11,31 +14,33 @@ import {
   LoginFormContainer,
 } from "./page_style/LoginPage_styled";
 import { LargeButtonB } from "../components/ButtonComponent";
-import GoogleLogin from "react-google-login-ng";
 
 const LoginPage: React.FC = () => {
   const navigator = useNavigate();
-  const [emailMessage, setEmailMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [checkMessage, setCheckMessage] = useState("");
+  // 데이터 유효성 검사 훅
+  const { emailMessage, passwordMessage, userInfo, setUserInfo, inputHandler } =
+    useInputValidate({ email: "", password: "" });
 
-  //데이터 유효성 검사
-  const [isCheck, setIsCheck] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
-  const [userInfo, setUserInfo] = useState<LoginData>({
-    email: "",
-    password: "",
-  });
+  const mutation = useLogin(userInfo);
+
+  const guestLoginMutation = useGuestLogin();
 
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    useLogin(userInfo);
+    if (inputHandler(userInfo).loginPage) {
+      mutation.mutate();
+    }
   };
   return (
     <LoginPageContainer>
       <LoginPageImage />
       <LoginFormDiv>
+        <button
+          className="guest-login-btn"
+          onClick={() => guestLoginMutation.mutate()}
+        >
+          게스트
+        </button>
         <LoginFormContainer onSubmit={handleLoginSubmit}>
           <LoginFormItem>
             <h2>로그인</h2>
