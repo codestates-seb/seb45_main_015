@@ -3,6 +3,8 @@ import {
   Chatting,
   ChattingArea,
   Container,
+  DateLine,
+  DateWrapper,
   Header,
   Icon,
   Image,
@@ -56,6 +58,11 @@ function ChatRoom({
           </MessageWrapper>
           <Text>4:07 PM</Text>
         </Message>
+        <DateWrapper>
+          <DateLine></DateLine>
+          <Text className="message-date">29 Sep 2023</Text>
+          <DateLine></DateLine>
+        </DateWrapper>
       </Main>
       <Chatting>
         <ChattingArea />
