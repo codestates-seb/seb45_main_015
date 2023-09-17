@@ -41,15 +41,19 @@ const ItemListPageContainer = styled.div`
 
     @media (min-width: 0px) {
       grid-template-columns: repeat(2, auto);
+      transition: 500ms;
     }
     @media (min-width: 1025px) {
       grid-template-columns: repeat(3, auto);
+      transition: 500ms;
     }
     @media (min-width: 1210px) {
       grid-template-columns: repeat(2, auto);
+      transition: 500ms;
     }
     @media (min-width: 1485px) {
       grid-template-columns: repeat(3, auto);
+      transition: 500ms;
     }
   }
   & .content:nth-child() > div {

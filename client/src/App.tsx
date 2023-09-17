@@ -31,7 +31,7 @@ const App: React.FC = () => {
             <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route path="/mytrade" element={<MyTrade />} />
             <Route path="/allList" element={<ItemListPage />} />
-            <Route path="/category" element={<ItemCategoryPage />} />
+            <Route path="/category/:id" element={<ItemCategoryPage />} />
             <Route path="/favorite" element={<FavoritePage />} />
             <Route path="/mypage" element={<MyPage />} />
           </Routes>
