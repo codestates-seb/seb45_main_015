@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   FindPasswordPageContainer,
   FindPasswordPageImage,
@@ -8,21 +8,21 @@ import {
   FindPasswordFormContainer,
 } from "./page_style/FindPasswordPage_styled";
 import { useFind } from "../API/FetchAPI";
+import useInputValidate from "../hooks/InputValidata";
 import { LargeButtonB } from "../components/ButtonComponent";
 import InputComponent from "../components/InputComponent";
 import { FindPWData } from "../type/type";
 
 const FindPasswordPage: React.FC = () => {
-  const navigator = useNavigate();
-  const [userInfo, setUserInfo] = useState<FindPWData>({
-    email: "",
-  });
-  const [emailMessage, setEmailMessage] = useState("");
-  const [isEmail, setIsEmail] = useState(false);
+  const { emailMessage, userInfo, setUserInfo, inputHandler } =
+    useInputValidate({ email: "" });
+  const mutation = useFind(userInfo);
 
   const handleFindPWSumbit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    useFind(userInfo);
+    if (inputHandler(userInfo).findPwPage) {
+      mutation.mutate();
+    }
   };
 
   return (
