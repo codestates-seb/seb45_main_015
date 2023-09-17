@@ -19,18 +19,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchItemDetail } from "../API/FetchAPI";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LargeButtonA, LargeButtonC } from "../components/ButtonComponent";
 
 function ItemDetailPage() {
-  const itemId = 1;
+  const itemId = 112;
   const queryClient = useQueryClient();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState<number | null>(null);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   const { data, isLoading } = useQuery(
     ["itemDetail", itemId],
     () => fetchItemDetail(itemId),
     {
       refetchInterval: 50000,
+      enabled: !isDragging, // 스크롤 중인 경우에만 호출 비활성화
     },
   );
 
@@ -44,10 +49,33 @@ function ItemDetailPage() {
     };
   }, [itemId, queryClient]);
 
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+    setScrollLeft(containerRef.current?.scrollLeft || 0);
+    if (containerRef.current) {
+      containerRef.current.style.cursor = "grabbing";
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!isDragging) return;
+    const deltaX = (startX || 0) - e.clientX;
+    if (containerRef.current) {
+      containerRef.current.scrollLeft = scrollLeft + deltaX;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    if (containerRef.current) {
+      containerRef.current.style.cursor = "grab";
+    }
+  };
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
   return (
     <Container>
       <ItemDetailContainer>
@@ -66,7 +94,12 @@ function ItemDetailPage() {
               <Icon>
                 <FontAwesomeIcon icon={faChevronLeft} />
               </Icon>
-              <ImgList>
+              <ImgList
+                ref={containerRef}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+              >
                 {data.item_image_urls.map((data: string, index: number) => (
                   <ImgWrapper key={index} className="detail-sub-img">
                     <Img src={data} />
@@ -116,7 +149,7 @@ function ItemDetailPage() {
         <ItemDetailContent className="column">
           <Wrapper className="detail-moreinfo-wrapper">
             <Text className="detail-info-init">판매자</Text>
-            <Text className="detail-info">{data.member_nickname}</Text>
+            <Text className="detail-info">{data.seller_nickname}</Text>
           </Wrapper>
           <Wrapper className="column">
             <Text className="detail-info-init">상세정보</Text>

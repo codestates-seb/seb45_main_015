@@ -1,7 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useRegistrateItem, useRegistrateItemImage } from "../API/FetchAPI";
 =======
 >>>>>>> abb179d (feat: RegistrateItemPage 명세서 제작)
+=======
+import { useRegistrateItem, useRegistrateItemImage } from "../API/FetchAPI";
+>>>>>>> 405f8ea (feat: feat: registrate페이지 코드 수정)
 import {
   CategoryField,
   RegistrateItemDataField,
@@ -23,6 +27,7 @@ function RegistrateSpecification({
   totalItemInfo,
   itemCategory,
 <<<<<<< HEAD
+<<<<<<< HEAD
   setSpecification,
   itemImageFile,
 }: {
@@ -32,13 +37,19 @@ function RegistrateSpecification({
   itemImageFile: File[];
 =======
   handlePostRegistrateItem,
+=======
+>>>>>>> 405f8ea (feat: feat: registrate페이지 코드 수정)
   setSpecification,
+  itemImageFile,
 }: {
   totalItemInfo: RegistrateItemDataField;
   itemCategory: CategoryField[];
-  handlePostRegistrateItem: () => Promise<void>;
   setSpecification: (value: boolean) => void;
+<<<<<<< HEAD
 >>>>>>> abb179d (feat: RegistrateItemPage 명세서 제작)
+=======
+  itemImageFile: File[];
+>>>>>>> 405f8ea (feat: feat: registrate페이지 코드 수정)
 }) {
   const total: SpecificationField[] = [
     { title: "상품명", value: totalItemInfo.title },
@@ -66,14 +77,20 @@ function RegistrateSpecification({
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 405f8ea (feat: feat: registrate페이지 코드 수정)
   const handlePostRegistrateItem = () => {
     useRegistrateItem(totalItemInfo).then(data => {
       useRegistrateItemImage(itemImageFile, data.item_id);
     });
   };
 
+<<<<<<< HEAD
 =======
 >>>>>>> abb179d (feat: RegistrateItemPage 명세서 제작)
+=======
+>>>>>>> 405f8ea (feat: feat: registrate페이지 코드 수정)
   return (
     <Container>
       <Content>
