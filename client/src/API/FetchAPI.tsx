@@ -26,8 +26,6 @@ export const useLogin = async (data: LoginData) => {
   if (response.status === 200) {
     const token: string = response.data.token;
 
-    const memberId = jwtDecode(token);
-
     localStorage.setItem("token", `Bearer ${token}`);
     console.log(memberId);
   } else {
@@ -63,16 +61,19 @@ export const useChange = async (data: ChangePWData) => {
 };
 
 // 상품리스트 불러오기 //////////////////////////////////////////////
-export const getItem = async (Url: string) => {
+export const getItem = async (page: number, memberID: number) => {
   try {
     const response = await axios({
       method: "get",
-      url: Url,
+      url: `http://15.164.84.204:8080/items?page_number=1&page_size=${page}&watcher_id=${memberID}`,
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        "Content-Type": "application/json",
+      },
     });
-    const data = response.data;
-    return data;
+    return response.data;
   } catch (error) {
-    alert(`데이터 불러오기를 실패했습니다.${error}`);
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
 };
 
@@ -151,13 +152,50 @@ export const getCategory = async () => {
       method: "get",
       url: "http://15.164.84.204:8080/categories?page_number=1&page_size=16",
       headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
         "Content-Type": "application/json",
       },
     });
     const data = response.data.categories;
     return data;
   } catch (error) {
-    alert(`데이터 불러오기를 실패했습니다.${error}`);
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+  }
+};
+// 카테고리 별 아이템 불러오기 //////////////////////////////////////////////
+export const getCategoryItem = async (page: number, id: number) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://15.164.84.204:8080/items/categories?page_number=1&page_size=${page}&category_id=${id}&member_id=1`,
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = response.data.items;
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+  }
+};
+
+// 찜목록 불러오기 /////////////////////////////////////////
+export const getFavorite = async (memberId: number, length: number) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${length}`,
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
 };
 
@@ -166,9 +204,90 @@ export const postItem = async (itemId: number, memberId: number) => {
   try {
     const request = await axios({
       method: "post",
-      url: `http://15.164.84.204:8080/items/${itemId}/favorites/${memberId}`,
+      url: `http://15.164.84.204:8080/items/${itemId}/wishes/${memberId}`,
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        "Content-Type": "application/json",
+      },
     });
+    console.log("찜목록 추가완료");
   } catch (error) {
-    alert(`데이터 불러오기를 실패했습니다.${error}`);
+    console.log(`찜목록 추가를 실패했습니다.${error}`);
+  }
+};
+
+// 찜목록 삭제 /////////////////////////////////////////
+export const deleteItem = async (
+  memberId: number,
+  deleteId: number[] | (() => void),
+) => {
+  try {
+    const request = await axios({
+      method: "delete",
+      url: `http://15.164.84.204:8080/members/${memberId}/wishes`,
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        "Content-Type": "application/json",
+      },
+      data: deleteId,
+    });
+    return request.data;
+  } catch (error) {
+    console.log(`데이터 삭제를 실패했습니다.${error}`);
+  }
+};
+
+// 찜목록 전체 삭제 /////////////////////////////////////////
+interface objTest {
+  bid_unit: number;
+  buy_now_price: number;
+  buyer_id: null;
+  buyer_nickname: null;
+  category: string;
+  content: string;
+  current_price: number;
+  end_time: string;
+  item_id: number;
+  item_image_urls: string[];
+  seller_id: number;
+  seller_nickname: string;
+  start_price: number;
+  status: string;
+  title: string;
+  wish_id: number;
+}
+export const deleteAllFavorite = async (memberId: number, length: number) => {
+  try {
+    const response = await axios({
+      method: "delete",
+      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${length}`,
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+  }
+};
+// 검색 /////////////////////////////////////////
+export const searchItem = async (keyWord: string, memberId?: number) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://15.164.84.204:8080/items/search?page_number=1&page_size=18&keyword=${keyWord}${
+        memberId ? `&watcher_id=${memberId}` : ""
+      }`,
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
 };

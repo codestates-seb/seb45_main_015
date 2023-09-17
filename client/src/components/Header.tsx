@@ -73,9 +73,9 @@ function Header() {
             <SearchForm>
               <Search placeholder="검색" />
               <SearchButton>
-                <Link to="/detail">
-                  <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </Link>
+                {/* <Link to="/detail"> */}
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                {/* </Link> */}
               </SearchButton>
             </SearchForm>
           </SearchWrapper>
