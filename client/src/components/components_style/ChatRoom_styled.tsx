@@ -82,6 +82,11 @@ export const Text = styled.p`
   &.message-time {
     font-size: 10px;
   }
+
+  &.message-date {
+    white-space: nowrap;
+    margin: 0 10px;
+  }
 `;
 
 export const Main = styled.div`
@@ -122,7 +127,6 @@ export const MessageWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding: 10px;
-  margin-bottom: 5px;
 
   &.another-user-message {
     background-color: #e7f3ff;
@@ -133,6 +137,18 @@ export const MessageWrapper = styled.div`
     background-color: #55ccff;
     border-radius: 12px 12px 0 12px;
   }
+`;
+
+export const DateWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 20px;
+`;
+
+export const DateLine = styled.div`
+  border-bottom: solid 1px #d9dadb;
+  width: 100%;
+  height: 50%;
 `;
 
 export const Chatting = styled.div`

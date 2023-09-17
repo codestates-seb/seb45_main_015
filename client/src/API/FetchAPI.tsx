@@ -218,8 +218,7 @@ export const useRegistrateItem = async (
       url: `http://15.164.84.204:8080/items`,
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
+        Authorization: "Bearer token",
       },
       data: requestData,
     });
@@ -247,8 +246,7 @@ export const useRegistrateItemImage = async (
       url: `http://15.164.84.204:8080/items/${itemId}/images`,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
+        Authorization: "Bearer token",
       },
       data: formData,
     });
@@ -270,10 +268,14 @@ export const getCategory = async () => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         Authorization:
           "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
 >>>>>>> 42dbb72 (feat: Chat 폼 제작)
+=======
+        Authorization: "Bearer token",
+>>>>>>> 08ef21f (feat: 채팅 날짜 선 추가)
       },
     });
     const data = response.data.categories;
