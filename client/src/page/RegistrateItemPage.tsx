@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LargeButtonB } from "../components/ButtonComponent";
 import {
   Button,
@@ -7,6 +7,8 @@ import {
   Container,
   Img,
   ImgContent,
+  ImgInput,
+  ImgLabel,
   ImgWrapper,
   InfoWrapper,
   InputWrapper,
@@ -15,77 +17,59 @@ import {
   SeletedCategoryTagWrapper,
   SubTitle,
   Text,
+  TextArea,
   TextInput,
   Title,
 } from "./page_style/RegistrateItemPage_styled";
-import { postRegistrateItem } from "../API/FetchAPI";
-
-interface RegistrateField {
-  subTitle: string;
-  placeholder?: string;
-  description: string;
-  inputType?: string;
-  button?: RegistrateButtonField[];
-  maxLength?: number;
-}
-
-interface RegistrateButtonField {
-  value: number | null;
-  unit: string;
-  mode: string;
-}
-
-interface RegistrateInfo {
-  seller_id: string;
-  title: string;
-  content: string;
-  auction_time: number;
-  category_id: number;
-  start_price: number;
-  bid_unit: number;
-  buy_now_price: number;
-}
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { getCategory } from "../API/FetchAPI";
+import {
+  CategoryField,
+  RegistrateField,
+  RegistrateItemDataField,
+} from "../type/type";
+import RegistrateSpecification from "../components/RegistrateSpecification";
 
 function RegistInputForm({
   field,
-  handleSelectedAuctionPeriod,
-  selectedAuctionPeriod,
-  handleSelectedBiddingUnit,
-  selectedBiddingUnit,
-  setInputValue,
-  inputValue,
+  setData,
 }: {
   field: RegistrateField;
-  handleSelectedAuctionPeriod?: (el: RegistrateButtonField | null) => void;
-  selectedAuctionPeriod?: RegistrateButtonField | null;
-  handleSelectedBiddingUnit?: (el: RegistrateButtonField | null) => void;
-  selectedBiddingUnit?: RegistrateButtonField | null;
-  setInputValue?: (value: string) => void;
-  inputValue?: string;
+  setData: (value: string) => void;
 }) {
-  const handleInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newValue = e.target.value;
-    console.log(e);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [button, setButton] = useState<string | null>("");
+  const previousValueRef = useRef("");
+
+  const handleInputValueChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    let value = e.target.value;
 
     if (field.inputType === "number") {
-      newValue = newValue.replace(/[^\d]/g, "");
+      let numberValue = value.replace(/[^0-9]/g, "");
+      if (numberValue.length > 1 && numberValue[0] === "0") {
+        numberValue = numberValue.slice(1);
+      }
+      if (numberValue !== previousValueRef.current) {
+        previousValueRef.current = numberValue;
+      }
+      setInputValue(numberValue);
+      setData(numberValue + "000");
+    } else {
+      if (field.maxLength && value.length <= field.maxLength) {
+        setInputValue(value);
+      }
+      setData(value);
     }
+  };
 
-    if (field.maxLength && newValue.length > field.maxLength) {
-      newValue = newValue.slice(0, field.maxLength);
-    }
-
-    if (setInputValue) {
-      setInputValue(newValue);
-    }
-
-    if (handleSelectedBiddingUnit) {
-      handleSelectedBiddingUnit({
-        value: parseInt(newValue),
-        unit: "원",
-        mode: "직접입력",
-      });
-    }
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setButton(e.currentTarget.textContent);
+    setData(e.currentTarget.value);
   };
 
   return (
@@ -96,41 +80,44 @@ function RegistInputForm({
           {field.button?.map(el => (
             <Button
               key={el.value}
+              value={String(el.value)}
               className={`registrate-fixed-button ${
-                (selectedBiddingUnit && selectedBiddingUnit.mode === el.mode) ||
-                (selectedAuctionPeriod &&
-                  selectedAuctionPeriod.mode === el.mode)
-                  ? "selected"
-                  : ""
+                button === el.btn && "selected"
               }`}
-              onClick={() => {
-                if (handleSelectedAuctionPeriod) {
-                  handleSelectedAuctionPeriod(el);
-                } else if (handleSelectedBiddingUnit) {
-                  handleSelectedBiddingUnit(el);
-                }
-              }}
+              onClick={handleButtonClick}
             >
-              {el.mode}
+              {el.btn}
             </Button>
           ))}
         </ButtonWrapper>
       )}
-      {field.subTitle !== "경매기간" && (
+      {field.subTitle !== "경매기간" && field.subTitle !== "상세설명" ? (
         <InputWrapper
           className={field.subTitle === "입찰 단위" ? "budding-unit-field" : ""}
         >
           <TextInput
             placeholder={field.placeholder}
+            className={field.inputType === "number" ? "registrate-price" : ""}
+            type="text"
             value={inputValue}
             onChange={handleInputValueChange}
-            className={field.inputType === "number" ? "registrate-price" : ""}
             maxLength={field.maxLength}
           />
           {field.inputType === "number" && (
             <Text className="registrate-input-text">000원</Text>
           )}
         </InputWrapper>
+      ) : (
+        field.subTitle === "상세설명" && (
+          <InputWrapper className="text-area">
+            <TextArea
+              placeholder={field.placeholder}
+              value={inputValue}
+              onChange={handleInputValueChange}
+              maxLength={field.maxLength}
+            />
+          </InputWrapper>
+        )
       )}
       <Text>{field.description}</Text>
     </RegistrateWrapper>
@@ -138,190 +125,259 @@ function RegistInputForm({
 }
 
 function RegistrateItemPage() {
-  const categoryTag = [
-    "패션의류/잡화",
-    "식품",
-    "출산/유아동",
-    "주방용품",
-    "생활용품",
-    "인테리어",
-    "가전/디지털",
-    "뷰티",
-    "스포츠/레저",
-    "자동차용품",
-    "도서/음반CD",
-    "완구/취미",
-    "문구/오피스",
-    "반려동물용품",
-    "헬스/건강식품",
-  ];
-
-  const productNameField: RegistrateField = {
+  const itemTitleField: RegistrateField = {
     subTitle: "상품명",
     placeholder: "상품명을 적어주세요.",
-    description: "판매할 상품의 이름을 정확히 적어주세요.",
+    description: "판매할 상품의 이름을 적어주세요.",
     inputType: "text",
     maxLength: 25,
   };
 
-  const descriptionField: RegistrateField = {
+  const itemContentField: RegistrateField = {
     subTitle: "상세설명",
     placeholder: "상품을 소개해보세요.",
     description: "자세한 설명은 좋은 판매전략이 됩니다.",
     inputType: "text",
-    maxLength: 50,
+    maxLength: 200,
   };
 
-  const auctionPeriodField: RegistrateField = {
+  const itemAuctionTimeField: RegistrateField = {
     subTitle: "경매기간",
     description: "상품을 등록할 기간을 선택하세요.",
     button: [
-      { value: 1, unit: "일", mode: "1초" },
-      { value: 2, unit: "일", mode: "2초" },
-      { value: 3, unit: "일", mode: "3초" },
-      { value: 10, unit: "초", mode: "10초" },
+      { value: 1, btn: "1일" },
+      { value: 2, btn: "2일" },
+      { value: 3, btn: "3일" },
+      { value: 10, btn: "10초" },
     ],
   };
 
-  const startingPriceField: RegistrateField = {
+  const itemstartPriceField: RegistrateField = {
     subTitle: "시작 가격",
-    description: "최소 판매 가격을 입력해주세요.",
+    description: "시작 가격을 입력해주세요.",
     inputType: "number",
     maxLength: 9,
   };
 
-  const buyNowPriceField: RegistrateField = {
+  const itemBuyNowPriceField: RegistrateField = {
     subTitle: "즉시구매 가격",
-    description: "최대 판매 가격을 입력해주세요.",
+    description: "즉시구매 가격을 입력해주세요.(선택)",
     inputType: "number",
     maxLength: 9,
   };
 
-  const biddingUnitField: RegistrateField = {
+  const itemBidUnitField: RegistrateField = {
     subTitle: "입찰 단위",
     description: "입찰 단위를 선택해 주세요.",
     inputType: "number",
-    button: [
-      { value: 1000, unit: "원", mode: "1000원" },
-      { value: 5000, unit: "원", mode: "5000원" },
-      { value: 10000, unit: "원", mode: "10000원" },
-      { value: 5, unit: "%", mode: "5%" },
-      { value: 10, unit: "%", mode: "10%" },
-      { value: null, unit: "원", mode: "직접입력" },
-    ],
     maxLength: 9,
   };
 
-  const [selectedAuctionPeriod, setSelectedAuctionPeriod] =
-    useState<RegistrateButtonField | null>(null);
-  const [selectedBiddingUnit, setSelectedBiddingUnit] =
-    useState<RegistrateButtonField | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-  const [inputValue, setInputValue] = useState<string>("");
+  const [itemTitle, setItemTitle] = useState<string>("");
+  const [itemContent, setItemContent] = useState<string>("");
+  const [itemstartPrice, setItemStartPrice] = useState<string>("");
+  const [itemBuyNowPrice, setItemBuyNowPrice] = useState<string>("");
+  const [itemAuctionTime, setItemAuctionTime] = useState<string>("");
+  const [itemBidUnit, setItemBidUnit] = useState<string>("");
+  const [itemCategory, setItemCategory] = useState<CategoryField[]>([]);
+  const [itemImageFile, setItemImageFile] = useState<File[]>([]);
+  const [categoryTag, setCategoryTag] = useState<CategoryField[]>([]);
+  const [totalItemInfo, setTotalItemInfo] = useState<RegistrateItemDataField>();
+  const [specification, setSpecification] = useState<boolean>(false);
 
-  const handleSelectedAuctionPeriod = (el: RegistrateButtonField) => {
-    setSelectedAuctionPeriod(el);
-    console.log(selectedAuctionPeriod);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getCategory();
+        setCategoryTag(
+          data.filter((tag: { id: number; name: string }) => tag.id !== 1),
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSelectedCategory = (tag: CategoryField) => {
+    const selectedItem = categoryTag.find(item => item.name === tag.name);
+    if (selectedItem) {
+      setItemCategory([selectedItem]);
+    }
   };
 
-  const handleSelectedBiddingUnit = (el: RegistrateButtonField) => {
-    if (el.mode === "직접입력") {
-      const correctionValue = Number(`${el.value}000`);
-      setSelectedBiddingUnit({ ...el, value: correctionValue });
-    } else {
-      setSelectedBiddingUnit(el);
-      setInputValue("");
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (files) {
+      const newImages: File[] = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+        const fileName = file.name.toLowerCase();
+        if (allowedExtensions.some(ext => fileName.endsWith(ext))) {
+          newImages.push(file);
+        } else {
+          alert(`"${file.name}" 파일은 이미지가 아닙니다.`);
+        }
+      }
+
+      if (itemImageFile.length + newImages.length <= 5) {
+        setItemImageFile([...itemImageFile, ...newImages]);
+      } else {
+        alert("이미지는 최대 5개까지 선택할 수 있습니다.");
+      }
+    }
+  };
+
+  const handleImageRemove = (e: number) => {
+    const updatedImages = itemImageFile.filter((_, index) => index !== e);
+    setItemImageFile(updatedImages);
+  };
+
+  const handlePostRegistrateItem = async () => {
+    if (!itemTitle) {
+      alert("상품명을 작성해주세요.");
+      return;
     }
 
-    console.log(selectedBiddingUnit);
-  };
-
-  const handleSelectedCategory = (tag: string) => {
-    if (selectedCategory.includes(tag)) {
-      setSelectedCategory(selectedCategory.filter(item => item !== tag));
-    } else if (selectedCategory.length < 3) {
-      setSelectedCategory([...selectedCategory, tag]);
+    if (!itemContent) {
+      alert("상세설명을 작성해주세요.");
+      return;
     }
-    console.log(selectedCategory);
-  };
 
-  const handlePostRegistrateItem = () => {
-    const seller_id = "seller123";
-    const title = "상품 제목";
-    const content = "상품 설명";
-    const auction_time = 7;
-    const category_id = 1;
-    const start_price = 10000;
-    const bid_unit = 1000;
-    const buy_now_price = 20000;
+    if (itemImageFile.length === 0) {
+      alert("이미지를 등록해주세요.");
+      return;
+    }
 
-    postRegistrateItem(
-      seller_id,
-      title,
-      content,
-      auction_time,
-      category_id,
-      start_price,
-      bid_unit,
-      buy_now_price,
-    );
+    if (!itemAuctionTime) {
+      alert("경매기간을 선택해주세요.");
+      return;
+    }
+
+    if (!itemstartPrice) {
+      alert("시작 가격을 작성해주세요.");
+      return;
+    }
+
+    if (!itemBidUnit) {
+      alert("입찰 단위을 작성해주세요.");
+      return;
+    }
+
+    if (!itemCategory[0]) {
+      alert("카테고리를 선택해주세요.");
+      return;
+    }
+
+    if (Number(itemBuyNowPrice) !== 0) {
+      if (Number(itemBuyNowPrice) < Number(itemstartPrice)) {
+        alert("즉시구매가격이 시작가격보다 높아야 합니다.");
+        return;
+      } else if (Number(itemBuyNowPrice) < Number(itemBidUnit)) {
+        alert("즉시구매가격이 입찰단위보다 높아야 합니다.");
+        return;
+      }
+    }
+
+    const requestData: RegistrateItemDataField = {
+      seller_id: "1",
+      title: itemTitle,
+      content: itemContent,
+      auction_time: Number(itemAuctionTime),
+      category_id: itemCategory[0].id,
+      start_price: Number(itemstartPrice),
+      bid_unit: Number(itemBidUnit),
+      buy_now_price: Number(itemBuyNowPrice),
+    };
+
+    setTotalItemInfo(requestData);
+    setSpecification(true);
   };
 
   return (
     <Container>
+      {specification && totalItemInfo && (
+        <RegistrateSpecification
+          totalItemInfo={totalItemInfo}
+          itemCategory={itemCategory}
+          setSpecification={setSpecification}
+          itemImageFile={itemImageFile}
+        />
+      )}
       <RegistrateContent>
         <Title>상품 등록</Title>
-        <RegistInputForm field={productNameField} />
-        <RegistInputForm field={descriptionField} />
+        <RegistInputForm field={itemTitleField} setData={setItemTitle} />
+        <RegistInputForm field={itemContentField} setData={setItemContent} />
         <RegistrateWrapper>
           <SubTitle>이미지 등록</SubTitle>
           <ImgContent>
             <ImgWrapper>
-              <Img></Img>
+              <ImgLabel htmlFor="registrate-image-file">
+                <FontAwesomeIcon icon={faImage} />
+              </ImgLabel>
+              <ImgInput
+                id="registrate-image-file"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageSelect}
+              />
             </ImgWrapper>
+            {itemImageFile.map((image, index) => (
+              <ImgWrapper
+                key={index}
+                className="registrate-image"
+                onClick={() => handleImageRemove(index)}
+              >
+                <Img src={URL.createObjectURL(image)} alt={`Image ${index}`} />
+              </ImgWrapper>
+            ))}
           </ImgContent>
           <Text>판매할 상품의 이미지를 등록하세요.</Text>
         </RegistrateWrapper>
         <RegistInputForm
-          field={auctionPeriodField}
-          handleSelectedAuctionPeriod={handleSelectedAuctionPeriod}
-          selectedAuctionPeriod={selectedAuctionPeriod}
+          field={itemAuctionTimeField}
+          setData={setItemAuctionTime}
         />
         <InfoWrapper>
-          <RegistInputForm field={startingPriceField} />
-          <RegistInputForm field={buyNowPriceField} />
+          <RegistInputForm
+            field={itemstartPriceField}
+            setData={setItemStartPrice}
+          />
+          <RegistInputForm
+            field={itemBuyNowPriceField}
+            setData={setItemBuyNowPrice}
+          />
         </InfoWrapper>
-        <RegistInputForm
-          field={biddingUnitField}
-          handleSelectedBiddingUnit={handleSelectedBiddingUnit}
-          selectedBiddingUnit={selectedBiddingUnit}
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-        />
+        <RegistInputForm field={itemBidUnitField} setData={setItemBidUnit} />
         <RegistrateWrapper>
           <SubTitle>카테고리</SubTitle>
           <SeletedCategoryTagWrapper>
-            {selectedCategory.map(tag => (
+            {itemCategory.map(tag => (
               <Button
-                key={tag}
+                key={tag.id}
                 className="registrate-category-tag-select"
                 onClick={() => handleSelectedCategory(tag)}
               >
-                {tag}
+                {tag.name}
               </Button>
             ))}
           </SeletedCategoryTagWrapper>
-          <Text>태그는 최대 3개까지 선택이 가능합니다.</Text>
+          <Text>태그를 선택해 주세요.</Text>
           <CategoryTagWrapper>
-            {categoryTag.map(tag => (
+            {categoryTag.map((tag: { id: number; name: string }) => (
               <Button
-                key={tag}
+                key={tag.id}
                 className={`registrate-category-tag ${
-                  selectedCategory.includes(tag) && "selected"
+                  itemCategory.includes(tag) && "selected"
                 }`}
                 onClick={() => handleSelectedCategory(tag)}
               >
-                {tag}
+                {tag.name}
               </Button>
             ))}
           </CategoryTagWrapper>

@@ -1,6 +1,12 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { FindPWData, LoginData, SignupData, ChangePWData } from "../type/type";
+import {
+  FindPWData,
+  LoginData,
+  SignupData,
+  ChangePWData,
+  RegistrateItemDataField,
+} from "../type/type";
 
 const BASE_URL = "http://15.164.84.204:8080";
 
@@ -72,11 +78,13 @@ export const getItem = async (page: number, memberID: number) => {
 };
 
 // 상세페이지데이터 //////////////////////////////////////////////
-export const fetchItemDetail = async (itemId: number) => {
+export const fetchItemDetail = async (itemId: number, watcherId?: number) => {
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/items/${itemId}`,
+      url: `http://15.164.84.204:8080/items/${itemId}?page_number=1&page_size=2${
+        watcherId && `&watcher_id=${watcherId}`
+      }`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -91,38 +99,49 @@ export const fetchItemDetail = async (itemId: number) => {
 };
 
 // 상품등록 //////////////////////////////////////////////
-export const postRegistrateItem = async (
-  seller_id: string,
-  title: string,
-  content: string,
-  auction_time: number,
-  category_id: number,
-  start_price: number,
-  bid_unit: number,
-  buy_now_price: number,
+export const useRegistrateItem = async (
+  requestData: RegistrateItemDataField,
 ) => {
   try {
     const response = await axios({
       method: "post",
       url: `http://15.164.84.204:8080/items`,
-      headers: { "Content-Type": "application/json" },
-      data: {
-        seller_id,
-        title,
-        content,
-        auction_time,
-        category_id,
-        start_price,
-        bid_unit,
-        buy_now_price,
+      headers: {
+        "Content-Type": "application/json",
       },
+      data: requestData,
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
+      console.log(response.data);
       return response.data;
     }
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const useRegistrateItemImage = async (
+  itemImageFile: File[],
+  itemId: number,
+) => {
+  try {
+    const formData = new FormData();
+    for (let i = 0; i < itemImageFile.length; i++) {
+      formData.append("image", itemImageFile[i]);
+    }
+    const response = await axios({
+      method: "post",
+      url: `http://15.164.84.204:8080/items/${itemId}/images`,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      data: formData,
+    });
+
+    console.log("이미지 업로드 성공:", response);
+  } catch (error) {
+    console.error("이미지 업로드 실패:", error);
   }
 };
 

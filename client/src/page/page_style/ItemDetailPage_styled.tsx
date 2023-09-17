@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 60px;
+  margin: 60px 0 180px;
 `;
 
 export const ItemDetailContainer = styled.div`
@@ -65,10 +65,6 @@ export const Text = styled.p`
     font-size: 35px;
     font-weight: bold;
     min-width: 260px;
-  }
-
-  &.detail-info-bidding {
-    color: #d32f2f;
   }
 
   &.detail-info-init {
@@ -138,6 +134,7 @@ export const Content = styled.div`
 `;
 
 export const ImgWrapper = styled.div`
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -152,12 +149,14 @@ export const ImgWrapper = styled.div`
   }
 
   &.detail-sub-img {
+    min-width: 75px;
+    min-height: 75px;
     width: 75px;
     height: 75px;
   }
 
   &.detail-sub-img:hover {
-    transform: scale(1.2);
+    /* transform: scale(1.2); */
     transition: 0.5s ease-out;
   }
 
@@ -172,6 +171,8 @@ export const ImgWrapper = styled.div`
     }
 
     &.detail-sub-img {
+      min-width: 60px;
+      min-height: 60px;
       width: 60px;
       height: 60px;
     }
@@ -182,13 +183,20 @@ export const ImgListContent = styled.div`
   display: flex;
   width: 100%;
   margin-top: 10px;
+  white-space: nowrap;
 `;
 
 export const ImgList = styled.div`
   display: flex;
   justify-content: center;
+  overflow-x: auto;
+  overflow-y: unset;
+  user-select: none;
   width: 100%;
-  margin: 0 5px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const Img = styled.img`
@@ -201,6 +209,8 @@ export const Icon = styled.div`
   display: flex;
   align-items: center;
   font-size: 60px;
+  width: 40px;
+  height: 75px;
   color: #a6a6a6;
 
   @media (max-width: 1024px) {
