@@ -20,8 +20,6 @@ export const useLogin = async (data: LoginData) => {
   if (response.status === 200) {
     const token: string = response.data.token;
 
-    const memberId = response.data;
-
     localStorage.setItem("token", `Bearer ${token}`);
     console.log(memberId);
   } else {
@@ -255,7 +253,6 @@ export const deleteAllFavorite = async (memberId: number, length: number) => {
     console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
 };
-
 // 검색 /////////////////////////////////////////
 export const searchItem = async (keyWord: string, memberId?: number) => {
   try {
