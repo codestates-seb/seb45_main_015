@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ItemListPageContainer from "./page_style/itemListPage_styled";
 import MainCategory from "../components/MainCategory";
 import MyCarousel from "../components/Carousel";
 import { ItemCard } from "../components/ItemCard";
 import { MediumButtonB } from "../components/ButtonComponent";
 import { getItem } from "../API/FetchAPI";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const carouselItems = [
   {
@@ -25,27 +26,38 @@ const carouselItems = [
 ];
 
 const ItemListPage: React.FC = () => {
-  const [isData, setIsData] = useState<any[]>([]);
   const [page, setPage] = useState<number>(18);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getItem(
-          `http://15.164.84.204:8080/items?page_number=1&page_size=${page}`,
-        );
-        setIsData(result.items);
-      } catch (error) {
-        alert(`데이터 불러오기를 실패했습니다.${error}`);
-      }
-    };
-
-    fetchData();
-  }, [page]);
+  const queryClient = useQueryClient();
 
   const handleLoadMore = () => {
     setPage(page + 18);
   };
+  const handleItemRefetch = () => {
+    refetch();
+  };
+
+  const getData = async () => {
+    const result = await getItem(page, 1);
+    queryClient.invalidateQueries(["itemList", page]);
+    return result.items;
+  };
+
+  const { data, isLoading, isError, refetch } = useQuery(
+    ["itemList", page],
+    getData,
+    {
+      keepPreviousData: true,
+    },
+  );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>{`Error fetching data ${isError}`}</div>;
+  }
 
   return (
     <ItemListPageContainer>
@@ -59,9 +71,13 @@ const ItemListPage: React.FC = () => {
             <h2 className="contenTitle">추천 상품 TOP6</h2>
             <div>
               <ul>
-                {isData.slice(0, 6).map((el, index) => (
+                {data.slice(0, 6).map((el: any, index: number) => (
                   <li key={index}>
-                    <ItemCard cardData={el} />
+                    <ItemCard
+                      cardData={el}
+                      favoriteState={el.in_wish_list}
+                      onItemRefetch={handleItemRefetch}
+                    />
                   </li>
                 ))}
               </ul>
@@ -71,9 +87,13 @@ const ItemListPage: React.FC = () => {
             <h2 className="contenTitle">인기 상품 TOP6</h2>
             <div>
               <ul>
-                {isData.slice(6, 12).map((el, index) => (
+                {data.slice(6, 12).map((el: any, index: number) => (
                   <li key={index}>
-                    <ItemCard cardData={el} />
+                    <ItemCard
+                      cardData={el}
+                      favoriteState={el.in_wish_list}
+                      onItemRefetch={handleItemRefetch}
+                    />
                   </li>
                 ))}
               </ul>
@@ -83,9 +103,13 @@ const ItemListPage: React.FC = () => {
             <h2 className="contenTitle">전체 상품</h2>
             <div>
               <ul>
-                {isData.map((el, index) => (
+                {data.map((el: any, index: number) => (
                   <li key={index}>
-                    <ItemCard cardData={el} />
+                    <ItemCard
+                      cardData={el}
+                      favoriteState={el.in_wish_list}
+                      onItemRefetch={handleItemRefetch}
+                    />
                   </li>
                 ))}
               </ul>

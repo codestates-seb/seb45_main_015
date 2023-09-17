@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+interface ContainerProps {
+  isCheck?: boolean;
+}
+//margin: ${({ isCheck }) => (isCheck ? "10px 15px 1px 0" : "25px 8px 0 3px")};
+// box-shadow: ${({ isCheck }) => (isCheck ? "5px 5px 5px " : "none")};
+export const Container = styled.div<ContainerProps>`
   width: 240px;
+  border-radius: 20px 20px;
   height: 383px;
   margin: 25px 8px 0 3px;
-
   @media (max-width: 1209px) {
     & {
       width: 167px;
@@ -12,7 +17,6 @@ export const Container = styled.div`
     }
   }
 `;
-
 export const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -55,7 +59,9 @@ export const Icon = styled.button`
   &.favorite-off {
     color: #d7d7d8;
   }
-
+  & .check {
+    color: green;
+  }
   @media (max-width: 1209px) {
     & {
       height: 114px;
