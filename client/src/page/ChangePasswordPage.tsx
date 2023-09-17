@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import {
   ChangePasswordPageContainer,
   ChangePasswordPageImage,
@@ -8,21 +7,20 @@ import {
   ChangePasswordFormContainer,
 } from "./page_style/ChangePasswordPage_style";
 import { useChange } from "../API/FetchAPI";
+import useInputValidate from "../hooks/InputValidata";
 import InputComponent from "../components/InputComponent";
 import { LargeButtonB } from "../components/ButtonComponent";
 import { ChangePWData } from "../type/type";
 
 const ChangePasswordPage: React.FC = () => {
-  const navigator = useNavigate();
-  const [userInfo, setUserInfo] = useState<ChangePWData>({
-    password: "",
-  });
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [isPassword, setIsPassword] = useState(false);
+  const { passwordMessage, userInfo, setUserInfo, inputHandler } =
+    useInputValidate({ password: "" });
 
   const handleChangePWSumbit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    useChange(userInfo);
+    if (inputHandler(userInfo).changePwPage) {
+      useChange(userInfo);
+    }
   };
 
   return (
