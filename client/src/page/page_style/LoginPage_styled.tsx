@@ -47,6 +47,28 @@ export const LoginFormDiv = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  position: relative;
+
+  & > .guest-login-btn {
+    width: 90px;
+    height: 40px;
+    background-color: #1ec800;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 2px solid #1ec800;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+
+    &:hover {
+      background-color: #ffffff;
+      color: #1ec800;
+      border: 2px solid #1ec800;
+    }
+  }
 `;
 export const LoginFormContainer = styled.form`
   display: flex;
