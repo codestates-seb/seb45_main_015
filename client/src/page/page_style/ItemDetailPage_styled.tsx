@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: 60px 0 120px;
+  margin: 60px 0 180px;
 `;
 
 export const ItemDetailContainer = styled.div`
@@ -65,10 +65,6 @@ export const Text = styled.p`
     font-size: 35px;
     font-weight: bold;
     min-width: 260px;
-  }
-
-  &.detail-info-bidding {
-    color: #d32f2f;
   }
 
   &.detail-info-init {

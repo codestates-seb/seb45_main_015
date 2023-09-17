@@ -224,10 +224,10 @@ function RegistrateItemPage() {
         }
       }
 
-      if (itemImageFile.length + newImages.length <= 8) {
+      if (itemImageFile.length + newImages.length <= 5) {
         setItemImageFile([...itemImageFile, ...newImages]);
       } else {
-        alert("이미지는 최대 8개까지 선택할 수 있습니다.");
+        alert("이미지는 최대 5개까지 선택할 수 있습니다.");
       }
     }
   };
