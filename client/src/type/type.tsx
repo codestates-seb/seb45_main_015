@@ -1,10 +1,13 @@
 import { Dispatch, SetStateAction } from "react";
 
 export type SignupData = {
-  email: string;
-  password: string;
-  nickname: string;
+  email?: string;
+  password?: string;
+  nickname?: string;
 };
+
+// 마이페이지 데이터
+export type MyPageData = Omit<SignupData, "email">;
 
 // 로그인 데이터
 export type LoginData = Omit<SignupData, "nickname">;
@@ -20,7 +23,8 @@ export interface InputField {
   name: string;
   labelText: string;
   placeholder: string;
-  stateValue?: SignupData | LoginData | FindPWData | ChangePWData;
+  nameValue?: string;
+  stateValue?: SignupData | LoginData | FindPWData | ChangePWData | string;
   errorMessage?: string;
   setStateValue: Dispatch<
     SetStateAction<SignupData | LoginData | FindPWData | ChangePWData>

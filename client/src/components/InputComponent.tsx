@@ -2,6 +2,7 @@ import React from "react";
 import {
   InputContainer,
   InputLabel,
+  ErrorMessage,
   Input,
 } from "./components_style/InputComponent_style";
 import { InputField } from "../type/type";
@@ -10,6 +11,7 @@ const InputComponent: React.FC<InputField> = props => {
   return (
     <InputContainer>
       <InputLabel>{props.labelText}</InputLabel>
+      <ErrorMessage>{props.errorMessage}</ErrorMessage>
       <Input
         type={props.type}
         name={props.name}
@@ -20,6 +22,8 @@ const InputComponent: React.FC<InputField> = props => {
             [props.name]: e.target.value,
           }))
         }
+        value={props.nameValue}
+        disabled={props.nameValue ? true : false}
       />
     </InputContainer>
   );
