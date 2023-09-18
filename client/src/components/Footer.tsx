@@ -11,18 +11,18 @@ import {
 
 const member = {
   BE: [
-    { name: "이경찬", link: "example@github.com" },
-    { name: "이재우", link: "example@github.com" },
-    { name: "김재한", link: "example@github.com" },
+    { name: "이경찬", link: "#" },
+    { name: "이재우", link: "#" },
+    { name: "김재한", link: "#" },
   ],
   FE: [
-    { name: "김종회", link: "example@github.com" },
-    { name: "권순범", link: "example@github.com" },
-    { name: "김태수", link: "example@github.com" },
+    { name: "김종회", link: "#" },
+    { name: "권순범", link: "#" },
+    { name: "김태수", link: "#" },
   ],
   WorkSpace: [
-    { name: "GitHub", link: "example@github.com" },
-    { name: "Figma", link: "example@github.com" },
+    { name: "GitHub", link: "#" },
+    { name: "Figma", link: "#" },
   ],
 };
 
@@ -37,19 +37,25 @@ function Footer() {
           <Wrapper>
             <Title>BE Member</Title>
             {member.BE.map(member => (
-              <Address>{member.name}</Address>
+              <Address key={member.name} href={member.link}>
+                {member.name}
+              </Address>
             ))}
           </Wrapper>
           <Wrapper>
             <Title>FE Member</Title>
             {member.FE.map(member => (
-              <Address>{member.name}</Address>
+              <Address key={member.name} href={member.link}>
+                {member.name}
+              </Address>
             ))}
           </Wrapper>
           <Wrapper>
             <Title>WorkSpace</Title>
             {member.WorkSpace.map(member => (
-              <Address href={member.link}>{member.name}</Address>
+              <Address key={member.name} href={member.link}>
+                {member.name}
+              </Address>
             ))}
           </Wrapper>
         </InfoContainer>
