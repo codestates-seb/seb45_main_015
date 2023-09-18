@@ -166,13 +166,15 @@ export const useChange = (data: ChangePWData) => {
 };
 
 //상품리스트 불러오기 //////////////////////////////////////////////
-export const getItem = async () => {
+export const getItem = async (page: number) => {
   const memberId = localStorage.getItem("memberId");
   const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/items?page_number=1&page_size=18&watcher_id=${memberId}`,
+      url: `http://15.164.84.204:8080/items?page_number=1&page_size=${page}${
+        memberId ? `&watcher_id=${memberId}` : ""
+      }`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -299,7 +301,7 @@ export const getFavorite = async (size: number) => {
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${size}`,
+      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${size}}`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -325,7 +327,6 @@ export const postItem = async (itemId: number) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("찜목록 추가완료");
   } catch (error) {
     console.log(`찜목록 추가를 실패했습니다.${error}`);
   }

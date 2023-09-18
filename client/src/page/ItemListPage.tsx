@@ -26,21 +26,21 @@ const carouselItems = [
 ];
 
 const ItemListPage: React.FC = () => {
-  // const [page, setPage] = useState<number>(18);
+  const [page, setPage] = useState<number>(18);
 
-  // const handleLoadMore = () => {
-  //   setPage(page + 18);
-  // };
+  const handleLoadMore = () => {
+    setPage(page + 18);
+  };
   const handleItemRefetch = () => {
     refetch();
   };
 
-  // const getData = async () => {
-  //   const result = await getItem;
-  //   return result;
-  // };
+  const getData = async () => {
+    const result = await getItem(page);
+    return result;
+  };
 
-  const { data, isLoading, isError, refetch } = useQuery(["itemList"], getItem);
+  const { data, isLoading, isError, refetch } = useQuery(["itemList"], getData);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -106,7 +106,7 @@ const ItemListPage: React.FC = () => {
             </div>
           </div>
           <div className="moreButton">
-            {/* <MediumButtonB onClick={handleLoadMore} value={"더보기"} /> */}
+            <MediumButtonB onClick={handleLoadMore} value={"더보기"} />
           </div>
         </div>
       </div>
