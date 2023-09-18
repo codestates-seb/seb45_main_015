@@ -20,34 +20,38 @@ import Loading from "../loading/Loading";
 function MyPage() {
   const { data, isLoading } = usefetchMyPage();
 
+  // 입력한 값 평가와 에러메세지
   const {
     nickNameMessage,
     passwordMessage,
     userInfo,
     setUserInfo,
     inputHandler,
-  } = useInputValidate({ nickname: "", password: "" });
+  } = useInputValidate({ nickname: "", newPassword: "", confirmPassword: "" });
 
   const changeNickName = useChangeNickname(userInfo);
   const changePassword = useChangePassword(userInfo);
 
   const changeUserHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      inputHandler(userInfo).myPage.isNickName &&
-      inputHandler(userInfo).myPage.isPassword
-    ) {
-      // changeNickName.mutate();
-      // changePassword.mutate();
-      return console.log(changeNickName);
-    } else if (inputHandler(userInfo).myPage.isPassword) {
-      // changePassword.mutate();
-      return console.log(changePassword);
-    } else {
-      // changeNickName.mutate();
-      return console.log(changeNickName);
+
+    const { isNickName, isPassword } = inputHandler(userInfo).myPage;
+    const newPasswordMatches =
+      userInfo.newPassword === userInfo.confirmPassword;
+    // 입력된 정보를 평가해서 닉네임 유효성검사를 통과한 경우
+    if (isNickName) {
+      changeNickName.mutate();
+      // 비밀번호 유효성 검사를 통과하고 새로운비밀번호와 비밀번호 확인이 일치하는 경우
+      if (isPassword && newPasswordMatches) {
+        changePassword.mutate();
+      }
+      // 입력된 정보를 평가해서 비밀번호 유효성 검사를 통과하고 새로운비밀번호와 비밀번호 확인이 일치하는 경우
+    } else if (isPassword && newPasswordMatches) {
+      changePassword.mutate();
     }
   };
+
+  // 사용자 별점 추가해야함
 
   return (
     <Container>
@@ -89,19 +93,19 @@ function MyPage() {
               <SubTitle>비밀번호 변경</SubTitle>
               <InputComponent
                 type="password"
-                name="password"
+                name="newPassword"
                 labelText="새 비밀번호 입력"
                 placeholder="새로운 비밀번호"
-                stateValue={userInfo}
+                stateValue={userInfo.newPassword}
                 setStateValue={setUserInfo}
                 errorMessage={passwordMessage}
               />
               <InputComponent
                 type="password"
-                name="password"
+                name="confirmPassword"
                 labelText="비밀번호 확인"
                 placeholder="비밀번호 확인"
-                stateValue={userInfo}
+                stateValue={userInfo.confirmPassword}
                 setStateValue={setUserInfo}
                 errorMessage={passwordMessage}
               />

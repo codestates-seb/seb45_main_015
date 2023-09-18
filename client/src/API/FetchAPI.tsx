@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+
 import {
   FindPWData,
   LoginData,
@@ -9,13 +11,14 @@ import {
   RegistrateItemDataField,
 } from "../type/type";
 import { useAxiosRequestWithAuth } from "../Aixosinterceptor";
-import { useNavigate } from "react-router-dom";
 
 // 회원가입 ////////////////////////////////////////////
 export const useSignup = (userData: SignupData) => {
-  const req = useAxiosRequestWithAuth();
+  const req = useAxiosRequestWithAuth(); // 매번 불러오면 X
+  const navigator = useNavigate();
 
   const signup = async () => {
+    // FIXME
     try {
       const response = await req.post("/members/signup", userData);
       if (!response.data) {
@@ -30,6 +33,7 @@ export const useSignup = (userData: SignupData) => {
   const mutation = useMutation(signup, {
     onSuccess(data) {
       console.log(`useMutation 성공: ${data}`);
+      navigator("/login");
     },
     onError(error) {
       console.log(`useMutation 실패: ${error}`);
@@ -41,45 +45,42 @@ export const useSignup = (userData: SignupData) => {
 // 로그인 ////////////////////////////////////////////
 export const useLogin = (data: LoginData) => {
   const req = useAxiosRequestWithAuth();
+  const navigator = useNavigate();
 
   const login = async () => {
-    try {
-      const response = await req.post("/members/login", data);
-      return console.log(response);
-    } catch (error) {
-      console.log(`로그인 함수 에러: ${error}`);
-    }
+    await req.post("/members/login", data);
   };
 
-  const { status, mutate, isSuccess, isError } = useMutation(login, {
+  const { status, mutate, isLoading, isError } = useMutation(login, {
     onSuccess(data) {
+      navigator("/allList");
       console.log(`[mutation] 로그인 성공: ${data}`);
     },
     onError(error) {
       console.log(`[mutation] 로그인 실패: ${error}`);
     },
   });
-  return { data, status, mutate, isSuccess, isError };
+  return { data, status, mutate, isLoading, isError };
 };
 
 // 로그아웃 ////////////////////////////////////////////
-export const useLogout = async () => {
+export const useLogout = () => {
   const req = useAxiosRequestWithAuth();
-
   const memberId = localStorage.getItem("memberId");
 
-  try {
-    const response = await req.get(`/members/logout/${memberId}`, {
-      params: memberId,
-    });
-    if (response.status === 200) {
+  const logout = async () => {
+    const response = await req.post(`/members/logout/${memberId}`);
+  };
+
+  const mutation = useMutation(logout, {
+    onSuccess(data) {
       localStorage.removeItem("memberId");
-    }
-    return response.status;
-  } catch (error) {
-    console.error(error);
-  }
-  return req;
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+  return mutation;
 };
 
 // 게스트 로그인
@@ -98,6 +99,7 @@ export const useGuestLogin = () => {
 
   const mutation = useMutation(guestLogin, {
     onSuccess(data) {
+      navigator("/allList");
       console.log(`[mutation] 게스트 로그인 성공: ${data}`);
     },
     onError(error) {
@@ -114,7 +116,9 @@ export const useFind = (data: FindPWData) => {
 
   const findPw = async () => {
     try {
-      const response = await req.post("/members", data);
+      const response = await req.post(
+        `/members/verify-email?email=${data.email}`,
+      );
       return console.log(response.status);
     } catch (error) {
       console.log(`find 함수 에러`);
@@ -123,7 +127,11 @@ export const useFind = (data: FindPWData) => {
 
   const mutation = useMutation(findPw, {
     onSuccess(data) {
+      // FIXME
+      // 응답 멤버아이디가 있으면 비빌먼호 변경페이지로 네비게이션 설정 추가
+      // localStorage.setItem("verifyMemberID",);
       console.log(`[mutation] 비번찾기 이메일 전송 성공: ${data}`);
+      navigator("/change-password");
     },
     onError(error) {
       console.log(`[mutation] 비번찾기 이메일 전송 실패: ${error}`);
@@ -133,32 +141,46 @@ export const useFind = (data: FindPWData) => {
 };
 
 // 변경할 비밀번호 입력 ////////////////////////////////////////
-export const useChange = async (data: ChangePWData) => {
+export const useChange = (data: ChangePWData) => {
   const req = useAxiosRequestWithAuth();
-  const memberId = 1;
-  try {
-    const response = await req.post(`/members/find-password/${memberId}`, data);
+  const verifyMemberId = localStorage.getItem("verifyMemberId");
+  const navigator = useNavigate();
+
+  const changePw = async () => {
+    const response = await req.patch(
+      `/members/find-password/${verifyMemberId}`,
+      data,
+    );
     return response.data;
-  } catch (error) {
-    console.error(error);
-  }
+  };
+
+  const mutation = useMutation(changePw, {
+    onSuccess(data) {
+      console.log(data);
+      localStorage.removeItem("verifyMemberId");
+      navigator("/login");
+    },
+  });
+  return mutation;
 };
 
 // 상품리스트 불러오기 //////////////////////////////////////////////
-export const getItem = async (page: number, memberID: number) => {
-  try {
-    const response = await axios({
-      method: "get",
-      url: `http://15.164.84.204:8080/items?page_number=1&page_size=${page}&watcher_id=${memberID}`,
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(`데이터 불러오기를 실패했습니다.${error}`);
-  }
+export const getItem = (page: number) => {
+  const req = useAxiosRequestWithAuth();
+  const memberId = localStorage.getItem("memberId");
+
+  const getItem = async () => {
+    try {
+      const response = await req.get(
+        `/items?page_number=1&page_size=${page}&watcher_id=${memberId}`,
+      );
+      return response.data;
+    } catch (error) {
+      console.log(`데이터 불러오기를 실패했습니다.${error}`);
+    }
+  };
+  const query = useQuery(["itemList"], getItem);
+  return query;
 };
 
 // 상세페이지데이터 //////////////////////////////////////////////
@@ -383,13 +405,11 @@ export const useMyTrade = () => {
   const memberId = localStorage.getItem("memberId");
   const status_code = "상태코드";
 
-  const tradeEndPoint = `/items/my-item?page_number=1&page_size=2&member_id=${memberId}`;
-
+  const tradeEndPoint = `/items/my-item?page_number=1&page_size=2&member_id=1`;
+  // `/items/status?page_number=1&page_size=2&item_status=${status_code}&seller_id=1`
   const fetchMyTrade = async () => {
     try {
-      const response = await req.get(
-        `/items/status?page_number=1&page_size=2&item_status=${status_code}&seller_id=1`,
-      );
+      const response = await req.get(tradeEndPoint);
       return response.data;
     } catch (error) {}
   };
@@ -416,9 +436,7 @@ export const usefetchMyPage = () => {
       console.error(error);
     }
   };
-  const query = useQuery(["userData"], fetchMyPageData, {
-    keepPreviousData: true,
-  });
+  const query = useQuery(["userData"], fetchMyPageData);
 
   return query;
 };
@@ -429,20 +447,19 @@ export const useChangeNickname = (inputData: MyPageData) => {
   const memberId = localStorage.getItem("memberId");
 
   const changeNickName = async () => {
-    try {
-      const response = await req.patch(
-        `/members/change-nickname/${memberId}`,
-        inputData,
-      );
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
+    await req.patch(`/members/change-nickname/${memberId}`, inputData);
   };
 
-  const response = useMutation(changeNickName);
+  const mutation = useMutation(changeNickName, {
+    onSuccess(data) {
+      console.log("닉네임 변경성공");
+    },
+    onError(error) {
+      console.log("닉네임 변경실패");
+    },
+  });
 
-  return response;
+  return mutation;
 };
 
 // 비밀번호 변경 //////////////////////////////////////
@@ -451,17 +468,16 @@ export const useChangePassword = (inputData: MyPageData) => {
   const memberId = localStorage.getItem("memberId");
 
   const changePassword = async () => {
-    try {
-      const response = await req.patch(
-        `/members/change-password/${memberId}`,
-        inputData,
-      );
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
+    await req.patch(`/members/change-password/${memberId}`, inputData);
   };
-  const response = useMutation(changePassword);
+  const mutation = useMutation(changePassword, {
+    onSuccess(data) {
+      console.log("비밀번호 변경성공");
+    },
+    onError(error) {
+      console.log("비밀번호 변경실패");
+    },
+  });
 
-  return response;
+  return mutation;
 };

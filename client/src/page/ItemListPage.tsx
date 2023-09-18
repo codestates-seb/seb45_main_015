@@ -29,6 +29,8 @@ const ItemListPage: React.FC = () => {
   const [page, setPage] = useState<number>(18);
 
   const queryClient = useQueryClient();
+  const { data, isLoading, isError, refetch } = getItem(page);
+  data: isLoading ? console.log(data) : console.log(data);
 
   const handleLoadMore = () => {
     setPage(page + 18);
@@ -37,19 +39,21 @@ const ItemListPage: React.FC = () => {
     refetch();
   };
 
-  const getData = async () => {
-    const result = await getItem(page, 1);
-    queryClient.invalidateQueries(["itemList", page]);
-    return result.items;
-  };
+  // const getData = async () => {
+  //   const result = await getItem(page);
+  //   queryClient.invalidateQueries(["itemList", page]);
+  //   return result.items;
+  // };
 
-  const { data, isLoading, isError, refetch } = useQuery(
-    ["itemList", page],
-    getData,
-    {
-      keepPreviousData: true,
-    },
-  );
+  // const { data, isLoading, isError, refetch } = useQuery(
+  //   ["itemList"],
+  //   getData,
+  //   {
+  //     keepPreviousData: true,
+  //     // FIXME
+  //     // getNextPageParam , 무한스크롤
+  //   },
+  // );
 
   if (isLoading) {
     return <div>Loading...</div>;

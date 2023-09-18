@@ -12,6 +12,7 @@ import {
   Wrapper,
 } from "./components_style/HeaderDropDown_styled";
 import { Link } from "react-router-dom";
+import { useLogout } from "../API/FetchAPI";
 
 const nav = [
   {
@@ -19,14 +20,15 @@ const nav = [
     icon: <FontAwesomeIcon icon={faUser} />,
     router: "/mypage",
   },
-  {
-    page: "로그아웃",
-    icon: <FontAwesomeIcon icon={faSignOutAlt} />,
-    router: "/",
-  },
 ];
 
 function HeaderDropDown() {
+  const { data, isLoading, status, mutate } = useLogout();
+
+  const logoutHandler = () => {
+    mutate();
+    console.log(isLoading, status);
+  };
   return (
     <DropDown>
       <Container>
@@ -39,6 +41,12 @@ function HeaderDropDown() {
             </Wrapper>
           </Link>
         ))}
+        <Wrapper>
+          <Icon>
+            <FontAwesomeIcon icon={faSignOutAlt} />
+          </Icon>
+          <Text onClick={logoutHandler}>로그아웃</Text>
+        </Wrapper>
       </Container>
       <Decoration />
     </DropDown>
