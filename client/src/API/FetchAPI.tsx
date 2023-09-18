@@ -7,6 +7,8 @@ import {
   ChangePWData,
   MyPageData,
   RegistrateItemDataField,
+  ItemBidField,
+  ItemBuyNowField,
 } from "../type/type";
 import { useAxiosRequestWithAuth } from "../Aixosinterceptor";
 import { useNavigate } from "react-router-dom";
@@ -171,7 +173,48 @@ export const fetchItemDetail = async (itemId: number, watcherId?: number) => {
       }`,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
       },
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const postItemDetailBid = async (bidData: ItemBidField) => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `http://15.164.84.204:8080/items/bids`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
+      },
+      data: bidData,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const postItemDetailBuyNow = async (buyNowData: ItemBuyNowField) => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `http://15.164.84.204:8080/items/buy-now`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
+      },
+      data: buyNowData,
     });
 
     if (response.status === 200) {
@@ -191,6 +234,7 @@ export const useRegistrateItem = async (
       method: "post",
       url: `http://15.164.84.204:8080/items`,
       headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
         "Content-Type": "application/json",
       },
       data: requestData,
@@ -218,6 +262,7 @@ export const useRegistrateItemImage = async (
       method: "post",
       url: `http://15.164.84.204:8080/items/${itemId}/images`,
       headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
         "Content-Type": "multipart/form-data",
       },
       data: formData,
@@ -236,7 +281,7 @@ export const getCategory = async () => {
       method: "get",
       url: "http://15.164.84.204:8080/categories?page_number=1&page_size=16",
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
         "Content-Type": "application/json",
       },
     });

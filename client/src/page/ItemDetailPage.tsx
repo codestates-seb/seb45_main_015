@@ -1,4 +1,5 @@
 import {
+  ButtonWrapper,
   Container,
   Content,
   ContentSection,
@@ -18,32 +19,104 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchItemDetail } from "../API/FetchAPI";
+import {
+  fetchItemDetail,
+  postItemDetailBid,
+  postItemDetailBuyNow,
+} from "../API/FetchAPI";
 import { useEffect, useState } from "react";
 import { LargeButtonA, LargeButtonC } from "../components/ButtonComponent";
+import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import Loading from "../loading/Loading";
+
+interface ItemDetailField {
+  seller_id: number;
+  seller_nickname: string;
+  buyer_id: number;
+  buyer_nickname: string;
+  item_id: number;
+  status: string;
+  title: string;
+  content: string;
+  end_time: string;
+  category: string;
+  item_image_urls: string[];
+  start_price: number;
+  bid_unit: number;
+  current_price: number;
+  buy_now_price: number;
+  in_wish_list: boolean;
+}
+
+function RemainingTime(endTime: string | undefined) {
+  const now = dayjs();
+
+  if (endTime) {
+    const targetTime = dayjs(endTime);
+    const timeDifference = targetTime.diff(now, "second");
+
+    const daysRemaining = Math.floor(timeDifference / (60 * 60 * 24));
+    const hoursRemaining = Math.floor(
+      (timeDifference % (60 * 60 * 24)) / (60 * 60),
+    );
+    const minutesRemaining = Math.floor((timeDifference % (60 * 60)) / 60);
+    const secondsRemaining = timeDifference % 60;
+
+    if (
+      daysRemaining < 0 &&
+      hoursRemaining < 0 &&
+      minutesRemaining < 0 &&
+      secondsRemaining < 0
+    ) {
+      return "해당 상품의 경매가 종료되었습니다.";
+    }
+
+    return `${daysRemaining}일 ${hoursRemaining}시간 ${minutesRemaining}분 ${secondsRemaining}초`;
+  }
+  return "남은 시간을 불러오는데 실패하였습니다.";
+}
 
 function ItemDetailPage() {
-  const itemId = 1;
   const queryClient = useQueryClient();
+  const itemIdParams = useParams().itemId;
+  const [itemId, setItemId] = useState<number | null>(Number(itemIdParams));
   const [mainImage, setMainImage] = useState<number>(0);
+  const [remainingTimeString, setRemainingTimeString] = useState<string>("");
 
   const { data, isLoading } = useQuery(
     ["itemDetail", itemId],
-    () => fetchItemDetail(itemId),
+    () => itemId && fetchItemDetail(itemId),
     {
       refetchInterval: 50000,
     },
   );
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      await queryClient.invalidateQueries(["itemDetail", itemId]);
+    const interval = setInterval(() => {
+      queryClient.invalidateQueries(["itemDetail", itemId]);
     }, 50000);
 
     return () => {
       clearInterval(interval);
     };
   }, [itemId, queryClient]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isLoading && data) {
+        const remainingTime = RemainingTime(data.end_time);
+        setRemainingTimeString(remainingTime);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [data, isLoading]);
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleChangeMainImage = (index: number) => {
     setMainImage(index);
@@ -65,14 +138,40 @@ function ItemDetailPage() {
     }
   };
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  const handleBidButton = () => {
+    let bidPrice = 0;
+    if (data.current_price === 0) {
+      bidPrice = data.start_price + data.bid_unit;
+    } else {
+      bidPrice = data.current_price + data.bid_unit;
+    }
+
+    if (itemId) {
+      const bidData = {
+        item_id: itemId,
+        buyer_id: 1,
+        bid_price: bidPrice,
+      };
+      // postItemDetailBid(bidData);
+      console.log(bidData);
+    }
+  };
+  const handleBuyNowButton = () => {
+    if (itemId) {
+      const buyNowData = {
+        item_id: itemId,
+        buyer_id: 1,
+      };
+      // postItemDetailBuyNow(buyNowData);
+      console.log(buyNowData);
+    }
+  };
+
   return (
     <Container>
       <ItemDetailContainer>
         <ItemDetailContent className="center">
-          <Text className="detail-timer">{data.end_time}</Text>
+          <Text className="detail-timer">{remainingTimeString}</Text>
         </ItemDetailContent>
         <ItemDetailContent>
           <Text className="detail-path">{`카테고리 > ${data.category}`}</Text>
@@ -126,7 +225,7 @@ function ItemDetailPage() {
                 </Text>
               </Wrapper>
               <Wrapper className="space-between">
-                <Text className="detail-info-init">현재입찰가</Text>
+                <Text className="detail-info-init">상위입찰가</Text>
                 <Text className="detail-info">
                   {data.current_price.toLocaleString()}원
                 </Text>
@@ -149,11 +248,22 @@ function ItemDetailPage() {
             </Content>
             <Content className="detail-button-content">
               <Wrapper className="space-between">
-                <LargeButtonA value="입찰하기" />
-                <LargeButtonA value="즉시구매" />
+                <ButtonWrapper
+                  className="margin-right"
+                  onClick={handleBidButton}
+                >
+                  <LargeButtonA value="입찰하기" />
+                </ButtonWrapper>
+                <ButtonWrapper onClick={handleBuyNowButton}>
+                  <LargeButtonA value="즉시구매" />
+                </ButtonWrapper>
               </Wrapper>
-              <LargeButtonC value="찜하기" />
-              <LargeButtonC value="수정하기" />
+              <ButtonWrapper className="margin-top">
+                <LargeButtonC value="찜하기" />
+              </ButtonWrapper>
+              {/* <ButtonWrapper className="margin-top">
+                <LargeButtonC value="수정하기" />
+              </ButtonWrapper> */}
             </Content>
           </ContentSection>
         </ItemDetailContent>

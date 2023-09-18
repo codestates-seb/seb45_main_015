@@ -44,7 +44,7 @@ const ItemListPage: React.FC = () => {
   };
 
   const { data, isLoading, isError, refetch } = useQuery(
-    ["itemList", page],
+    ["itemList"],
     getData,
     {
       keepPreviousData: true,

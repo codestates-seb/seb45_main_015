@@ -117,19 +117,20 @@ export const Content = styled.div`
 
   &.detail-button-content {
     height: auto;
+  }
+`;
 
-    & button {
-      height: 48px;
-      border-radius: 16px;
-    }
+export const ButtonWrapper = styled.div`
+  height: 48px;
+  width: 100%;
+  border-radius: 16px;
 
-    & > button {
-      margin-top: 18px;
-    }
+  &.margin-right {
+    margin-right: 18px;
+  }
 
-    & > div > button:first-of-type {
-      margin-right: 18px;
-    }
+  &.margin-top {
+    margin-top: 18px;
   }
 `;
 

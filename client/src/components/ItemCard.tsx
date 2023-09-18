@@ -12,6 +12,7 @@ import { faHeart, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { postItem, deleteItem } from "../API/FetchAPI";
+import { Link } from "react-router-dom";
 
 interface wishesItemCardProps {
   cardData: {
@@ -95,50 +96,52 @@ export function ItemCard({
 
   return (
     <Container>
-      <ImgContainer>
-        <img src={`${cardData.item_image_urls[0]}`} />
-        <Icon
-          className={state ? "favorite-on" : "favorite-off"}
-          onClick={state ? handleFavoriteDelete : handleFavoriteAdd}
-        >
-          <FontAwesomeIcon icon={faHeart} />
-        </Icon>
-      </ImgContainer>
-      <InfoContainer>
-        <InfoWrapper>
-          <Text className="itemCard-product-name">{cardData.title}</Text>
-          <Wrapper>
-            <Text className="itemCard-product-key">최저가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.start_price}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">입찰가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.current_price}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">최고가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.buy_now_price}
-            </Text>
-          </Wrapper>
-          <Wrapper className="itemCard-product-seller">
-            <Text className="itemCard-product-key">판매자명</Text>
-            <Text className="itemCard-product-value">
-              {cardData.member_nickname}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">종료</Text>
-            <Text className="itemCard-product-value card-date">
-              {cardData.end_time}
-            </Text>
-          </Wrapper>
-        </InfoWrapper>
-      </InfoContainer>
+      <Link to={`/item/${cardData.item_id}`}>
+        <ImgContainer>
+          <img src={`${cardData.item_image_urls[0]}`} />
+          <Icon
+            className={state ? "favorite-on" : "favorite-off"}
+            onClick={state ? handleFavoriteDelete : handleFavoriteAdd}
+          >
+            <FontAwesomeIcon icon={faHeart} />
+          </Icon>
+        </ImgContainer>
+        <InfoContainer>
+          <InfoWrapper>
+            <Text className="itemCard-product-name">{cardData.title}</Text>
+            <Wrapper>
+              <Text className="itemCard-product-key">최저가</Text>
+              <Text className="itemCard-product-value">
+                {cardData.start_price}
+              </Text>
+            </Wrapper>
+            <Wrapper>
+              <Text className="itemCard-product-key">입찰가</Text>
+              <Text className="itemCard-product-value">
+                {cardData.current_price}
+              </Text>
+            </Wrapper>
+            <Wrapper>
+              <Text className="itemCard-product-key">최고가</Text>
+              <Text className="itemCard-product-value">
+                {cardData.buy_now_price}
+              </Text>
+            </Wrapper>
+            <Wrapper className="itemCard-product-seller">
+              <Text className="itemCard-product-key">판매자명</Text>
+              <Text className="itemCard-product-value">
+                {cardData.member_nickname}
+              </Text>
+            </Wrapper>
+            <Wrapper>
+              <Text className="itemCard-product-key">종료</Text>
+              <Text className="itemCard-product-value card-date">
+                {cardData.end_time}
+              </Text>
+            </Wrapper>
+          </InfoWrapper>
+        </InfoContainer>
+      </Link>
     </Container>
   );
 }
