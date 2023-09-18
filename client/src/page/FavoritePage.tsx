@@ -93,7 +93,7 @@ const FavoritePage: React.FC = () => {
 
   //선택항목 삭제
   const selectDelete = async () => {
-    const result = await deleteItem(1, deleteList);
+    const result = await deleteItem(deleteList);
     return result;
   };
   const { mutate: deleteSelectMutate } = useMutation(
@@ -112,7 +112,7 @@ const FavoritePage: React.FC = () => {
 
   //전체삭제
   const allFavoriteItemId = async () => {
-    const result = await getFavorite(1, 1000);
+    const result = await getFavorite(page);
     const all_Id = result.wishes.map((el: objTest) => {
       return el.item_id;
     });
@@ -120,7 +120,7 @@ const FavoritePage: React.FC = () => {
     return all_Id;
   };
   const deleteData = async () => {
-    const result = await deleteItem(1, await allFavoriteItemId());
+    const result = await deleteItem(await allFavoriteItemId());
     return result;
   };
   const { mutate: deleteMutate } = useMutation(["deleteItem"], deleteData, {
@@ -138,7 +138,7 @@ const FavoritePage: React.FC = () => {
   };
 
   const getData = async () => {
-    const result = await getFavorite(1, page);
+    const result = await getFavorite(page);
     return result.wishes;
   };
 

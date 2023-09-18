@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemListPageContainer from "./page_style/itemListPage_styled";
 import MainCategory from "../components/MainCategory";
 import MyCarousel from "../components/Carousel";
 import { ItemCard } from "../components/ItemCard";
 import { MediumButtonB } from "../components/ButtonComponent";
 import { getItem } from "../API/FetchAPI";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const carouselItems = [
   {
@@ -28,10 +28,6 @@ const carouselItems = [
 const ItemListPage: React.FC = () => {
   const [page, setPage] = useState<number>(18);
 
-  const queryClient = useQueryClient();
-  const { data, isLoading, isError, refetch } = getItem(page);
-  data: isLoading ? console.log(data) : console.log(data);
-
   const handleLoadMore = () => {
     setPage(page + 18);
   };
@@ -39,21 +35,12 @@ const ItemListPage: React.FC = () => {
     refetch();
   };
 
-  // const getData = async () => {
-  //   const result = await getItem(page);
-  //   queryClient.invalidateQueries(["itemList", page]);
-  //   return result.items;
-  // };
+  const getData = async () => {
+    const result = await getItem(page);
+    return result;
+  };
 
-  // const { data, isLoading, isError, refetch } = useQuery(
-  //   ["itemList"],
-  //   getData,
-  //   {
-  //     keepPreviousData: true,
-  //     // FIXME
-  //     // getNextPageParam , 무한스크롤
-  //   },
-  // );
+  const { data, isLoading, isError, refetch } = useQuery(["itemList"], getData);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -62,7 +49,6 @@ const ItemListPage: React.FC = () => {
   if (isError) {
     return <div>{`Error fetching data ${isError}`}</div>;
   }
-
   return (
     <ItemListPageContainer>
       <div className="listPageCarousel">
