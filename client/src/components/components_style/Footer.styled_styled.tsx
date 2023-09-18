@@ -3,9 +3,10 @@ import styled from "styled-components";
 export const Container = styled.footer`
   padding: 0;
   display: flex;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  height: 264px;
+  padding: 30px 0;
   border-top: solid 1px #e6e8ec;
   margin-top: 30px;
   bottom: 0;
@@ -14,74 +15,76 @@ export const Container = styled.footer`
 export const FooterContent = styled.div`
   display: flex;
   align-items: center;
-  max-width: 1120px;
-  height: auto;
+  justify-content: space-around;
+  width: 1120px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    & {
+      align-items: start;
+      flex-direction: column;
+      width: auto;
+    }
+  }
 `;
 
 export const LogoWrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  border: solid 1px #e6e8ec;
-  border-radius: 16px;
-  width: 192px;
-  height: 150px;
+  justify-content: center;
+  border: solid 1px #000;
+  height: 120px;
+  width: 200px;
 
   @media (max-width: 768px) {
     & {
-      display: none;
+      height: 80px;
+      width: 120px;
     }
   }
 `;
 
 export const Logo = styled.img`
-  overflow: hidden;
-  width: 192px;
-  height: 150px;
-  border-radius: 16px;
+  width: 100%;
+  height: 100%;
 `;
 
-export const TextContainer = styled.div`
+export const InfoContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  height: 150px;
-  margin-left: 42px;
-
-  @media (max-width: 1024px) {
-    &.footer-git {
-      display: none;
-    }
-  }
+  justify-content: space-between;
+  width: 60%;
 
   @media (max-width: 768px) {
     & {
-      margin: 0 10px;
+      width: 100%;
     }
   }
 `;
 
-export const ContentsPart = styled.div`
-  display: flex;
-`;
-
-export const TextSection = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  height: 100%;
+  margin-left: 60px;
 
-  &:not(:last-of-type) {
-    margin-right: 30px;
+  @media (max-width: 768px) {
+    & {
+      margin-left: 0;
+      margin-top: 30px;
+    }
+
+    &:not(:first-of-type) {
+      margin-left: 40px;
+    }
   }
 `;
 
-export const Theme = styled.h3`
+export const Title = styled.p`
   margin: 0;
+  font-size: 18px;
+  color: #808080;
   white-space: nowrap;
-`;
-export const TextWrapper = styled.div`
-  display: flex;
-  margin-top: 5px;
+  line-height: 1;
 
   @media (max-width: 768px) {
     & {
@@ -90,11 +93,15 @@ export const TextWrapper = styled.div`
   }
 `;
 
-export const Text = styled.p`
-  margin: 5px 0 0 0;
-  white-space: nowrap;
+export const Address = styled.a`
+  cursor: pointer;
+  font-size: 18px;
+  color: #2a2a2a;
+  margin-top: 10px;
 
-  &:not(:last-of-type) {
-    margin-right: 15px;
+  @media (max-width: 768px) {
+    & {
+      font-size: 14px;
+    }
   }
 `;
