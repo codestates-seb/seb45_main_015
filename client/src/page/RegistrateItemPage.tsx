@@ -1,265 +1,396 @@
-import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
+import { LargeButtonB } from "../components/ButtonComponent";
+import {
+  Button,
+  ButtonWrapper,
+  CategoryTagWrapper,
+  Container,
+  Img,
+  ImgContent,
+  ImgInput,
+  ImgLabel,
+  ImgWrapper,
+  InfoWrapper,
+  InputWrapper,
+  RegistrateContent,
+  RegistrateWrapper,
+  SeletedCategoryTagWrapper,
+  SubTitle,
+  Text,
+  TextArea,
+  TextInput,
+  Title,
+} from "./page_style/RegistrateItemPage_styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { getCategory } from "../API/FetchAPI";
+import {
+  CategoryField,
+  RegistrateField,
+  RegistrateItemDataField,
+} from "../type/type";
+import RegistrateSpecification from "../components/RegistrateSpecification";
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-top: 60px;
-`;
+function RegistInputForm({
+  field,
+  setData,
+}: {
+  field: RegistrateField;
+  setData: (value: string) => void;
+}) {
+  const [inputValue, setInputValue] = useState<string>("");
+  const [button, setButton] = useState<string | null>("");
+  const previousValueRef = useRef("");
 
-export const RegistrateContent = styled.div`
-  max-width: 800px;
-  width: 100%;
-  color: #2a2a2a;
-`;
+  const handleInputValueChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    let value = e.target.value;
 
-export const Title = styled.h1`
-  margin: 0;
-  white-space: nowrap;
-  font-size: 48px;
-  margin-bottom: 52px;
-`;
-
-export const RegistrateWrapper = styled.div`
-  margin-bottom: 46px;
-  width: 100%;
-
-  &.registrate-wrapper-unit {
-    width: calc((100% - 36px) / 2);
-  }
-`;
-
-export const SubTitle = styled.h2`
-  margin: 0;
-  white-space: nowrap;
-  font-size: 24px;
-  margin-bottom: 18px;
-`;
-
-export const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  height: 46px;
-  width: 100%;
-  background-color: #edf2f7;
-  border-radius: 6px;
-  margin-bottom: 8px;
-
-  &.budding-unit-field {
-    width: calc((100% - 36px) / 2);
-  }
-
-  &.text-area {
-    height: 130px;
-    padding: 10px 0;
-  }
-
-  &:focus-within {
-    background: #ffffff;
-    outline: 2px solid #0064ff;
-  }
-
-  @media (max-width: 768px) {
-    &.budding-unit-field {
-      width: 100%;
+    if (field.inputType === "number") {
+      let numberValue = value.replace(/[^0-9]/g, "");
+      if (numberValue.length > 1 && numberValue[0] === "0") {
+        numberValue = numberValue.slice(1);
+      }
+      if (numberValue !== previousValueRef.current) {
+        previousValueRef.current = numberValue;
+      }
+      setInputValue(numberValue);
+      setData(numberValue + "000");
+    } else {
+      if (field.maxLength && value.length <= field.maxLength) {
+        setInputValue(value);
+      }
+      setData(value);
     }
-  }
-`;
+  };
 
-export const TextInput = styled.input`
-  outline: none;
-  font-size: 16px;
-  width: 100%;
-  padding: 0;
-  background-color: transparent;
-  border-style: none;
-  margin: 0 10px;
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setButton(e.currentTarget.textContent);
+    setData(e.currentTarget.value);
+  };
 
-  &.registrate-price {
-    text-align: right;
-    margin: 0 1px;
-  }
-`;
+  return (
+    <RegistrateWrapper>
+      <SubTitle>{field.subTitle}</SubTitle>
+      {field.button && (
+        <ButtonWrapper>
+          {field.button?.map(el => (
+            <Button
+              key={el.value}
+              value={String(el.value)}
+              className={`registrate-fixed-button ${
+                button === el.btn && "selected"
+              }`}
+              onClick={handleButtonClick}
+            >
+              {el.btn}
+            </Button>
+          ))}
+        </ButtonWrapper>
+      )}
+      {field.subTitle !== "경매기간" && field.subTitle !== "상세설명" ? (
+        <InputWrapper
+          className={field.subTitle === "입찰 단위" ? "budding-unit-field" : ""}
+        >
+          <TextInput
+            placeholder={field.placeholder}
+            className={field.inputType === "number" ? "registrate-price" : ""}
+            type="text"
+            value={inputValue}
+            onChange={handleInputValueChange}
+            maxLength={field.maxLength}
+          />
+          {field.inputType === "number" && (
+            <Text className="registrate-input-text">000원</Text>
+          )}
+        </InputWrapper>
+      ) : (
+        field.subTitle === "상세설명" && (
+          <InputWrapper className="text-area">
+            <TextArea
+              placeholder={field.placeholder}
+              value={inputValue}
+              onChange={handleInputValueChange}
+              maxLength={field.maxLength}
+            />
+          </InputWrapper>
+        )
+      )}
+      <Text>{field.description}</Text>
+    </RegistrateWrapper>
+  );
+}
 
-export const TextArea = styled.textarea`
-  outline: none;
-  resize: none;
-  font-size: 16px;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  background-color: transparent;
-  border-style: none;
-  margin-left: 10px;
+function RegistrateItemPage() {
+  const itemTitleField: RegistrateField = {
+    subTitle: "상품명",
+    placeholder: "상품명을 적어주세요.",
+    description: "판매할 상품의 이름을 적어주세요.",
+    inputType: "text",
+    maxLength: 25,
+  };
 
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #808080;
-    border-radius: 10px;
-    background-clip: padding-box;
-    border: 3px solid transparent;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-`;
+  const itemContentField: RegistrateField = {
+    subTitle: "상세설명",
+    placeholder: "상품을 소개해보세요.",
+    description: "자세한 설명은 좋은 판매전략이 됩니다.",
+    inputType: "text",
+    maxLength: 200,
+  };
 
-export const Text = styled.p`
-  margin: 0;
-  white-space: nowrap;
-  font-size: 12px;
-  font-weight: 100;
-  color: #808080;
+  const itemAuctionTimeField: RegistrateField = {
+    subTitle: "경매기간",
+    description: "상품을 등록할 기간을 선택하세요.",
+    button: [
+      { value: 1, btn: "1일" },
+      { value: 2, btn: "2일" },
+      { value: 3, btn: "3일" },
+      { value: 10, btn: "10초" },
+    ],
+  };
 
-  &.registrate-input-text {
-    font-size: 16px;
-    margin-right: 15px;
-  }
-`;
+  const itemstartPriceField: RegistrateField = {
+    subTitle: "시작 가격",
+    description: "시작 가격을 입력해주세요.",
+    inputType: "number",
+    maxLength: 9,
+  };
 
-export const InfoWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
+  const itemBuyNowPriceField: RegistrateField = {
+    subTitle: "즉시구매 가격",
+    description: "즉시구매 가격을 입력해주세요.(선택)",
+    inputType: "number",
+    maxLength: 9,
+  };
 
-  & > div:first-child {
-    margin-right: 36px;
-  }
+  const itemBidUnitField: RegistrateField = {
+    subTitle: "입찰 단위",
+    description: "입찰 단위를 선택해 주세요.",
+    inputType: "number",
+    maxLength: 9,
+  };
 
-  @media (max-width: 768px) {
-    & {
-      flex-direction: column;
+  const [itemTitle, setItemTitle] = useState<string>("");
+  const [itemContent, setItemContent] = useState<string>("");
+  const [itemstartPrice, setItemStartPrice] = useState<string>("");
+  const [itemBuyNowPrice, setItemBuyNowPrice] = useState<string>("");
+  const [itemAuctionTime, setItemAuctionTime] = useState<string>("");
+  const [itemBidUnit, setItemBidUnit] = useState<string>("");
+  const [itemCategory, setItemCategory] = useState<CategoryField[]>([]);
+  const [itemImageFile, setItemImageFile] = useState<File[]>([]);
+  const [categoryTag, setCategoryTag] = useState<CategoryField[]>([]);
+  const [totalItemInfo, setTotalItemInfo] = useState<RegistrateItemDataField>();
+  const [specification, setSpecification] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getCategory();
+        setCategoryTag(
+          data.filter((tag: { id: number; name: string }) => tag.id !== 1),
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSelectedCategory = (tag: CategoryField) => {
+    const selectedItem = categoryTag.find(item => item.name === tag.name);
+    if (selectedItem) {
+      setItemCategory([selectedItem]);
+    }
+  };
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (files) {
+      const newImages: File[] = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+        const fileName = file.name.toLowerCase();
+        if (allowedExtensions.some(ext => fileName.endsWith(ext))) {
+          newImages.push(file);
+        } else {
+          alert(`"${file.name}" 파일은 이미지가 아닙니다.`);
+        }
+      }
+
+      if (itemImageFile.length + newImages.length <= 5) {
+        setItemImageFile([...itemImageFile, ...newImages]);
+      } else {
+        alert("이미지는 최대 5개까지 선택할 수 있습니다.");
+      }
+    }
+  };
+
+  const handleImageRemove = (e: number) => {
+    const updatedImages = itemImageFile.filter((_, index) => index !== e);
+    setItemImageFile(updatedImages);
+  };
+
+  const handlePostRegistrateItem = async () => {
+    if (!itemTitle) {
+      alert("상품명을 작성해주세요.");
+      return;
     }
 
-    & > div:first-child {
-      margin-right: 0;
+    if (!itemContent) {
+      alert("상세설명을 작성해주세요.");
+      return;
     }
-  }
-`;
 
-export const ButtonWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-
-  &.registrate-button-wrapper {
-    justify-content: center;
-    height: 48px;
-
-    & button {
-      width: 420px;
+    if (itemImageFile.length === 0) {
+      alert("이미지를 등록해주세요.");
+      return;
     }
-  }
-`;
 
-export const Button = styled.button`
-  cursor: pointer;
-  border: solid 1px #b1b5c3;
-  border-radius: 6px;
-  background-color: #fff;
-  white-space: nowrap;
-  font-size: 16px;
-  font-weight: bold;
-  color: #2a2a2a;
-  height: 40px;
-  padding: 0 20px;
+    if (!itemAuctionTime) {
+      alert("경매기간을 선택해주세요.");
+      return;
+    }
 
-  &:hover,
-  &.selected {
-    background-color: #0064ff;
-    color: #fff;
-    border-color: #0064ff;
-  }
+    if (!itemstartPrice) {
+      alert("시작 가격을 작성해주세요.");
+      return;
+    }
 
-  &.selected {
-    cursor: default;
-  }
+    if (!itemBidUnit) {
+      alert("입찰 단위을 작성해주세요.");
+      return;
+    }
 
-  &.registrate-fixed-button {
-    margin-right: 8px;
-    margin-bottom: 8px;
-    min-width: 90px;
-  }
+    if (!itemCategory[0]) {
+      alert("카테고리를 선택해주세요.");
+      return;
+    }
 
-  &.registrate-category-tag {
-    margin-right: 5px;
-    margin-bottom: 5px;
-  }
+    if (Number(itemBuyNowPrice) !== 0) {
+      if (Number(itemBuyNowPrice) < Number(itemstartPrice)) {
+        alert("즉시구매가격이 시작가격보다 높아야 합니다.");
+        return;
+      } else if (Number(itemBuyNowPrice) < Number(itemBidUnit)) {
+        alert("즉시구매가격이 입찰단위보다 높아야 합니다.");
+        return;
+      }
+    }
 
-  &.registrate-category-tag-select {
-    cursor: default;
-    margin-left: 5px;
-    margin-bottom: 5px;
-    background-color: #0064ff;
-    color: #fff;
-    border-color: #0064ff;
-  }
-`;
+    const requestData: RegistrateItemDataField = {
+      seller_id: "1",
+      title: itemTitle,
+      content: itemContent,
+      auction_time: Number(itemAuctionTime),
+      category_id: itemCategory[0].id,
+      start_price: Number(itemstartPrice),
+      bid_unit: Number(itemBidUnit),
+      buy_now_price: Number(itemBuyNowPrice),
+    };
 
-export const ImgContent = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  width: calc(100% + 21px);
-`;
+    setTotalItemInfo(requestData);
+    setSpecification(true);
+  };
 
-export const ImgWrapper = styled.div`
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 194px;
-  height: 194px;
-  border-radius: 16px;
-  background-color: #777e90;
-  margin-bottom: 8px;
-  margin-right: 8px;
-  overflow: hidden;
-  border: solid 1px #b1b5c3;
+  return (
+    <Container>
+      {specification && totalItemInfo && (
+        <RegistrateSpecification
+          totalItemInfo={totalItemInfo}
+          itemCategory={itemCategory}
+          setSpecification={setSpecification}
+          itemImageFile={itemImageFile}
+        />
+      )}
+      <RegistrateContent>
+        <Title>상품 등록</Title>
+        <RegistInputForm field={itemTitleField} setData={setItemTitle} />
+        <RegistInputForm field={itemContentField} setData={setItemContent} />
+        <RegistrateWrapper>
+          <SubTitle>이미지 등록</SubTitle>
+          <ImgContent>
+            <ImgWrapper>
+              <ImgLabel htmlFor="registrate-image-file">
+                <FontAwesomeIcon icon={faImage} />
+              </ImgLabel>
+              <ImgInput
+                id="registrate-image-file"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageSelect}
+              />
+            </ImgWrapper>
+            {itemImageFile.map((image, index) => (
+              <ImgWrapper
+                key={index}
+                className="registrate-image"
+                onClick={() => handleImageRemove(index)}
+              >
+                <Img src={URL.createObjectURL(image)} alt={`Image ${index}`} />
+              </ImgWrapper>
+            ))}
+          </ImgContent>
+          <Text>판매할 상품의 이미지를 등록하세요.</Text>
+        </RegistrateWrapper>
+        <RegistInputForm
+          field={itemAuctionTimeField}
+          setData={setItemAuctionTime}
+        />
+        <InfoWrapper>
+          <RegistInputForm
+            field={itemstartPriceField}
+            setData={setItemStartPrice}
+          />
+          <RegistInputForm
+            field={itemBuyNowPriceField}
+            setData={setItemBuyNowPrice}
+          />
+        </InfoWrapper>
+        <RegistInputForm field={itemBidUnitField} setData={setItemBidUnit} />
+        <RegistrateWrapper>
+          <SubTitle>카테고리</SubTitle>
+          <SeletedCategoryTagWrapper>
+            {itemCategory.map(tag => (
+              <Button
+                key={tag.id}
+                className="registrate-category-tag-select"
+                onClick={() => handleSelectedCategory(tag)}
+              >
+                {tag.name}
+              </Button>
+            ))}
+          </SeletedCategoryTagWrapper>
+          <Text>태그를 선택해 주세요.</Text>
+          <CategoryTagWrapper>
+            {categoryTag.map((tag: { id: number; name: string }) => (
+              <Button
+                key={tag.id}
+                className={`registrate-category-tag ${
+                  itemCategory.includes(tag) && "selected"
+                }`}
+                onClick={() => handleSelectedCategory(tag)}
+              >
+                {tag.name}
+              </Button>
+            ))}
+          </CategoryTagWrapper>
+        </RegistrateWrapper>
+        <ButtonWrapper
+          className="registrate-button-wrapper"
+          onClick={handlePostRegistrateItem}
+        >
+          <LargeButtonB value="등록하기" />
+        </ButtonWrapper>
+      </RegistrateContent>
+    </Container>
+  );
+}
 
-  &.registrate-image {
-    background-color: #fff;
-  }
-`;
-
-export const ImgLabel = styled.label`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  font-size: 64px;
-  color: #fff;
-`;
-
-export const ImgInput = styled.input`
-  display: none;
-`;
-
-export const Img = styled.img`
-  display: flex;
-  max-width: 194px;
-  max-height: 194px;
-`;
-
-export const SeletedCategoryTagWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  border: solid 1px #b1b5c3;
-  border-radius: 6px;
-  min-height: 52px;
-  padding-top: 5px;
-  padding-right: 5px;
-  margin-bottom: 8px;
-`;
-
-export const CategoryTagWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  height: auto;
-  margin-top: 24px;
-`;
+export default RegistrateItemPage;
