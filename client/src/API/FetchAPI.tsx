@@ -165,8 +165,6 @@ export const useChange = (data: ChangePWData) => {
   return mutation;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 //상품리스트 불러오기 //////////////////////////////////////////////
 export const getItem = async (page: number) => {
   const memberId = localStorage.getItem("memberId");
@@ -187,47 +185,6 @@ export const getItem = async (page: number) => {
   } catch (error) {
     console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
-=======
-// 상품리스트 불러오기 //////////////////////////////////////////////
-export const getItem = (page: number) => {
-  const req = useAxiosRequestWithAuth();
-  const memberId = localStorage.getItem("memberId");
-
-  const getItem = async () => {
-    try {
-      const response = await req.get(
-        `/items?page_number=1&page_size=${page}&watcher_id=${memberId}`,
-      );
-      return response.data;
-    } catch (error) {
-      console.log(`데이터 불러오기를 실패했습니다.${error}`);
-    }
-  };
-  const query = useQuery(["itemList"], getItem);
-  return query;
->>>>>>> 89733f2 ([FE] fix : 김종회 오류 수정)
-=======
-//상품리스트 불러오기 //////////////////////////////////////////////
-export const getItem = async (page: number) => {
-  const memberId = localStorage.getItem("memberId");
-  const token = localStorage.getItem("token");
-  try {
-    const response = await axios({
-      method: "get",
-      url: `http://15.164.84.204:8080/items?page_number=1&page_size=${page}${
-        memberId ? `&watcher_id=${memberId}` : ""
-      }`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    console.log(response.data.items);
-    return response.data.items;
-  } catch (error) {
-    console.log(`데이터 불러오기를 실패했습니다.${error}`);
-  }
->>>>>>> 248b403 (fix:FetchAPI memberID,token 불러오기)
 };
 
 // 상세페이지데이터 //////////////////////////////////////////////
@@ -261,6 +218,8 @@ export const useRegistrateItem = async (
       url: `http://15.164.84.204:8080/items`,
       headers: {
         "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
       },
       data: requestData,
     });
@@ -288,6 +247,8 @@ export const useRegistrateItemImage = async (
       url: `http://15.164.84.204:8080/items/${itemId}/images`,
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
       },
       data: formData,
     });
@@ -308,18 +269,6 @@ export const getCategory = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
->>>>>>> 42dbb72 (feat: Chat 폼 제작)
-=======
-        Authorization: "Bearer token",
->>>>>>> 08ef21f (feat: 채팅 날짜 선 추가)
-=======
->>>>>>> 405f8ea (feat: feat: registrate페이지 코드 수정)
       },
     });
     const data = response.data.categories;
@@ -356,7 +305,7 @@ export const getFavorite = async (size: number) => {
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${size}}`,
+      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${size}`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
