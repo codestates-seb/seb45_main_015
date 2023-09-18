@@ -301,7 +301,7 @@ export const getFavorite = async (size: number) => {
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${size}}`,
+      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${size}`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
