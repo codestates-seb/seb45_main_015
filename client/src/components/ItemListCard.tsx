@@ -1,3 +1,7 @@
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+
 import {
   Button,
   Container,
@@ -11,13 +15,12 @@ import {
   TitleWrapper,
   TextContainer,
 } from "./components_style/ItemListCard_styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../alret/Modal";
-import { useState } from "react";
+import { MyTradeType } from "../type/type";
 
-function ItemListCard() {
+const ItemListCard: React.FC<MyTradeType> = items => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(items);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -35,7 +38,7 @@ function ItemListCard() {
         </ImgContainer>
         <InfoContainer>
           <TitleWrapper>
-            <ProductName>상품명</ProductName>
+            <ProductName>{items.items.title}</ProductName>
             <Button onClick={openModal}>별점 남기기</Button>
             {isModalOpen && <Modal mode={"star"} closeModal={closeModal} />}
           </TitleWrapper>
@@ -43,31 +46,41 @@ function ItemListCard() {
             <TextSection>
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래상대</Text>
-                <Text className="itemListCard-product-value">이름</Text>
+                <Text className="itemListCard-product-value">
+                  {items.items.seller_nickname}
+                </Text>
               </TextWrapper>
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래상태</Text>
-                <Text className="itemListCard-product-value">거래완료</Text>
+                <Text className="itemListCard-product-value">
+                  {items.items.status}
+                </Text>
               </TextWrapper>
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래일자</Text>
                 <Text className="itemListCard-product-value">
-                  23.08.28 / 18 : 42 : 22
+                  {items.items.end_time}
                 </Text>
               </TextWrapper>
             </TextSection>
             <TextSection>
               <TextWrapper className="product-price-wrapper">
                 <Text className="itemListCard-product-key">최저가</Text>
-                <Text className="itemListCard-product-value">0원</Text>
+                <Text className="itemListCard-product-value">
+                  {items.items.start_price}원
+                </Text>
               </TextWrapper>
               <TextWrapper className="product-price-wrapper">
                 <Text className="itemListCard-product-key">입찰가</Text>
-                <Text className="itemListCard-product-value">0원</Text>
+                <Text className="itemListCard-product-value">
+                  {items.items.current_price}원
+                </Text>
               </TextWrapper>
               <TextWrapper className="product-price-wrapper">
                 <Text className="itemListCard-product-key">최고가</Text>
-                <Text className="itemListCard-product-value">0원</Text>
+                <Text className="itemListCard-product-value">
+                  {items.items.buy_now_price}원
+                </Text>
               </TextWrapper>
             </TextSection>
           </TextContainer>
@@ -75,6 +88,6 @@ function ItemListCard() {
       </ItemContent>
     </Container>
   );
-}
+};
 
 export default ItemListCard;

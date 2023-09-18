@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
+
 import TradeNav from "./components_style/TradeNav_styled";
 
-function TradeSideVar() {
+function TradeSideBar() {
   const [selectedMenu, setSelectedMenu] = useState<number | null>(null);
 
   const handleMenuClick = (index: number) => {
@@ -30,5 +31,5 @@ function TradeSideVar() {
     </TradeNav>
   );
 }
-// --------------------------------------------------------------------------------------------------------
-export default TradeSideVar;
+
+export default TradeSideBar;

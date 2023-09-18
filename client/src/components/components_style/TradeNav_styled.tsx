@@ -9,7 +9,7 @@ const TradeNav = styled.nav`
   border: 1px solid #d9dadb;
   background: #fcfcfd;
   border-radius: 16px;
-  margin-top: 30px;
+  margin-top: 103px;
 
   & > ul {
     display: flex;
