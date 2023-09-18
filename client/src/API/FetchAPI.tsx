@@ -1,6 +1,17 @@
 import axios from "axios";
+<<<<<<< HEAD
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+=======
+import jwtDecode from "jwt-decode";
+import {
+  FindPWData,
+  LoginData,
+  SignupData,
+  ChangePWData,
+  RegistrateItemDataField,
+} from "../type/type";
+>>>>>>> d5945cb (feat: 상품데이터및 이미지 등록기능 구현)
 
 import {
   FindPWData,
@@ -263,7 +274,10 @@ export const getCategory = async () => {
       method: "get",
       url: "http://15.164.84.204:8080/categories?page_number=1&page_size=16",
       headers: {
+<<<<<<< HEAD
         Authorization: `Bearer ${token}`,
+=======
+>>>>>>> d5945cb (feat: 상품데이터및 이미지 등록기능 구현)
         "Content-Type": "application/json",
       },
     });
