@@ -165,6 +165,7 @@ export const useChange = (data: ChangePWData) => {
   return mutation;
 };
 
+<<<<<<< HEAD
 //상품리스트 불러오기 //////////////////////////////////////////////
 export const getItem = async (page: number) => {
   const memberId = localStorage.getItem("memberId");
@@ -185,6 +186,25 @@ export const getItem = async (page: number) => {
   } catch (error) {
     console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
+=======
+// 상품리스트 불러오기 //////////////////////////////////////////////
+export const getItem = (page: number) => {
+  const req = useAxiosRequestWithAuth();
+  const memberId = localStorage.getItem("memberId");
+
+  const getItem = async () => {
+    try {
+      const response = await req.get(
+        `/items?page_number=1&page_size=${page}&watcher_id=${memberId}`,
+      );
+      return response.data;
+    } catch (error) {
+      console.log(`데이터 불러오기를 실패했습니다.${error}`);
+    }
+  };
+  const query = useQuery(["itemList"], getItem);
+  return query;
+>>>>>>> 89733f2 ([FE] fix : 김종회 오류 수정)
 };
 
 // 상세페이지데이터 //////////////////////////////////////////////

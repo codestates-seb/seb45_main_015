@@ -16,6 +16,7 @@ import { FindPWData } from "../type/type";
 const FindPasswordPage: React.FC = () => {
   const { emailMessage, userInfo, setUserInfo, inputHandler } =
     useInputValidate({ email: "" });
+
   const mutation = useFind(userInfo);
 
   const handleFindPWSumbit = (e: React.FormEvent<HTMLFormElement>) => {
