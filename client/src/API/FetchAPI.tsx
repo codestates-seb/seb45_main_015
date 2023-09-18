@@ -166,6 +166,7 @@ export const useChange = (data: ChangePWData) => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //상품리스트 불러오기 //////////////////////////////////////////////
 export const getItem = async (page: number) => {
   const memberId = localStorage.getItem("memberId");
@@ -205,6 +206,26 @@ export const getItem = (page: number) => {
   const query = useQuery(["itemList"], getItem);
   return query;
 >>>>>>> 89733f2 ([FE] fix : 김종회 오류 수정)
+=======
+//상품리스트 불러오기 //////////////////////////////////////////////
+export const getItem = async () => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://15.164.84.204:8080/items?page_number=1&page_size=18&watcher_id=${memberId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response.data.items);
+    return response.data.items;
+  } catch (error) {
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+  }
+>>>>>>> 248b403 (fix:FetchAPI memberID,token 불러오기)
 };
 
 // 상세페이지데이터 //////////////////////////////////////////////

@@ -37,6 +37,7 @@ export const useAxiosRequestWithAuth = () => {
         const memberId = decodeToken.memberId;
         // 추출한 멤버아이디 로컬에 저장
         localStorage.setItem("memberId", memberId.toString());
+        localStorage.setItem("token", token);
         // config.needMemberId ? config.params === memberId : null;
       }
       return config;
