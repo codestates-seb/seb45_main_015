@@ -1,77 +1,187 @@
 import axios from "axios";
-import jwtDecode from "jwt-decode";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+
 import {
   FindPWData,
   LoginData,
   SignupData,
   ChangePWData,
+  MyPageData,
   RegistrateItemDataField,
 } from "../type/type";
-
-const BASE_URL = "http://15.164.84.204:8080";
-
-// Axios Instance
-const tradeApi = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: localStorage.getItem("token"),
-  },
-});
-
-// 로그인 ////////////////////////////////////////////
-export const useLogin = async (data: LoginData) => {
-  const response = await tradeApi.post("/members/login", data);
-
-  if (response.status === 200) {
-    const token: string = response.data.token;
-
-    localStorage.setItem("token", `Bearer ${token}`);
-    console.log(memberId);
-  } else {
-    console.log("로그인 실패");
-  }
-};
+import { useAxiosRequestWithAuth } from "../Aixosinterceptor";
 
 // 회원가입 ////////////////////////////////////////////
-export const useSignup = async (data: SignupData) => {
-  const response = await tradeApi.post("/members/signup", data);
-  if (response.status === 200) {
-    console.log("회원가입 성공");
-  } else {
-    console.error("회원가입 실패");
-  }
+export const useSignup = (userData: SignupData) => {
+  const req = useAxiosRequestWithAuth(); // 매번 불러오면 X
+  const navigator = useNavigate();
+
+  const signup = async () => {
+    // FIXME
+    try {
+      const response = await req.post("/members/signup", userData);
+      if (!response.data) {
+        console.log("Failed fetch");
+        return console.log(response);
+      }
+    } catch (error) {
+      console.log(`sign 함수 에러`);
+    }
+  };
+
+  const mutation = useMutation(signup, {
+    onSuccess(data) {
+      navigator("/login");
+      console.log(`useMutation 성공: ${data}`);
+      navigator("/login");
+    },
+    onError(error) {
+      console.log(`useMutation 실패: ${error}`);
+    },
+  });
+  return mutation;
+};
+
+// 로그인 ////////////////////////////////////////////
+export const useLogin = (data: LoginData) => {
+  const req = useAxiosRequestWithAuth();
+  const navigator = useNavigate();
+
+  const login = async () => {
+    await req.post("/members/login", data);
+  };
+
+  const { status, mutate, isLoading, isError } = useMutation(login, {
+    onSuccess(data) {
+      navigator("/allList");
+      console.log(`[mutation] 로그인 성공: ${data}`);
+    },
+    onError(error) {
+      console.log(`[mutation] 로그인 실패: ${error}`);
+    },
+  });
+  return { data, status, mutate, isLoading, isError };
+};
+
+// 로그아웃 ////////////////////////////////////////////
+export const useLogout = () => {
+  const req = useAxiosRequestWithAuth();
+  const memberId = localStorage.getItem("memberId");
+
+  const logout = async () => {
+    const response = await req.post(`/members/logout/${memberId}`);
+  };
+
+  const mutation = useMutation(logout, {
+    onSuccess(data) {
+      localStorage.removeItem("memberId");
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+  return mutation;
+};
+
+// 게스트 로그인
+export const useGuestLogin = () => {
+  const req = useAxiosRequestWithAuth();
+  const navigator = useNavigate();
+
+  const guestLogin = async () => {
+    try {
+      const response = await req.post("/members/guest-login");
+      return console.log(response);
+    } catch (error) {
+      console.log(`게스트로그인 함수 에러`);
+    }
+  };
+
+  const mutation = useMutation(guestLogin, {
+    onSuccess(data) {
+      navigator("/allList");
+      console.log(`[mutation] 게스트 로그인 성공: ${data}`);
+    },
+    onError(error) {
+      console.log(`[mutation] 게스트 로그인 실패: ${error}`);
+    },
+  });
+  return mutation;
 };
 
 // FIXME : 비밀번호 찾기 이메일 입력 ////////////////////////////////////////
-export const useFind = async (data: FindPWData) => {
-  const response = await tradeApi.get("/members");
-  return response.data;
+export const useFind = (data: FindPWData) => {
+  const req = useAxiosRequestWithAuth();
+  const navigator = useNavigate();
+
+  const findPw = async () => {
+    try {
+      const response = await req.post(
+        `/members/verify-email?email=${data.email}`,
+      );
+      return console.log(response.status);
+    } catch (error) {
+      console.log(`find 함수 에러`);
+    }
+  };
+
+  const mutation = useMutation(findPw, {
+    onSuccess(data) {
+      // FIXME
+      // 응답 멤버아이디가 있으면 비빌먼호 변경페이지로 네비게이션 설정 추가
+      // localStorage.setItem("verifyMemberID",);
+      console.log(`[mutation] 비번찾기 이메일 전송 성공: ${data}`);
+      navigator("/change-password");
+    },
+    onError(error) {
+      console.log(`[mutation] 비번찾기 이메일 전송 실패: ${error}`);
+    },
+  });
+  return mutation;
 };
 
 // 변경할 비밀번호 입력 ////////////////////////////////////////
-export const useChange = async (data: ChangePWData) => {
-  const memberId = localStorage.getItem("memberID");
-  const response = await tradeApi.post(
-    `/members/find-password/${memberId}`,
-    data,
-  );
+export const useChange = (data: ChangePWData) => {
+  const req = useAxiosRequestWithAuth();
+  const verifyMemberId = localStorage.getItem("verifyMemberId");
+  const navigator = useNavigate();
 
-  return response.data;
+  const changePw = async () => {
+    const response = await req.patch(
+      `/members/find-password/${verifyMemberId}`,
+      data,
+    );
+    return response.data;
+  };
+
+  const mutation = useMutation(changePw, {
+    onSuccess(data) {
+      console.log(data);
+      localStorage.removeItem("verifyMemberId");
+      navigator("/login");
+    },
+  });
+  return mutation;
 };
 
-// 상품리스트 불러오기 //////////////////////////////////////////////
-export const getItem = async (page: number, memberID: number) => {
+//상품리스트 불러오기 //////////////////////////////////////////////
+export const getItem = async (page: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/items?page_number=1&page_size=${page}&watcher_id=${memberID}`,
+      url: `http://15.164.84.204:8080/items?page_number=1&page_size=${page}${
+        memberId ? `&watcher_id=${memberId}` : ""
+      }`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
-    return response.data;
+    console.log(response.data.items);
+    return response.data.items;
   } catch (error) {
     console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
@@ -147,12 +257,13 @@ export const useRegistrateItemImage = async (
 
 // 카테고리 불러오기 //////////////////////////////////////////////
 export const getCategory = async () => {
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
       url: "http://15.164.84.204:8080/categories?page_number=1&page_size=16",
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -164,12 +275,14 @@ export const getCategory = async () => {
 };
 // 카테고리 별 아이템 불러오기 //////////////////////////////////////////////
 export const getCategoryItem = async (page: number, id: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/items/categories?page_number=1&page_size=${page}&category_id=${id}&member_id=1`,
+      url: `http://15.164.84.204:8080/items/categories?page_number=1&page_size=${page}&category_id=${id}&member_id=${memberId}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -182,13 +295,15 @@ export const getCategoryItem = async (page: number, id: number) => {
 };
 
 // 찜목록 불러오기 /////////////////////////////////////////
-export const getFavorite = async (memberId: number, length: number) => {
+export const getFavorite = async (size: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${length}`,
+      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${size}}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -200,33 +315,33 @@ export const getFavorite = async (memberId: number, length: number) => {
 };
 
 // 찜목록 추가하기 /////////////////////////////////////////////////////////
-export const postItem = async (itemId: number, memberId: number) => {
+export const postItem = async (itemId: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const request = await axios({
       method: "post",
       url: `http://15.164.84.204:8080/items/${itemId}/wishes/${memberId}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
-    console.log("찜목록 추가완료");
   } catch (error) {
     console.log(`찜목록 추가를 실패했습니다.${error}`);
   }
 };
 
 // 찜목록 삭제 /////////////////////////////////////////
-export const deleteItem = async (
-  memberId: number,
-  deleteId: number[] | (() => void),
-) => {
+export const deleteItem = async (deleteId: number[] | (() => void)) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const request = await axios({
       method: "delete",
       url: `http://15.164.84.204:8080/members/${memberId}/wishes`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       data: deleteId,
@@ -256,13 +371,15 @@ interface objTest {
   title: string;
   wish_id: number;
 }
-export const deleteAllFavorite = async (memberId: number, length: number) => {
+export const deleteAllFavorite = async (length: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "delete",
       url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${length}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -273,7 +390,9 @@ export const deleteAllFavorite = async (memberId: number, length: number) => {
   }
 };
 // 검색 /////////////////////////////////////////
-export const searchItem = async (keyWord: string, memberId?: number) => {
+export const searchItem = async (keyWord: string) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
@@ -281,7 +400,7 @@ export const searchItem = async (keyWord: string, memberId?: number) => {
         memberId ? `&watcher_id=${memberId}` : ""
       }`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -290,4 +409,88 @@ export const searchItem = async (keyWord: string, memberId?: number) => {
   } catch (error) {
     console.log(`데이터 불러오기를 실패했습니다.${error}`);
   }
+};
+
+// FIXME
+// 나의 거래목록 불러오기 ///////////////////////////////////////////
+export const useMyTrade = () => {
+  const req = useAxiosRequestWithAuth();
+  const memberId = localStorage.getItem("memberId");
+  const status_code = "상태코드";
+
+  const tradeEndPoint = `/items/my-item?page_number=1&page_size=2&member_id=1`;
+  // `/items/status?page_number=1&page_size=2&item_status=${status_code}&seller_id=1`
+  const fetchMyTrade = async () => {
+    try {
+      const response = await req.get(tradeEndPoint);
+      return response.data;
+    } catch (error) {}
+  };
+
+  const query = useQuery(["tradeData"], fetchMyTrade);
+  return query;
+};
+
+// MyPageData에 멤버아이디추가
+// 마이페이지 정보 불러오기 ///////////////////////////////////
+export const usefetchMyPage = () => {
+  const req = useAxiosRequestWithAuth();
+  const memberId = localStorage.getItem("memberId");
+
+  const fetchMyPageData = async () => {
+    try {
+      const response = await req.get(`/members/${memberId}`, {
+        params: {
+          memberId: memberId,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const query = useQuery(["userData"], fetchMyPageData);
+
+  return query;
+};
+
+// 닉네임 변경 //////////////////////////////////////
+export const useChangeNickname = (inputData: MyPageData) => {
+  const req = useAxiosRequestWithAuth();
+  const memberId = localStorage.getItem("memberId");
+
+  const changeNickName = async () => {
+    await req.patch(`/members/change-nickname/${memberId}`, inputData);
+  };
+
+  const mutation = useMutation(changeNickName, {
+    onSuccess(data) {
+      console.log("닉네임 변경성공");
+    },
+    onError(error) {
+      console.log("닉네임 변경실패");
+    },
+  });
+
+  return mutation;
+};
+
+// 비밀번호 변경 //////////////////////////////////////
+export const useChangePassword = (inputData: MyPageData) => {
+  const req = useAxiosRequestWithAuth();
+  const memberId = localStorage.getItem("memberId");
+
+  const changePassword = async () => {
+    await req.patch(`/members/change-password/${memberId}`, inputData);
+  };
+  const mutation = useMutation(changePassword, {
+    onSuccess(data) {
+      console.log("비밀번호 변경성공");
+    },
+    onError(error) {
+      console.log("비밀번호 변경실패");
+    },
+  });
+
+  return mutation;
 };
