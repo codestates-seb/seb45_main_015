@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project15.server.audit.Auditable;
 import com.project15.server.bid.entity.Bid;
 import com.project15.server.item.entity.Item;
-import com.project15.server.item.entity.ItemImage;
-import com.project15.server.rating.StarRating;
+import com.project15.server.rating.entity.StarRating;
 import com.project15.server.wish.entity.Wish;
 import lombok.*;
 
