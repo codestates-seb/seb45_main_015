@@ -218,8 +218,6 @@ export const useRegistrateItem = async (
       url: `http://15.164.84.204:8080/items`,
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
       },
       data: requestData,
     });
@@ -247,8 +245,6 @@ export const useRegistrateItemImage = async (
       url: `http://15.164.84.204:8080/items/${itemId}/images`,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk0OTUzMDM3fQ.D6oF-nsbkpIxEta3NWyyrXX6i8_FXAfHyHZjY0C4qDILKJuzDH-cGsgBo0CJFsIhGz4EAVFXW3EUYoQFWN5LWw",
       },
       data: formData,
     });
