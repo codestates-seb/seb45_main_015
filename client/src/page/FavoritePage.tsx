@@ -143,7 +143,7 @@ const FavoritePage: React.FC = () => {
   };
 
   const { data, isLoading, isError, refetch } = useQuery(
-    ["favoriteList", page],
+    ["favoriteList"],
     getData,
     {
       keepPreviousData: true,
