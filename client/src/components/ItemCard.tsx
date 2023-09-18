@@ -57,7 +57,14 @@ interface ItemCardProps {
   onItemRefetch: () => void;
   favoriteState: boolean;
 }
-
+//title 길면 ...으로 단축
+const shortenString = (str: string) => {
+  if (str.length > 11) {
+    return str.slice(0, 11) + ` ....`;
+  } else {
+    return str;
+  }
+};
 export function ItemCard({
   cardData,
   favoriteState,
@@ -67,7 +74,7 @@ export function ItemCard({
 
   //--------하트버튼으로 찜목록 추가
   const postData = async () => {
-    const result = await postItem(cardData.item_id, 1);
+    const result = await postItem(cardData.item_id);
     return result;
   };
 
@@ -83,7 +90,7 @@ export function ItemCard({
 
   //----------X,하트 버튼으로 찜목록 삭제
   const deleteData = async () => {
-    const result = await deleteItem(1, [cardData.item_id]);
+    const result = await deleteItem([cardData.item_id]);
 
     return [result];
   };
@@ -106,7 +113,9 @@ export function ItemCard({
       </ImgContainer>
       <InfoContainer>
         <InfoWrapper>
-          <Text className="itemCard-product-name">{cardData.title}</Text>
+          <Text className="itemCard-product-name">
+            {shortenString(cardData.title)}
+          </Text>
           <Wrapper>
             <Text className="itemCard-product-key">최저가</Text>
             <Text className="itemCard-product-value">
@@ -155,7 +164,7 @@ export function DeleteItemCard({
 
   //------X눌러서 찜목록 삭제
   const DeleteData = async () => {
-    const result = await deleteItem(1, [cardData.item_id]);
+    const result = await deleteItem([cardData.item_id]);
     return result;
   };
   const { mutate } = useMutation(["deleteItem"], DeleteData, {
@@ -197,7 +206,9 @@ export function DeleteItemCard({
       </ImgContainer>
       <InfoContainer>
         <InfoWrapper>
-          <Text className="itemCard-product-name">{cardData.title}</Text>
+          <Text className="itemCard-product-name">
+            {shortenString(cardData.title)}
+          </Text>
           <Wrapper>
             <Text className="itemCard-product-key">최저가</Text>
             <Text className="itemCard-product-value">
