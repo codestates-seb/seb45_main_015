@@ -227,11 +227,9 @@ export const postItemDetailBid = async (bidData: ItemBidField) => {
       data: bidData,
     });
 
-    if (response.status === 200) {
-      return response.data;
-    }
+    alert("입찰에 성공하였습니다.");
   } catch (error) {
-    console.error(error);
+    alert("입찰에 실패하였습니다.");
   }
 };
 
@@ -249,9 +247,7 @@ export const postItemDetailBuyNow = async (buyNowData: ItemBuyNowField) => {
       data: buyNowData,
     });
 
-    if (response.status === 200) {
-      return response.data;
-    }
+    alert("상품 구입에 성공하였습니다.");
   } catch (error) {
     console.error(error);
   }
@@ -279,7 +275,7 @@ export const useRegistrateItem = async (
       return response.data;
     }
   } catch (error) {
-    console.error(error);
+    alert("데이터 전송에 실패하였습니다.");
   }
 };
 
@@ -307,6 +303,7 @@ export const useRegistrateItemImage = async (
     alert("등록에 성공하였습니다.");
   } catch (error) {
     alert("이미지 업로드 실패");
+    return;
   }
 };
 

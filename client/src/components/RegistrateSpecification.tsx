@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRegistrateItem, useRegistrateItemImage } from "../API/FetchAPI";
 import {
   CategoryField,
@@ -28,6 +28,8 @@ function RegistrateSpecification({
   setSpecification: (value: boolean) => void;
   itemImageFile: File[];
 }) {
+  const navigate = useNavigate();
+
   const total: SpecificationField[] = [
     { title: "상품명", value: totalItemInfo.title },
     { title: "경매기간", value: totalItemInfo.auction_time, unit: "일" },
@@ -52,13 +54,12 @@ function RegistrateSpecification({
   const handleCloseSpecification = () => {
     setSpecification(false);
   };
-  console.log(totalItemInfo);
 
   const handlePostRegistrateItem = () => {
     useRegistrateItem(totalItemInfo).then(data => {
       console.log(data.item_id);
       useRegistrateItemImage(itemImageFile, data.item_id);
-      return <Navigate to="/allList" />;
+      navigate("/allList");
     });
   };
 

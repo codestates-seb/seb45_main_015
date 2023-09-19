@@ -8,6 +8,7 @@ import {
   Title,
   Wrapper,
 } from "./components_style/Footer.styled_styled";
+import LogoImg from "./image/LogoImg.png";
 
 const member = {
   BE: [
