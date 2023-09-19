@@ -81,10 +81,10 @@ const LoginPage: React.FC = () => {
               </div>
               <span className="sns">SNS 계정으로 로그인하기</span>
             </LoginFormItem>
-            <div className="google-login-btn">
-              <GoogleLoginBtn />
-            </div>
           </LoginFormContainer>
+          <div className="google-login-btn">
+            <GoogleLoginBtn />
+          </div>
         </LoginFormDiv>
       )}
     </LoginPageContainer>
