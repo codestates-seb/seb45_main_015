@@ -25,10 +25,10 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final CustomMemberDetailsService customMemberDetailsService;
 
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
+    private static final String EMAIL_REGEX = "^(?i)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
-    private static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d|.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,16}$";
+    private static final String PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$";
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
     public Member findByEmail(String email) {
@@ -43,7 +43,7 @@ public class MemberService {
         return PASSWORD_PATTERN.matcher(password).matches();
     }
     private boolean isValidNickname(String nickname) {
-        String nicknamePattern = "^[a-zA-Z0-9]+$";
+        String nicknamePattern = "^[a-zA-Z가-힣0-9]{2,}$";
         return nickname.matches(nicknamePattern);
     }
     public Member signup(MemberDto memberDto) {
@@ -110,8 +110,7 @@ public class MemberService {
         if (!authenticateMember(email, oldPassword)) {
             throw new RuntimeException("비밀번호가 틀렸습니다.");
         }
-        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d|.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,16}$";
-        if (!newPassword.matches(passwordPattern)) {
+        if (!newPassword.matches(PASSWORD_REGEX)) {
             throw new RuntimeException("비밀번호는 최소 8자리 이상이어야 하며, 영문, 숫자, 특수문자 중 2가지 이상의 조합이어야 합니다.");
         }
         member.setPassword(passwordEncoder.encode(newPassword));
@@ -157,8 +156,7 @@ public class MemberService {
         if (!newPassword.equals(confirmPassword)) {
             throw new RuntimeException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         }
-        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d|.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,16}$";
-        if (!newPassword.matches(passwordPattern)) {
+        if (!newPassword.matches(PASSWORD_REGEX)) {
             throw new RuntimeException("비밀번호는 최소 8자리 이상이어야 하며, 영문, 숫자, 특수문자 중 2가지 이상의 조합이어야 합니다.");
         }
         Optional<Member> memberOptional = memberRepository.findByMemberId(memberId);
