@@ -6,6 +6,7 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 60px;
+  margin-bottom: 200px;
 `;
 
 export const RegistrateContent = styled.div`

@@ -8,7 +8,6 @@ export const Container = styled.footer`
   width: 100%;
   padding: 30px 0;
   border-top: solid 1px #e6e8ec;
-  margin-top: 30px;
   bottom: 0;
 `;
 
