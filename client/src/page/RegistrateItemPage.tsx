@@ -148,7 +148,7 @@ function RegistrateItemPage() {
       { value: 1, btn: "1일" },
       { value: 2, btn: "2일" },
       { value: 3, btn: "3일" },
-      { value: 10, btn: "10초" },
+      { value: 10, btn: "1분" },
     ],
   };
 
@@ -156,21 +156,21 @@ function RegistrateItemPage() {
     subTitle: "시작 가격",
     description: "시작 가격을 입력해주세요.",
     inputType: "number",
-    maxLength: 9,
+    maxLength: 6,
   };
 
   const itemBuyNowPriceField: RegistrateField = {
     subTitle: "즉시구매 가격",
     description: "즉시구매 가격을 입력해주세요.(선택)",
     inputType: "number",
-    maxLength: 9,
+    maxLength: 6,
   };
 
   const itemBidUnitField: RegistrateField = {
     subTitle: "입찰 단위",
     description: "입찰 단위를 선택해 주세요.",
     inputType: "number",
-    maxLength: 9,
+    maxLength: 6,
   };
 
   const [itemTitle, setItemTitle] = useState<string>("");
@@ -184,6 +184,7 @@ function RegistrateItemPage() {
   const [categoryTag, setCategoryTag] = useState<CategoryField[]>([]);
   const [totalItemInfo, setTotalItemInfo] = useState<RegistrateItemDataField>();
   const [specification, setSpecification] = useState<boolean>(false);
+  const memberId = localStorage.getItem("memberId");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -282,9 +283,12 @@ function RegistrateItemPage() {
         return;
       }
     }
+    if (!memberId) {
+      return;
+    }
 
     const requestData: RegistrateItemDataField = {
-      seller_id: "1",
+      seller_id: Number(memberId),
       title: itemTitle,
       content: itemContent,
       auction_time: Number(itemAuctionTime),

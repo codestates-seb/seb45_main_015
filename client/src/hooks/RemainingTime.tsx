@@ -20,10 +20,10 @@ export function RemainingTime(endTime: string | undefined) {
       minutesRemaining < 0 &&
       secondsRemaining < 0
     ) {
-      return "해당 상품의 경매가 종료되었습니다.";
+      return "경매가 종료되었습니다.";
+    } else {
+      return `${daysRemaining}일 ${hoursRemaining}시간 ${minutesRemaining}분 ${secondsRemaining}초`;
     }
-
-    return `${daysRemaining}일 ${hoursRemaining}시간 ${minutesRemaining}분 ${secondsRemaining}초`;
   }
   return "남은 시간을 불러오는데 실패하였습니다.";
 }

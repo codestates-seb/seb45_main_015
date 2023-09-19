@@ -72,7 +72,6 @@ export const Text = styled.p`
     font-size: 24px;
     font-weight: bold;
     white-space: nowrap;
-    margin: 16px 0;
     margin-right: 15px;
   }
 
@@ -108,7 +107,6 @@ export const ContentSection = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
   &.detail-info-content {
     height: 100%;
@@ -131,6 +129,17 @@ export const ButtonWrapper = styled.div`
 
   &.margin-top {
     margin-top: 18px;
+  }
+
+  &.top-bid-button > button {
+    background-color: #d32f2f;
+    border-color: #d32f2f;
+  }
+
+  &.top-bid-button > button:hover {
+    color: #d32f2f;
+    border-color: #d32f2f;
+    background-color: #fff;
   }
 `;
 
@@ -231,9 +240,11 @@ export const Wrapper = styled.div`
 
   &.space-between {
     justify-content: space-between;
+    margin-top: 32px;
   }
 
   &.detail-moreinfo-wrapper {
     margin-top: 32px;
+    margin-bottom: 32px;
   }
 `;

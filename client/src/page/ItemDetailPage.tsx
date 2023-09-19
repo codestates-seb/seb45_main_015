@@ -29,6 +29,7 @@ import { LargeButtonA, LargeButtonC } from "../components/ButtonComponent";
 import { useParams } from "react-router-dom";
 import Loading from "../loading/Loading";
 import { RemainingTime } from "../hooks/RemainingTime";
+import { current } from "@reduxjs/toolkit";
 
 function ItemDetailPage() {
   const queryClient = useQueryClient();
@@ -36,10 +37,17 @@ function ItemDetailPage() {
   const [itemId, setItemId] = useState<number | null>(Number(itemIdParams));
   const [mainImage, setMainImage] = useState<number>(0);
   const [remainingTimeString, setRemainingTimeString] = useState<string>("");
+  const [isAuctionEnded, setIsAuctionEnded] = useState<boolean>(false);
+  const memberId = localStorage.getItem("memberId");
+
+  console.log(memberId);
 
   const { data, isLoading } = useQuery(
     ["itemDetail", itemId],
-    () => itemId && fetchItemDetail(itemId),
+    () =>
+      memberId && itemId
+        ? fetchItemDetail(itemId, Number(memberId))
+        : itemId && fetchItemDetail(itemId),
     {
       refetchInterval: 50000,
     },
@@ -60,6 +68,11 @@ function ItemDetailPage() {
       if (!isLoading && data) {
         const remainingTime = RemainingTime(data.end_time);
         setRemainingTimeString(remainingTime);
+
+        if (remainingTime === "경매가 종료되었습니다.") {
+          clearInterval(interval);
+          setIsAuctionEnded(true);
+        }
       }
     }, 1000);
 
@@ -71,6 +84,7 @@ function ItemDetailPage() {
   if (isLoading) {
     return <Loading />;
   }
+  console.log(data);
 
   const handleChangeMainImage = (index: number) => {
     setMainImage(index);
@@ -95,28 +109,38 @@ function ItemDetailPage() {
   const handleBidButton = () => {
     let bidPrice = 0;
     if (data.current_price === 0) {
-      bidPrice = data.start_price + data.bid_unit;
+      bidPrice = data.start_price;
     } else {
       bidPrice = data.current_price + data.bid_unit;
     }
 
-    if (itemId) {
-      const bidData = {
-        item_id: itemId,
-        buyer_id: 1,
-        bid_price: bidPrice,
-      };
-      // postItemDetailBid(bidData);
-      console.log(bidData);
+    if (data.buy_now_price <= bidPrice) {
+      if (itemId) {
+        const buyNowData = {
+          item_id: itemId,
+          buyer_id: Number(memberId),
+        };
+        postItemDetailBuyNow(buyNowData);
+      }
+    } else {
+      if (itemId) {
+        const bidData = {
+          item_id: itemId,
+          buyer_id: Number(memberId),
+          bid_price: bidPrice,
+        };
+        postItemDetailBid(bidData);
+      }
     }
   };
+
   const handleBuyNowButton = () => {
     if (itemId) {
       const buyNowData = {
         item_id: itemId,
-        buyer_id: 1,
+        buyer_id: Number(memberId),
       };
-      // postItemDetailBuyNow(buyNowData);
+      postItemDetailBuyNow(buyNowData);
       console.log(buyNowData);
     }
   };
@@ -190,35 +214,48 @@ function ItemDetailPage() {
                   {data.buyer_nickname ? data.buyer_nickname : "없음"}
                 </Text>
               </Wrapper>
-              <Wrapper className="space-between">
-                <Text className="detail-info-init">입찰가</Text>
-                <Text className="detail-info">
-                  {data.current_price === 0
-                    ? (data.start_price + data.bid_unit).toLocaleString()
-                    : (data.current_price + data.bid_unit).toLocaleString()}
-                  원
-                </Text>
-              </Wrapper>
+              {data.status !== "TRADING" && (
+                <Wrapper className="space-between">
+                  <Text className="detail-info-init">입찰가</Text>
+                  <Text className="detail-info">
+                    {data.current_price === 0
+                      ? data.start_price.toLocaleString()
+                      : (data.current_price + data.bid_unit).toLocaleString()}
+                    원
+                  </Text>
+                </Wrapper>
+              )}
             </Content>
-            <Content className="detail-button-content">
-              <Wrapper className="space-between">
-                <ButtonWrapper
-                  className="margin-right"
-                  onClick={handleBidButton}
-                >
-                  <LargeButtonA value="입찰하기" />
+            {data.status === "BIDDING" && (
+              <Content className="detail-button-content">
+                <Wrapper className="space-between">
+                  {Number(data.buyer_id) !== Number(memberId) ? (
+                    <ButtonWrapper
+                      className="margin-right"
+                      onClick={handleBidButton}
+                    >
+                      <LargeButtonA value="입찰하기" />
+                    </ButtonWrapper>
+                  ) : (
+                    <ButtonWrapper
+                      className="margin-right top-bid-button"
+                      onClick={handleBidButton}
+                    >
+                      <LargeButtonA value="추가 입찰하기" />
+                    </ButtonWrapper>
+                  )}
+                  <ButtonWrapper onClick={handleBuyNowButton}>
+                    <LargeButtonA value="즉시구매" />
+                  </ButtonWrapper>
+                </Wrapper>
+                <ButtonWrapper className="margin-top">
+                  <LargeButtonC value="찜하기" />
                 </ButtonWrapper>
-                <ButtonWrapper onClick={handleBuyNowButton}>
-                  <LargeButtonA value="즉시구매" />
-                </ButtonWrapper>
-              </Wrapper>
-              <ButtonWrapper className="margin-top">
-                <LargeButtonC value="찜하기" />
-              </ButtonWrapper>
-              {/* <ButtonWrapper className="margin-top">
+                {/* <ButtonWrapper className="margin-top">
                 <LargeButtonC value="수정하기" />
               </ButtonWrapper> */}
-            </Content>
+              </Content>
+            )}
           </ContentSection>
         </ItemDetailContent>
         <ItemDetailContent className="column">

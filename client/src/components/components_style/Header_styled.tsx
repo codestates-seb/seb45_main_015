@@ -33,6 +33,10 @@ export const HeaderContent = styled.div`
   width: 100%;
   height: 44px;
 
+  & > a {
+    margin-right: 31px;
+  }
+
   @media (max-width: 768px) {
     & {
       justify-content: space-between;
@@ -42,22 +46,14 @@ export const HeaderContent = styled.div`
 `;
 
 export const LogoWrapper = styled.div`
-  width: 237px;
+  width: 170px;
   height: 44px;
-  margin-right: 31px;
-  border-right: solid 1px ${globalTokens.heart.default.value};
-
-  @media (max-width: 768px) {
-    & {
-      border-style: none;
-    }
-  }
 `;
 
 export const Logo = styled.img`
   background-color: #e6e8ec;
-  width: 195px;
-  height: 44px;
+  width: 100%;
+  height: 100%;
 `;
 
 export const NavWrapper = styled.div`
