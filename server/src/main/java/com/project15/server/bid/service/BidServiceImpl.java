@@ -11,6 +11,7 @@ import com.project15.server.item.mapper.ItemMapper;
 import com.project15.server.item.repository.ItemRepository;
 import com.project15.server.member.entity.Member;
 import com.project15.server.member.repository.MemberRepository;
+import com.project15.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,6 +31,8 @@ public class BidServiceImpl implements BidService {
     private final ItemRepository itemRepository;
 
     private final MemberRepository memberRepository;
+
+    private final MemberService memberService;
 
     private final ItemMapper itemMapper;
 
@@ -70,7 +73,10 @@ public class BidServiceImpl implements BidService {
             bidRepository.save(bid);
         }
         findItem.setCurrentPrice(bid.getBidPrice());
-        findItem.setBuyer(bid.getBuyer());
+
+        Member buyer = memberService.getEmailByMemberId(bid.getBuyer().getMemberId());
+
+        findItem.setBuyer(buyer);
 
         return itemMapper.itemToResponseDto(findItem, null);
     }
