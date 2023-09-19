@@ -191,7 +191,7 @@ export const getItem = async (page: number) => {
     });
     return response.data.items;
   } catch (error) {
-    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+    throw error;
   }
 };
 
@@ -328,7 +328,7 @@ export const getCategory = async () => {
     const data = response.data.categories;
     return data;
   } catch (error) {
-    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+    throw error;
   }
 };
 // 카테고리 별 아이템 불러오기 //////////////////////////////////////////////
@@ -347,7 +347,7 @@ export const getCategoryItem = async (page: number, id: number) => {
     const data = response.data.items;
     return data;
   } catch (error) {
-    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+    throw error;
   }
 };
 
@@ -367,7 +367,7 @@ export const getFavorite = async (size: number) => {
     const data = response.data;
     return data;
   } catch (error) {
-    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+    throw error;
   }
 };
 
@@ -384,9 +384,8 @@ export const postItem = async (itemId: number) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("추가성공");
   } catch (error) {
-    console.log(`찜목록 추가를 실패했습니다.${error}`);
+    throw error;
   }
 };
 
@@ -406,30 +405,12 @@ export const deleteItem = async (deleteId: number[] | (() => void)) => {
     });
     return request.data;
   } catch (error) {
-    console.log(`데이터 삭제를 실패했습니다.${error}`);
+    throw error;
   }
 };
 
 // 찜목록 전체 삭제 /////////////////////////////////////////
-interface objTest {
-  bid_unit: number;
-  buy_now_price: number;
-  buyer_id: null;
-  buyer_nickname: null;
-  category: string;
-  content: string;
-  current_price: number;
-  end_time: string;
-  item_id: number;
-  item_image_urls: string[];
-  seller_id: number;
-  seller_nickname: string;
-  start_price: number;
-  status: string;
-  title: string;
-  wish_id: number;
-}
-export const deleteAllFavorite = async (length: number) => {
+export const deleteAllFavorite = async () => {
   const memberId = localStorage.getItem("memberId");
   const token = localStorage.getItem("token");
   try {
@@ -444,7 +425,7 @@ export const deleteAllFavorite = async (length: number) => {
     const data = response.data;
     return data;
   } catch (error) {
-    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+    throw error;
   }
 };
 // 검색 /////////////////////////////////////////
@@ -465,7 +446,7 @@ export const searchItem = async (keyWord: string, page: number) => {
     const data = response.data;
     return data;
   } catch (error) {
-    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+    throw error;
   }
 };
 
