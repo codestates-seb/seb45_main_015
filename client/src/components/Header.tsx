@@ -20,7 +20,6 @@ import HeaderDropDown from "./HeaderDropDown";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/LogoImg.png";
-
 import HeaderSearchDropDown from "./HeaderSearchDropDown";
 import HeaderHamburgerDropDown from "./HeaderHamburgerDropDown";
 
