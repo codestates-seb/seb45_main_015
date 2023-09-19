@@ -118,3 +118,22 @@ export type PageData = {
     total_pages: number;
   };
 };
+
+export interface objTest {
+  bid_unit: number;
+  buy_now_price: number;
+  buyer_id: null;
+  buyer_nickname: null;
+  category: string;
+  content: string;
+  current_price: number;
+  end_time: string;
+  item_id: number;
+  item_image_urls: string[];
+  seller_id: number;
+  seller_nickname: string;
+  start_price: number;
+  status: string;
+  title: string;
+  wish_id: number;
+}

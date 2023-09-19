@@ -6,6 +6,7 @@ import { ItemCard } from "../components/ItemCard";
 import { MediumButtonB } from "../components/ButtonComponent";
 import { getItem } from "../API/FetchAPI";
 import { useQuery } from "@tanstack/react-query";
+import Loading from "../loading/Loading";
 
 // const carouselItems = [
 //   {
@@ -46,7 +47,7 @@ const ItemListPage: React.FC = () => {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (isError) {

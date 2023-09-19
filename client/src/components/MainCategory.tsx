@@ -31,20 +31,21 @@ function CategorySideVar() {
         <ul>
           {data
             .sort((a, b) => a.id - b.id)
-            .map((category, index) => (
+            .map(category => (
               <Link
                 to={category.id === 1 ? "/allList" : `/category/${category.id}`}
+                key={category.id}
               >
                 <li
-                  key={index}
-                  onClick={() => handleCategoryClick(index)}
+                  onClick={() => handleCategoryClick(category.id)}
                   style={{
-                    color: selectedCategory === index ? "#0064FF" : "",
-                    fontWeight: selectedCategory === index ? "bold" : "normal",
+                    color: selectedCategory === category.id ? "#0064FF" : "",
+                    fontWeight:
+                      selectedCategory === category.id ? "bold" : "normal",
                   }}
                 >
                   {category.name}
-                </li>{" "}
+                </li>
               </Link>
             ))}
         </ul>

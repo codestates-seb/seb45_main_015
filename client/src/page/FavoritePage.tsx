@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import Loading from "../loading/Loading";
 
 interface objTest {
   bid_unit: number;
@@ -151,7 +152,7 @@ const FavoritePage: React.FC = () => {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (isError) {

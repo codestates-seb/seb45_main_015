@@ -20,7 +20,6 @@ export const Container = styled.div<ContainerProps>`
 `;
 export const ImgContainer = styled.div`
   display: flex;
-  overflow: hidden;
   justify-content: center;
   align-items: center;
   color: #fcfcfd;
