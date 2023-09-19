@@ -18,8 +18,7 @@ import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import HeaderDropDown from "./HeaderDropDown";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"
-
+import { Link, useNavigate } from "react-router-dom";
 
 import HeaderSearchDropDown from "./HeaderSearchDropDown";
 import HeaderHamburgerDropDown from "./HeaderHamburgerDropDown";
@@ -30,18 +29,18 @@ const Nav = [
   { page: "나의거래", router: "/mytrade" },
 ];
 
-const dummy = "로그아웃";
-
 function Header() {
   const [mypagedropDown, setMypageDropDown] = useState(false);
   const [searchdropDown, setSearchDropDown] = useState(false);
   const [hamburgerdropDown, setHamburgerDropDown] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [keyWord, setKeyWord] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.getItem("login") === "ok" ? setIsLogin(true) : null;
+    localStorage.getItem("login") === "ok"
+      ? setIsLogin(true)
+      : setIsLogin(false);
   }, []);
 
   const handleShowMypageDropDown = () => {
@@ -127,11 +126,9 @@ function Header() {
                 </Button>
               </>
             ) : (
-              dummy === "로그아웃" && (
-                <Button>
-                  <Link to="/login">로그인</Link>
-                </Button>
-              )
+              <Button>
+                <Link to="/login">로그인</Link>
+              </Button>
             )}
           </UserWrapper>
           <HamburgerWrapper>

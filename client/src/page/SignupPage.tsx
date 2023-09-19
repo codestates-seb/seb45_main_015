@@ -82,10 +82,10 @@ const SignupPage: React.FC = () => {
               </div>
               <span className="sns">SNS 계정으로 로그인하기</span>
             </SignupFormItem>
-            <div className="google-login-btn">
-              <GoogleLoginBtn />
-            </div>
           </SignupFormContainer>
+          <div className="google-login-btn">
+            <GoogleLoginBtn />
+          </div>
           <span className="already-have-account">
             이미 계정이 있으신가요?<Link to="/login">로그인</Link>
           </span>
