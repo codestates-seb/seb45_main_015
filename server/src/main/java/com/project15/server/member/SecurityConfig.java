@@ -69,8 +69,13 @@ public class SecurityConfig {
                 .antMatchers("/members/login").permitAll()
                 .antMatchers("/members/signup").permitAll()
                 .antMatchers("/members/guest-login").permitAll()
-                .antMatchers("/members//verify-email").permitAll()
+                .antMatchers("/members/verify-email").permitAll()
                 .antMatchers("/members/find-password/{member-id}").permitAll()
+                .antMatchers("/items/{item-id}").permitAll()
+                .antMatchers("/items").permitAll()
+                .antMatchers("/items/categories").permitAll()
+                .antMatchers("/items/search").permitAll()
+
 
                 .anyRequest().authenticated()
                 .and()
