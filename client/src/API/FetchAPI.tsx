@@ -191,6 +191,8 @@ export const getItem = async (page: number) => {
 
 // 상세페이지데이터 //////////////////////////////////////////////
 export const fetchItemDetail = async (itemId: number, watcherId?: number) => {
+  const token = localStorage.getItem("token");
+
   try {
     const response = await axios({
       method: "get",
@@ -199,7 +201,7 @@ export const fetchItemDetail = async (itemId: number, watcherId?: number) => {
       }`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -212,13 +214,15 @@ export const fetchItemDetail = async (itemId: number, watcherId?: number) => {
 };
 
 export const postItemDetailBid = async (bidData: ItemBidField) => {
+  const token = localStorage.getItem("token");
+
   try {
     const response = await axios({
       method: "post",
       url: `http://15.164.84.204:8080/items/bids`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
+        Authorization: `Bearer ${token}`,
       },
       data: bidData,
     });
@@ -232,13 +236,15 @@ export const postItemDetailBid = async (bidData: ItemBidField) => {
 };
 
 export const postItemDetailBuyNow = async (buyNowData: ItemBuyNowField) => {
+  const token = localStorage.getItem("token");
+
   try {
     const response = await axios({
       method: "post",
       url: `http://15.164.84.204:8080/items/buy-now`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
+        Authorization: `Bearer ${token}`,
       },
       data: buyNowData,
     });
@@ -256,11 +262,13 @@ export const useRegistrateItem = async (
   requestData: RegistrateItemDataField,
 ) => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await axios({
       method: "post",
       url: `http://15.164.84.204:8080/items`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       data: requestData,
@@ -279,6 +287,8 @@ export const useRegistrateItemImage = async (
   itemImageFile: File[],
   itemId: number,
 ) => {
+  const token = localStorage.getItem("token");
+
   try {
     const formData = new FormData();
     for (let i = 0; i < itemImageFile.length; i++) {
@@ -288,7 +298,7 @@ export const useRegistrateItemImage = async (
       method: "post",
       url: `http://15.164.84.204:8080/items/${itemId}/images`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJ0b2tlbjExMiIsIm1lbWJlcklkIjoxNiwiZXhwIjoxNjk1MDk2NDMxfQ.co1vMPoyGiqQ9v5tB932VGTw-M5hTv_S7WuIIxscSzU1jx8MRDG61rMHZ-qbeH4UeRD4lia176dJyT_UW1MWpQ`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
       data: formData,
