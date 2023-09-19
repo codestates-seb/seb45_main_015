@@ -36,6 +36,10 @@ public class Bid extends Auditable implements Serializable {
         this.buyer = newBuyer;
     }
 
+    public void setBuyer(Member buyer) {
+        this.buyer = buyer;
+    }
+
     public void setItem(Long itemId) {
         Item newItem = new Item();
         newItem.setItemId(itemId);
