@@ -44,6 +44,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService{
 
+    final int MAX_END_DATE = 3;
+
+    final int USED_BY_TEST_MIN = 1;
+
     private final S3ServiceImpl s3Service;
 
     private final CategoryService categoryService;
@@ -389,11 +393,11 @@ public class ItemServiceImpl implements ItemService{
     }
 
     private LocalDateTime checkDateUntilEndIsDayOrSec(LocalDateTime createdAt, int dateUntilEnd) {
-        if(dateUntilEnd < 10) {
+        if(dateUntilEnd <= MAX_END_DATE) {
             return createdAt.plusDays(dateUntilEnd);
         }
         else {
-            return createdAt.plusSeconds(dateUntilEnd);
+            return createdAt.plusMinutes(USED_BY_TEST_MIN);
         }
     }
 }
