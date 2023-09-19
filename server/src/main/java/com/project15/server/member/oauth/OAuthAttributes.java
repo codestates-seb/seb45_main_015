@@ -5,12 +5,12 @@ import com.project15.server.member.entity.MemberProvider;
 import com.project15.server.member.entity.MemberRole;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.security.core.userdetails.User;
+
 
 import java.util.Map;
 import java.util.UUID;
 
-import static com.amazonaws.services.ec2.model.PrincipalType.Role;
+
 
 @Getter
 public class OAuthAttributes {
