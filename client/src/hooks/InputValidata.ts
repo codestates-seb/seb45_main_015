@@ -28,19 +28,19 @@ const useInputValidate = (initialData: SignupData) => {
 
     //이메일 검사
     if (emailRegex.test(inputData.email as string)) {
-      setIsEmail(prev => !prev);
+      setIsEmail(true);
       setEmailMessage("");
     } else {
-      setIsEmail(prev => prev);
+      setIsEmail(false);
       setEmailMessage("올바른 이메일을 입력해주세요");
     }
 
     // 비밀번호 검사
     if (passwordRegex.test(inputData.password as string)) {
-      setIsPassword(prev => !prev);
+      setIsPassword(true);
       setPasswordMessage("");
     } else {
-      setIsPassword(prev => prev);
+      setIsPassword(false);
       setPasswordMessage(
         "비밀번호는 특수 문자, 소문자 및 숫자를 적어도 하나씩 포함하여 8~16자여야 합니다",
       );
@@ -48,10 +48,10 @@ const useInputValidate = (initialData: SignupData) => {
 
     // 닉네임 검사
     if (nicknameRegex.test(inputData.nickname as string)) {
-      setIsNickName(prev => !prev);
+      setIsNickName(true);
       setNickNameMessage("");
     } else {
-      setIsNickName(prev => prev);
+      setIsNickName(false);
       setNickNameMessage(
         "사용할 수 없는 닉네임입니다. 다른 이름을 입력헤주세요",
       );
@@ -64,7 +64,8 @@ const useInputValidate = (initialData: SignupData) => {
       signupPage: isNickName && isEmail && isPassword,
       findPwPage: isEmail,
       changePwPage: isPassword,
-      myPage: { isNickName, isPassword },
+      myPageNickName: isNickName,
+      myPagePassword: isPassword,
     };
 
     return validateData;

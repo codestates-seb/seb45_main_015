@@ -37,7 +37,6 @@ export const useSignup = (userData: SignupData) => {
     onSuccess(data) {
       navigator("/login");
       console.log(`useMutation 성공: ${data}`);
-      navigator("/login");
     },
     onError(error) {
       console.log(`useMutation 실패: ${error}`);
@@ -71,10 +70,12 @@ export const useLogin = (data: LoginData) => {
 export const useLogout = () => {
   const req = useAxiosRequestWithAuth();
   const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   const navigator = useNavigate();
 
+  const logOutData = { token: token, member_id: memberId };
   const logout = async () => {
-    const response = await req.post(`/members/logout/${memberId}`);
+    const response = await req.post(`/members/logout/${memberId}`, logOutData);
   };
 
   const mutation = useMutation(logout, {
@@ -127,18 +128,18 @@ export const useFind = (data: FindPWData) => {
       const response = await req.post(
         `/members/verify-email?email=${data.email}`,
       );
-      return console.log(response.status);
+      return console.log(response);
     } catch (error) {
       console.log(`find 함수 에러`);
     }
   };
 
   const mutation = useMutation(findPw, {
-    onSuccess(data) {
+    onSuccess(data: any) {
       // FIXME
       // 응답 멤버아이디가 있으면 비빌먼호 변경페이지로 네비게이션 설정 추가
-
-      // localStorage.setItem("verifyMemberID",);
+      const { member_id } = data;
+      localStorage.setItem("verifyMemberID", member_id);
       console.log(`[mutation] 비번찾기 이메일 전송 성공: ${data}`);
       navigator("/change-password");
     },
@@ -167,7 +168,7 @@ export const useChange = (data: ChangePWData) => {
     onSuccess(data) {
       console.log(data);
       localStorage.removeItem("verifyMemberId");
-      navigator("/login");
+      // navigator("/login");
     },
   });
   return mutation;
@@ -479,6 +480,7 @@ export const useMyTrade = () => {
   const memberId = localStorage.getItem("memberId");
   const status_code = "상태코드";
 
+  // const tradeEndPoint = `/items/my-item?page_number=1&page_size=2&member_id=${memberId}`;
   const tradeEndPoint = `/items/my-item?page_number=1&page_size=2&member_id=1`;
   // `/items/status?page_number=1&page_size=2&item_status=${status_code}&seller_id=1`
   const fetchMyTrade = async () => {
@@ -529,7 +531,7 @@ export const useChangeNickname = (inputData: ChangeNickNameData) => {
       console.log("닉네임 변경성공");
     },
     onError(error) {
-      console.log("닉네임 변경실패");
+      console.log(`닉네임 변경실패 : ${error}`);
     },
   });
 
@@ -549,7 +551,7 @@ export const useChangePassword = (inputData: ChangePWData) => {
       console.log("비밀번호 변경성공");
     },
     onError(error) {
-      console.log("비밀번호 변경실패");
+      console.log(`비밀번호 변경실패 : ${error}`);
     },
   });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { LargeButtonB } from "../components/ButtonComponent";
 import InputComponent from "../components/InputComponent";
@@ -29,25 +29,37 @@ function MyPage() {
     inputHandler,
   } = useInputValidate({ nickname: "", newPassword: "", confirmPassword: "" });
 
-  const changeNickName = useChangeNickname(userInfo);
-  const changePassword = useChangePassword(userInfo);
+  const changeNickName = useChangeNickname({
+    newNickname: userInfo.nickname as string,
+  });
+  const changePassword = useChangePassword({
+    old_password: userInfo.newPassword as string,
+    new_password: userInfo.confirmPassword as string,
+  });
 
-  const changeUserHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const changeUserHandler = () => {
+    // e.preventDefault();
 
-    // 닉네임과 비밀번호를 분리?
-    const { isNickName, isPassword } = inputHandler(userInfo).myPage;
+    // 닉네임과 비밀번호를 분리
+    const isNickName = inputHandler(userInfo).myPageNickName;
+    const isPassword = inputHandler(userInfo).myPagePassword;
     const newPasswordMatches =
       userInfo.newPassword === userInfo.confirmPassword;
-    // 입력된 정보를 평가해서 닉네임 유효성검사를 통과한 경우
+
+    console.log(`닉네임 검사 : ${isNickName}, 비밀번호 검사: ${isPassword}`);
+    console.log(newPasswordMatches);
+
+    // 새로운 사용자 이름만 입력된 경우
     if (isNickName) {
       changeNickName.mutate();
-      // 비밀번호 유효성 검사를 통과하고 새로운비밀번호와 비밀번호 확인이 일치하는 경우
-      if (isPassword && newPasswordMatches) {
-        changePassword.mutate();
-      }
-      // 입력된 정보를 평가해서 비밀번호 유효성 검사를 통과하고 새로운비밀번호와 비밀번호 확인이 일치하는 경우
-    } else if (isPassword && newPasswordMatches) {
+    }
+    // 새로운 비밀번호만 입력된 경우
+    else if (!isNickName && isPassword && newPasswordMatches) {
+      changePassword.mutate();
+    }
+    // 새로운 사용자 이름과 새 비밀번호가 모두 입력된 경우
+    else if (isNickName && isPassword && newPasswordMatches) {
+      changeNickName.mutate();
       changePassword.mutate();
     }
   };
@@ -61,7 +73,7 @@ function MyPage() {
         {isLoading ? (
           <Loading />
         ) : (
-          <form onSubmit={changeUserHandler}>
+          <>
             <Section>
               <SubTitle>회원정보 수정</SubTitle>
               <InputComponent
@@ -74,7 +86,7 @@ function MyPage() {
               />
               <InputComponent
                 type="text"
-                name="text"
+                name="nickname"
                 labelText="새로운 사용자 이름"
                 placeholder="변경하실 이름을 입력해주세요"
                 stateValue={userInfo}
@@ -123,9 +135,14 @@ function MyPage() {
               />
             </Section>
             <Section className="mypage-button-section">
-              <LargeButtonB value="수정하기" />
+              <button
+                className="change-mydata"
+                onClick={() => changeUserHandler()}
+              >
+                수정하기
+              </button>
             </Section>
-          </form>
+          </>
         )}
       </MyPageContainer>
     </Container>
