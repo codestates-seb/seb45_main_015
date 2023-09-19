@@ -40,9 +40,14 @@ function ItemDetailPage() {
   const [isAuctionEnded, setIsAuctionEnded] = useState<boolean>(false);
   const memberId = localStorage.getItem("memberId");
 
+  console.log(memberId);
+
   const { data, isLoading } = useQuery(
     ["itemDetail", itemId],
-    () => itemId && fetchItemDetail(itemId),
+    () =>
+      memberId && itemId
+        ? fetchItemDetail(itemId, Number(memberId))
+        : itemId && fetchItemDetail(itemId),
     {
       refetchInterval: 50000,
     },
@@ -79,6 +84,7 @@ function ItemDetailPage() {
   if (isLoading) {
     return <Loading />;
   }
+  console.log(data);
 
   const handleChangeMainImage = (index: number) => {
     setMainImage(index);

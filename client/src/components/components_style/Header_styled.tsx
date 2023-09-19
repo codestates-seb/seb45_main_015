@@ -33,6 +33,10 @@ export const HeaderContent = styled.div`
   width: 100%;
   height: 44px;
 
+  & > a {
+    margin-right: 31px;
+  }
+
   @media (max-width: 768px) {
     & {
       justify-content: space-between;
@@ -44,7 +48,6 @@ export const HeaderContent = styled.div`
 export const LogoWrapper = styled.div`
   width: 170px;
   height: 44px;
-  margin-right: 31px;
 `;
 
 export const Logo = styled.img`
