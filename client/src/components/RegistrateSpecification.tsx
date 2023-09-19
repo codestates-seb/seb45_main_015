@@ -57,7 +57,6 @@ function RegistrateSpecification({
 
   const handlePostRegistrateItem = () => {
     useRegistrateItem(totalItemInfo).then(data => {
-      console.log(data.item_id);
       useRegistrateItemImage(itemImageFile, data.item_id);
       navigate("/allList");
     });

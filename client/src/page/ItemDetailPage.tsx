@@ -40,8 +40,6 @@ function ItemDetailPage() {
   const [isAuctionEnded, setIsAuctionEnded] = useState<boolean>(false);
   const memberId = localStorage.getItem("memberId");
 
-  console.log(memberId);
-
   const { data, isLoading } = useQuery(
     ["itemDetail", itemId],
     () =>
@@ -84,7 +82,6 @@ function ItemDetailPage() {
   if (isLoading) {
     return <Loading />;
   }
-  console.log(data);
 
   const handleChangeMainImage = (index: number) => {
     setMainImage(index);
@@ -141,7 +138,6 @@ function ItemDetailPage() {
         buyer_id: Number(memberId),
       };
       postItemDetailBuyNow(buyNowData);
-      console.log(buyNowData);
     }
   };
 
