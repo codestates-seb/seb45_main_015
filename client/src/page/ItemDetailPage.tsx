@@ -27,55 +27,8 @@ import {
 import { useEffect, useState } from "react";
 import { LargeButtonA, LargeButtonC } from "../components/ButtonComponent";
 import { useParams } from "react-router-dom";
-import dayjs from "dayjs";
 import Loading from "../loading/Loading";
-
-interface ItemDetailField {
-  seller_id: number;
-  seller_nickname: string;
-  buyer_id: number;
-  buyer_nickname: string;
-  item_id: number;
-  status: string;
-  title: string;
-  content: string;
-  end_time: string;
-  category: string;
-  item_image_urls: string[];
-  start_price: number;
-  bid_unit: number;
-  current_price: number;
-  buy_now_price: number;
-  in_wish_list: boolean;
-}
-
-function RemainingTime(endTime: string | undefined) {
-  const now = dayjs();
-
-  if (endTime) {
-    const targetTime = dayjs(endTime);
-    const timeDifference = targetTime.diff(now, "second");
-
-    const daysRemaining = Math.floor(timeDifference / (60 * 60 * 24));
-    const hoursRemaining = Math.floor(
-      (timeDifference % (60 * 60 * 24)) / (60 * 60),
-    );
-    const minutesRemaining = Math.floor((timeDifference % (60 * 60)) / 60);
-    const secondsRemaining = timeDifference % 60;
-
-    if (
-      daysRemaining < 0 &&
-      hoursRemaining < 0 &&
-      minutesRemaining < 0 &&
-      secondsRemaining < 0
-    ) {
-      return "해당 상품의 경매가 종료되었습니다.";
-    }
-
-    return `${daysRemaining}일 ${hoursRemaining}시간 ${minutesRemaining}분 ${secondsRemaining}초`;
-  }
-  return "남은 시간을 불러오는데 실패하였습니다.";
-}
+import { RemainingTime } from "../hooks/RemainingTime";
 
 function ItemDetailPage() {
   const queryClient = useQueryClient();
@@ -114,6 +67,7 @@ function ItemDetailPage() {
       clearInterval(interval);
     };
   }, [data, isLoading]);
+
   if (isLoading) {
     return <Loading />;
   }
