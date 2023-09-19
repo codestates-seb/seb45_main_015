@@ -39,7 +39,7 @@ export const useAxiosRequestWithAuth = () => {
         localStorage.setItem("memberId", memberId.toString());
         localStorage.setItem("token", token);
         localStorage.setItem("login", "ok");
-        // config.needMemberId ? config.params === memberId : null;
+
       }
       return config;
     },

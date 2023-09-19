@@ -17,8 +17,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import HeaderDropDown from "./HeaderDropDown";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom"
+
+
 import HeaderSearchDropDown from "./HeaderSearchDropDown";
 import HeaderHamburgerDropDown from "./HeaderHamburgerDropDown";
 
@@ -35,6 +37,8 @@ function Header() {
   const [searchdropDown, setSearchDropDown] = useState(false);
   const [hamburgerdropDown, setHamburgerDropDown] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [keyWord, setKeyWord] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.getItem("login") === "ok" ? setIsLogin(true) : null;
@@ -57,7 +61,16 @@ function Header() {
     setHamburgerDropDown(!hamburgerdropDown);
     setSearchDropDown(false);
   };
-
+  const handleKeyPress = (e: { key: string }) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+  const handleSearch = () => {
+    if (keyWord.length !== 0) {
+      return navigate(`/search/${keyWord}`);
+    }
+  };
   return (
     <Container>
       <HeaderContainer>
@@ -76,11 +89,15 @@ function Header() {
           </NavWrapper>
           <SearchWrapper>
             <SearchForm>
-              <Search placeholder="검색" />
-              <SearchButton>
-                {/* <Link to="/detail"> */}
+              <Search
+                type="text"
+                placeholder="제목 검색"
+                value={keyWord}
+                onChange={e => setKeyWord(e.target.value)}
+                onKeyDown={handleKeyPress}
+              />
+              <SearchButton onClick={handleSearch}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
-                {/* </Link> */}
               </SearchButton>
             </SearchForm>
           </SearchWrapper>

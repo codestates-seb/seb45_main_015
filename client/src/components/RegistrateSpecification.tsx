@@ -51,6 +51,7 @@ function RegistrateSpecification({
   const handleCloseSpecification = () => {
     setSpecification(false);
   };
+  console.log(totalItemInfo);
 
   const handlePostRegistrateItem = () => {
     useRegistrateItem(totalItemInfo).then(data => {

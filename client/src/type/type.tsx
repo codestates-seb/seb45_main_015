@@ -72,6 +72,18 @@ export interface SpecificationField {
   unit?: string;
 }
 
+// 아이템 상세페이지
+export interface ItemBidField {
+  item_id: number;
+  buyer_id: number;
+  bid_price: number;
+}
+
+export interface ItemBuyNowField {
+  item_id: number;
+  buyer_id: number;
+}
+
 export type MyTradeType = {
   items: {
     seller_id: number;

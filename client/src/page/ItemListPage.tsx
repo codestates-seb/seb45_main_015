@@ -1,36 +1,33 @@
 import React, { useState } from "react";
 import ItemListPageContainer from "./page_style/itemListPage_styled";
 import MainCategory from "../components/MainCategory";
-import MyCarousel from "../components/Carousel";
+// import MyCarousel from "../components/Carousel";
 import { ItemCard } from "../components/ItemCard";
 import { MediumButtonB } from "../components/ButtonComponent";
 import { getItem } from "../API/FetchAPI";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
-const carouselItems = [
-  {
-    imageUrl:
-      "https://i.pinimg.com/564x/1c/72/93/1c7293afa416f1a1a51c3c723536bba9.jpg",
-    caption: "Image 1",
-  },
-  {
-    imageUrl:
-      "https://i.pinimg.com/564x/6c/b3/3a/6cb33ac0c0a2c5942d007014da8c6c44.jpg",
-    caption: "Image 2",
-  },
-  {
-    imageUrl:
-      "https://i.pinimg.com/564x/dd/bf/38/ddbf38f2067578c9da22378a83eaddb3.jpg",
-    caption: "Image 3",
-  },
-];
+// const carouselItems = [
+//   {
+//     imageUrl:
+//       "https://i.pinimg.com/564x/1c/72/93/1c7293afa416f1a1a51c3c723536bba9.jpg",
+//     caption: "Image 1",
+//   },
+//   {
+//     imageUrl:
+//       "https://i.pinimg.com/564x/6c/b3/3a/6cb33ac0c0a2c5942d007014da8c6c44.jpg",
+//     caption: "Image 2",
+//   },
+//   {
+//     imageUrl:
+//       "https://i.pinimg.com/564x/dd/bf/38/ddbf38f2067578c9da22378a83eaddb3.jpg",
+//     caption: "Image 3",
+//   },
+// ];
 
 const ItemListPage: React.FC = () => {
   const [page, setPage] = useState<number>(18);
-
-  const queryClient = useQueryClient();
-  const { data, isLoading, isError, refetch } = getItem(page);
-  data: isLoading ? console.log(data) : console.log(data);
 
   const handleLoadMore = () => {
     setPage(page + 18);
@@ -39,21 +36,15 @@ const ItemListPage: React.FC = () => {
     refetch();
   };
 
-  // const getData = async () => {
-  //   const result = await getItem(page);
-  //   queryClient.invalidateQueries(["itemList", page]);
-  //   return result.items;
-  // };
+  const getData = async () => {
+    const result = await getItem(page);
+    return result;
+  };
 
-  // const { data, isLoading, isError, refetch } = useQuery(
-  //   ["itemList"],
-  //   getData,
-  //   {
-  //     keepPreviousData: true,
-  //     // FIXME
-  //     // getNextPageParam , 무한스크롤
-  //   },
-  // );
+  const { data, isLoading, isError, refetch } = useQuery(
+    ["itemList", page],
+    getData,
+  );
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -62,12 +53,11 @@ const ItemListPage: React.FC = () => {
   if (isError) {
     return <div>{`Error fetching data ${isError}`}</div>;
   }
-
   return (
     <ItemListPageContainer>
-      <div className="listPageCarousel">
+      {/* <div className="listPageCarousel">
         <MyCarousel items={carouselItems} />
-      </div>
+      </div> */}
       <div className="mainListcontainer">
         <MainCategory />
         <div className="contentWrap">

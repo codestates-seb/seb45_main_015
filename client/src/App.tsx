@@ -15,6 +15,7 @@ import MyPage from "./page/MyPage";
 import ItemCategoryPage from "./page/ItemCategoryPage";
 import FavoritePage from "./page/FavoritePage";
 import SupportButton from "./components/SupportButton";
+import SearchPage from "./page/SearchPage";
 
 const App: React.FC = () => {
   return (
@@ -28,13 +29,14 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/find-password" element={<FindPasswordPage />} />
             <Route path="/registrate" element={<RegistrateItemPage />} />
-            <Route path="/detail" element={<ItemDetailPage />} />
+            <Route path="/item/:itemId" element={<ItemDetailPage />} />
             <Route path="/change-password" element={<ChangePasswordPage />} />
             <Route path="/mytrade" element={<MyTrade />} />
             <Route path="/allList" element={<ItemListPage />} />
             <Route path="/category/:id" element={<ItemCategoryPage />} />
             <Route path="/favorite" element={<FavoritePage />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/search/:keyWord" element={<SearchPage />} />
           </Routes>
         </div>
         <SupportButton />

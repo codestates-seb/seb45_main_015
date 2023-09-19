@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: 60px 0 180px;
+  margin: 60px 0 200px;
 `;
 
 export const ItemDetailContainer = styled.div`
@@ -117,19 +117,20 @@ export const Content = styled.div`
 
   &.detail-button-content {
     height: auto;
+  }
+`;
 
-    & button {
-      height: 48px;
-      border-radius: 16px;
-    }
+export const ButtonWrapper = styled.div`
+  height: 48px;
+  width: 100%;
+  border-radius: 16px;
 
-    & > button {
-      margin-top: 18px;
-    }
+  &.margin-right {
+    margin-right: 18px;
+  }
 
-    & > div > button:first-of-type {
-      margin-right: 18px;
-    }
+  &.margin-top {
+    margin-top: 18px;
   }
 `;
 

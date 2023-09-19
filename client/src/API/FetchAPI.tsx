@@ -10,6 +10,8 @@ import {
   ChangeNickNameData,
   MyPageData,
   RegistrateItemDataField,
+  ItemBidField,
+  ItemBuyNowField,
 } from "../type/type";
 import { useAxiosRequestWithAuth } from "../Aixosinterceptor";
 
@@ -33,6 +35,7 @@ export const useSignup = (userData: SignupData) => {
 
   const mutation = useMutation(signup, {
     onSuccess(data) {
+      navigator("/login");
       console.log(`useMutation 성공: ${data}`);
       navigator("/login");
     },
@@ -170,27 +173,32 @@ export const useChange = (data: ChangePWData) => {
   return mutation;
 };
 
-// 상품리스트 불러오기 //////////////////////////////////////////////
-export const getItem = (page: number) => {
-  const req = useAxiosRequestWithAuth();
+//상품리스트 불러오기 //////////////////////////////////////////////
+export const getItem = async (page: number) => {
   const memberId = localStorage.getItem("memberId");
-
-  const getItem = async () => {
-    try {
-      const response = await req.get(
-        `/items?page_number=1&page_size=${page}&watcher_id=${memberId}`,
-      );
-      return response.data;
-    } catch (error) {
-      console.log(`데이터 불러오기를 실패했습니다.${error}`);
-    }
-  };
-  const query = useQuery(["itemList"], getItem);
-  return query;
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://15.164.84.204:8080/items?page_number=1&page_size=${page}${
+        memberId ? `&watcher_id=${memberId}` : ""
+      }`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response.data.items);
+    return response.data.items;
+  } catch (error) {
+    console.log(`데이터 불러오기를 실패했습니다.${error}`);
+  }
 };
 
 // 상세페이지데이터 //////////////////////////////////////////////
 export const fetchItemDetail = async (itemId: number, watcherId?: number) => {
+  const token = localStorage.getItem("token");
+
   try {
     const response = await axios({
       method: "get",
@@ -199,7 +207,52 @@ export const fetchItemDetail = async (itemId: number, watcherId?: number) => {
       }`,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const postItemDetailBid = async (bidData: ItemBidField) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios({
+      method: "post",
+      url: `http://15.164.84.204:8080/items/bids`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: bidData,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const postItemDetailBuyNow = async (buyNowData: ItemBuyNowField) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios({
+      method: "post",
+      url: `http://15.164.84.204:8080/items/buy-now`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: buyNowData,
     });
 
     if (response.status === 200) {
@@ -215,10 +268,13 @@ export const useRegistrateItem = async (
   requestData: RegistrateItemDataField,
 ) => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await axios({
       method: "post",
       url: `http://15.164.84.204:8080/items`,
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       data: requestData,
@@ -237,6 +293,8 @@ export const useRegistrateItemImage = async (
   itemImageFile: File[],
   itemId: number,
 ) => {
+  const token = localStorage.getItem("token");
+
   try {
     const formData = new FormData();
     for (let i = 0; i < itemImageFile.length; i++) {
@@ -246,6 +304,7 @@ export const useRegistrateItemImage = async (
       method: "post",
       url: `http://15.164.84.204:8080/items/${itemId}/images`,
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
       data: formData,
@@ -259,12 +318,13 @@ export const useRegistrateItemImage = async (
 
 // 카테고리 불러오기 //////////////////////////////////////////////
 export const getCategory = async () => {
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
       url: "http://15.164.84.204:8080/categories?page_number=1&page_size=16",
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -276,12 +336,14 @@ export const getCategory = async () => {
 };
 // 카테고리 별 아이템 불러오기 //////////////////////////////////////////////
 export const getCategoryItem = async (page: number, id: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/items/categories?page_number=1&page_size=${page}&category_id=${id}&member_id=1`,
+      url: `http://15.164.84.204:8080/items/categories?page_number=1&page_size=${page}&category_id=${id}&member_id=${memberId}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -294,13 +356,15 @@ export const getCategoryItem = async (page: number, id: number) => {
 };
 
 // 찜목록 불러오기 /////////////////////////////////////////
-export const getFavorite = async (memberId: number, length: number) => {
+export const getFavorite = async (size: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${length}`,
+      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${size}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -312,33 +376,33 @@ export const getFavorite = async (memberId: number, length: number) => {
 };
 
 // 찜목록 추가하기 /////////////////////////////////////////////////////////
-export const postItem = async (itemId: number, memberId: number) => {
+export const postItem = async (itemId: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const request = await axios({
       method: "post",
       url: `http://15.164.84.204:8080/items/${itemId}/wishes/${memberId}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
-    console.log("찜목록 추가완료");
   } catch (error) {
     console.log(`찜목록 추가를 실패했습니다.${error}`);
   }
 };
 
 // 찜목록 삭제 /////////////////////////////////////////
-export const deleteItem = async (
-  memberId: number,
-  deleteId: number[] | (() => void),
-) => {
+export const deleteItem = async (deleteId: number[] | (() => void)) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const request = await axios({
       method: "delete",
       url: `http://15.164.84.204:8080/members/${memberId}/wishes`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       data: deleteId,
@@ -368,13 +432,15 @@ interface objTest {
   title: string;
   wish_id: number;
 }
-export const deleteAllFavorite = async (memberId: number, length: number) => {
+export const deleteAllFavorite = async (length: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "delete",
       url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${length}`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -385,15 +451,17 @@ export const deleteAllFavorite = async (memberId: number, length: number) => {
   }
 };
 // 검색 /////////////////////////////////////////
-export const searchItem = async (keyWord: string, memberId?: number) => {
+export const searchItem = async (keyWord: string, page: number) => {
+  const memberId = localStorage.getItem("memberId");
+  const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/items/search?page_number=1&page_size=18&keyword=${keyWord}${
+      url: `http://15.164.84.204:8080/items/search?page_number=1&page_size=${page}&keyword=${keyWord}${
         memberId ? `&watcher_id=${memberId}` : ""
       }`,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiIiwibmlja25hbWUiOiJybGF4b3RuMTIzIiwibWVtYmVySWQiOjE1LCJleHAiOjE2OTUwMzM0MTh9.PpHx59Mdp91uvGhQBtJA3ZiDbt2Z_8KZ8SS1jSzaBuZv9O6GJAuCtG5wpj408kI7Ug9WYYHHxnyc89cf9HR8pA`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
