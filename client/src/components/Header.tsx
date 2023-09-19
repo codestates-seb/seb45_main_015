@@ -19,6 +19,7 @@ import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import HeaderDropDown from "./HeaderDropDown";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../images/LogoImg.png";
 
 import HeaderSearchDropDown from "./HeaderSearchDropDown";
 import HeaderHamburgerDropDown from "./HeaderHamburgerDropDown";
@@ -76,7 +77,7 @@ function Header() {
         <HeaderContent>
           <Link to="/">
             <LogoWrapper>
-              <Logo />
+              <Logo src={logo} />
             </LogoWrapper>
           </Link>
           <NavWrapper>

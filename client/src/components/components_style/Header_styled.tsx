@@ -46,8 +46,9 @@ export const HeaderContent = styled.div`
 `;
 
 export const LogoWrapper = styled.div`
-  width: 170px;
-  height: 44px;
+  width: 150px;
+  height: 50px;
+  margin: 0 5px;
 `;
 
 export const Logo = styled.img`

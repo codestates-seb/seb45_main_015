@@ -31,13 +31,12 @@ export const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 1px #000;
-  height: 120px;
+  height: 80px;
   width: 200px;
 
   @media (max-width: 768px) {
     & {
-      height: 80px;
+      height: 48px;
       width: 120px;
     }
   }

@@ -8,6 +8,7 @@ import {
   Title,
   Wrapper,
 } from "./components_style/Footer.styled_styled";
+import logo from "../images/LogoImg.png";
 
 const member = {
   BE: [
@@ -31,7 +32,7 @@ function Footer() {
     <Container>
       <FooterContent>
         <LogoWrapper>
-          <Logo src="https://www.nvidia.com/content/dam/en-zz/Solutions/about-nvidia/logo-and-brand/01-nvidia-logo-horiz-500x200-2c50-d.png" />
+          <Logo src={logo} />
         </LogoWrapper>
         <InfoContainer>
           <Wrapper>
