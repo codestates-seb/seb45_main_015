@@ -445,13 +445,13 @@ export const deleteAllFavorite = async (length: number) => {
   }
 };
 // 검색 /////////////////////////////////////////
-export const searchItem = async (keyWord: string) => {
+export const searchItem = async (keyWord: string, page: number) => {
   const memberId = localStorage.getItem("memberId");
   const token = localStorage.getItem("token");
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/items/search?page_number=1&page_size=18&keyword=${keyWord}${
+      url: `http://15.164.84.204:8080/items/search?page_number=1&page_size=${page}&keyword=${keyWord}${
         memberId ? `&watcher_id=${memberId}` : ""
       }`,
       headers: {

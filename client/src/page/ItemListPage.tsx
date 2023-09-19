@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ItemListPageContainer from "./page_style/itemListPage_styled";
 import MainCategory from "../components/MainCategory";
-import MyCarousel from "../components/Carousel";
+// import MyCarousel from "../components/Carousel";
 import { ItemCard } from "../components/ItemCard";
 import { MediumButtonB } from "../components/ButtonComponent";
 import { getItem } from "../API/FetchAPI";
@@ -40,7 +40,10 @@ const ItemListPage: React.FC = () => {
     return result;
   };
 
-  const { data, isLoading, isError, refetch } = useQuery(["itemList"], getData);
+  const { data, isLoading, isError, refetch } = useQuery(
+    ["itemList", page],
+    getData,
+  );
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -51,9 +54,9 @@ const ItemListPage: React.FC = () => {
   }
   return (
     <ItemListPageContainer>
-      <div className="listPageCarousel">
+      {/* <div className="listPageCarousel">
         <MyCarousel items={carouselItems} />
-      </div>
+      </div> */}
       <div className="mainListcontainer">
         <MainCategory />
         <div className="contentWrap">
