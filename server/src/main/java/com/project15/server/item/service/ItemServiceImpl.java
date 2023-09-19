@@ -82,7 +82,7 @@ public class ItemServiceImpl implements ItemService{
         Item savedItem = itemRepository.save(item);
 
         //10보다 큰 값으로 들어온 end_time 은 추후 테스트 시현을 위한 초 단위 이므로 따로 초에 더해줌
-        LocalDateTime endTime = checkDateUntilEndIsDayOrSec(item.getCreatedAt(), dateUntilEnd);
+        LocalDateTime endTime = checkDateUntilEndIsDayOrSec(savedItem.getCreatedAt(), dateUntilEnd);
 
         savedItem.setEndTime(endTime);
 
