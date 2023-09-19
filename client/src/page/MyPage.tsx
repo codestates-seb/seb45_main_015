@@ -35,6 +35,7 @@ function MyPage() {
   const changeUserHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // 닉네임과 비밀번호를 분리?
     const { isNickName, isPassword } = inputHandler(userInfo).myPage;
     const newPasswordMatches =
       userInfo.newPassword === userInfo.confirmPassword;

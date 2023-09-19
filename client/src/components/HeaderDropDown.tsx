@@ -23,11 +23,10 @@ const nav = [
 ];
 
 function HeaderDropDown() {
-  const { data, isLoading, status, mutate } = useLogout();
+  const mutation = useLogout();
 
   const logoutHandler = () => {
-    mutate();
-    console.log(isLoading, status);
+    mutation.mutate();
   };
   return (
     <DropDown>

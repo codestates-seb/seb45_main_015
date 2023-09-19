@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import GoogleLogin from "react-google-login-ng";
+import GoogleLoginBtn from "../components/GoogleLogin";
 
 import { useSignup } from "../API/FetchAPI";
 import useInputValidate from "../hooks/InputValidata";
@@ -83,13 +83,7 @@ const SignupPage: React.FC = () => {
               <span className="sns">SNS 계정으로 로그인하기</span>
             </SignupFormItem>
             <div className="google-login-btn">
-              <GoogleLogin
-                client_id={""}
-                successCallback={({ credential, select_by }) => {
-                  console.log(credential, select_by);
-                }}
-                config={{ width: 624, logo_alignment: "center" }}
-              />
+              <GoogleLoginBtn />
             </div>
           </SignupFormContainer>
           <span className="already-have-account">

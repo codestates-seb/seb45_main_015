@@ -18,7 +18,7 @@ import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import HeaderDropDown from "./HeaderDropDown";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderSearchDropDown from "./HeaderSearchDropDown";
 import HeaderHamburgerDropDown from "./HeaderHamburgerDropDown";
 
@@ -35,6 +35,10 @@ function Header() {
   const [searchdropDown, setSearchDropDown] = useState(false);
   const [hamburgerdropDown, setHamburgerDropDown] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    localStorage.getItem("login") === "ok" ? setIsLogin(true) : null;
+  }, []);
 
   const handleShowMypageDropDown = () => {
     setMypageDropDown(true);
