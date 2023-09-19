@@ -4,12 +4,16 @@ import com.project15.server.bid.entity.Bid;
 import com.project15.server.bid.repository.BidRepository;
 import com.project15.server.exception.ExceptionCode;
 import com.project15.server.exception.GlobalException;
+import com.project15.server.item.dto.ItemDto;
 import com.project15.server.item.entity.Item;
 import com.project15.server.item.entity.ItemStatus;
+import com.project15.server.item.mapper.ItemMapper;
 import com.project15.server.item.repository.ItemRepository;
 import com.project15.server.member.entity.Member;
 import com.project15.server.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +31,11 @@ public class BidServiceImpl implements BidService {
 
     private final MemberRepository memberRepository;
 
+    private final ItemMapper itemMapper;
+
     @Override
-    public void createBid(Bid bid) {
+    @CachePut(value = "itemCache", key = "#itemId", cacheManager = "cacheManager")
+    public ItemDto.ResponseDto createBid(Bid bid, Long itemId) {
         //itemRepository.findByIdForUpdate 에 Lock(SELECT FOR UPDATE)
         Item findItem = itemRepository
                 .findWithIdForUpdate(bid.getItem().getItemId())
@@ -64,6 +71,8 @@ public class BidServiceImpl implements BidService {
         }
         findItem.setCurrentPrice(bid.getBidPrice());
         findItem.setBuyer(bid.getBuyer());
+
+        return itemMapper.itemToResponseDto(findItem, null);
     }
 
     private void verifyBidPrice(int startPrice, int bidUnit, int currentPrice, int bidPrice) {

@@ -25,7 +25,7 @@ public class BidController {
     public HttpStatus postBid(@RequestBody BidDto.PostDto postDto) {
         Bid bid = bidMapper.postToBid(postDto);
 
-        bidService.createBid(bid);
+        bidService.createBid(bid, bid.getItem().getItemId());
 
         return HttpStatus.CREATED;
     }
