@@ -62,4 +62,7 @@ export const Text = styled.p`
   font-size: 18px;
   font-weight: bold;
   color: #777e90;
+  &:hover {
+    cursor: pointer;
+  }
 `;
