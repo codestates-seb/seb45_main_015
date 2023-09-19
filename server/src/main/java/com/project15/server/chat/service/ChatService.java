@@ -38,12 +38,12 @@ public class ChatService {
     }
 
     public List<ChatEntryDto> findMyChatRooms(Long memberId) {
+
         List<ChatEntry> findChatRooms = chatEntryRepository.findByMemberId(memberId);
 
         List<ChatEntryDto> response = findChatRooms.stream()
                 .map(o -> new ChatEntryDto(o))
                 .collect(Collectors.toList());
-
         log.info("ChatEntryDto : " + response.toString());
 
         return response;
@@ -64,6 +64,7 @@ public class ChatService {
         ChatRoom findChatRoom = findChatRoom(chatRoomId);
 
         List<ChatMessage> findMessages = messageRepository.findByChatRoom(findChatRoom);
+
         List<MessageDto> response = findMessages.stream()
                 .map(o -> new MessageDto(o))
                 .collect(Collectors.toList());

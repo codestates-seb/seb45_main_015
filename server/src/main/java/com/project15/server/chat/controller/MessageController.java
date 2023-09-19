@@ -1,9 +1,9 @@
 package com.project15.server.chat.controller;
 
 import com.project15.server.chat.dto.ChatEntryMessageDto;
+import com.project15.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.project15.server.chat.dto.ChatEntryDto;
 import com.project15.server.chat.entity.ChatMessage;
 import com.project15.server.chat.entity.ChatRoom;
 import com.project15.server.chat.service.ChatService;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
 
     private final MessageService messageService;
-    //private final MemberService memberService;
+    private final MemberService memberService;
     private final ChatService chatService;
 
     @MessageMapping("/chat/{room-id}")
@@ -36,8 +36,8 @@ public class MessageController {
         ChatRoom findChatRoom = chatService.findChatRoom(roomId);
 
         ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setContent(request.getContent());
-        chatMessage.setSenderId(15L);
+        chatMessage.setMessage(request.getMessage());
+        chatMessage.setSenderId(1L);
         chatMessage.setChatRoom(findChatRoom);
 
         messageService.saveMessage(chatMessage);
