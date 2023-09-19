@@ -112,43 +112,45 @@ export function ItemCard({
           <FontAwesomeIcon icon={faHeart} />
         </Icon>
       </ImgContainer>
-      <InfoContainer>
-        <InfoWrapper>
-          <Text className="itemCard-product-name">
-            {shortenString(cardData.title)}
-          </Text>
-          <Wrapper>
-            <Text className="itemCard-product-key">최저가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.start_price}
+      <Link to={`/item/${cardData.item_id}`}>
+        <InfoContainer>
+          <InfoWrapper>
+            <Text className="itemCard-product-name">
+              {shortenString(cardData.title)}
             </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">입찰가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.current_price}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">최고가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.buy_now_price}
-            </Text>
-          </Wrapper>
-          <Wrapper className="itemCard-product-seller">
-            <Text className="itemCard-product-key">판매자명</Text>
-            <Text className="itemCard-product-value">
-              {cardData.member_nickname}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">종료</Text>
-            <Text className="itemCard-product-value card-date">
-              {cardData.end_time}
-            </Text>
-          </Wrapper>
-        </InfoWrapper>
-      </InfoContainer>
+            <Wrapper>
+              <Text className="itemCard-product-key">최저가</Text>
+              <Text className="itemCard-product-value">
+                {cardData.start_price}
+              </Text>
+            </Wrapper>
+            <Wrapper>
+              <Text className="itemCard-product-key">입찰가</Text>
+              <Text className="itemCard-product-value">
+                {cardData.current_price}
+              </Text>
+            </Wrapper>
+            <Wrapper>
+              <Text className="itemCard-product-key">최고가</Text>
+              <Text className="itemCard-product-value">
+                {cardData.buy_now_price}
+              </Text>
+            </Wrapper>
+            <Wrapper className="itemCard-product-seller">
+              <Text className="itemCard-product-key">판매자명</Text>
+              <Text className="itemCard-product-value">
+                {cardData.member_nickname}
+              </Text>
+            </Wrapper>
+            <Wrapper>
+              <Text className="itemCard-product-key">종료</Text>
+              <Text className="itemCard-product-value card-date">
+                {cardData.end_time}
+              </Text>
+            </Wrapper>
+          </InfoWrapper>
+        </InfoContainer>
+      </Link>
     </Container>
   );
 }
@@ -205,43 +207,85 @@ export function DeleteItemCard({
         )}
         ;
       </ImgContainer>
-      <InfoContainer>
-        <InfoWrapper>
-          <Text className="itemCard-product-name">
-            {shortenString(cardData.title)}
-          </Text>
-          <Wrapper>
-            <Text className="itemCard-product-key">최저가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.start_price}
+      {!selectMode ? (
+        <Link to={`/item/${cardData.item_id}`}>
+          <InfoContainer>
+            <InfoWrapper>
+              <Text className="itemCard-product-name">
+                {shortenString(cardData.title)}
+              </Text>
+              <Wrapper>
+                <Text className="itemCard-product-key">최저가</Text>
+                <Text className="itemCard-product-value">
+                  {cardData.start_price}
+                </Text>
+              </Wrapper>
+              <Wrapper>
+                <Text className="itemCard-product-key">입찰가</Text>
+                <Text className="itemCard-product-value">
+                  {cardData.current_price}
+                </Text>
+              </Wrapper>
+              <Wrapper>
+                <Text className="itemCard-product-key">최고가</Text>
+                <Text className="itemCard-product-value">
+                  {cardData.buy_now_price}
+                </Text>
+              </Wrapper>
+              <Wrapper className="itemCard-product-seller">
+                <Text className="itemCard-product-key">판매자명</Text>
+                <Text className="itemCard-product-value">
+                  {cardData.seller_nickname}
+                </Text>
+              </Wrapper>
+              <Wrapper>
+                <Text className="itemCard-product-key">종료</Text>
+                <Text className="itemCard-product-value card-date">
+                  {cardData.end_time}
+                </Text>
+              </Wrapper>
+            </InfoWrapper>
+          </InfoContainer>
+        </Link>
+      ) : (
+        <InfoContainer>
+          <InfoWrapper>
+            <Text className="itemCard-product-name">
+              {shortenString(cardData.title)}
             </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">입찰가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.current_price}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">최고가</Text>
-            <Text className="itemCard-product-value">
-              {cardData.buy_now_price}
-            </Text>
-          </Wrapper>
-          <Wrapper className="itemCard-product-seller">
-            <Text className="itemCard-product-key">판매자명</Text>
-            <Text className="itemCard-product-value">
-              {cardData.seller_nickname}
-            </Text>
-          </Wrapper>
-          <Wrapper>
-            <Text className="itemCard-product-key">종료</Text>
-            <Text className="itemCard-product-value card-date">
-              {cardData.end_time}
-            </Text>
-          </Wrapper>
-        </InfoWrapper>
-      </InfoContainer>
+            <Wrapper>
+              <Text className="itemCard-product-key">최저가</Text>
+              <Text className="itemCard-product-value">
+                {cardData.start_price}
+              </Text>
+            </Wrapper>
+            <Wrapper>
+              <Text className="itemCard-product-key">입찰가</Text>
+              <Text className="itemCard-product-value">
+                {cardData.current_price}
+              </Text>
+            </Wrapper>
+            <Wrapper>
+              <Text className="itemCard-product-key">최고가</Text>
+              <Text className="itemCard-product-value">
+                {cardData.buy_now_price}
+              </Text>
+            </Wrapper>
+            <Wrapper className="itemCard-product-seller">
+              <Text className="itemCard-product-key">판매자명</Text>
+              <Text className="itemCard-product-value">
+                {cardData.seller_nickname}
+              </Text>
+            </Wrapper>
+            <Wrapper>
+              <Text className="itemCard-product-key">종료</Text>
+              <Text className="itemCard-product-value card-date">
+                {cardData.end_time}
+              </Text>
+            </Wrapper>
+          </InfoWrapper>
+        </InfoContainer>
+      )}
     </Container>
   );
 }
