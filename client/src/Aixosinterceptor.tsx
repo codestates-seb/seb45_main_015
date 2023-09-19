@@ -22,10 +22,9 @@ export const useAxiosRequestWithAuth = () => {
     },
   });
 
+  // axios.interceptors.request.use(
   axiosInstance.interceptors.request.use(
     config => {
-      // FIXME :
-      // Bearer가 있는지 없는지
       const token = cookies.jwt;
 
       if (token) {
@@ -38,6 +37,7 @@ export const useAxiosRequestWithAuth = () => {
         const memberId = decodeToken.memberId;
         // 추출한 멤버아이디 로컬에 저장
         localStorage.setItem("memberId", memberId.toString());
+        localStorage.setItem("token", token);
         // config.needMemberId ? config.params === memberId : null;
       }
       return config;
@@ -60,7 +60,7 @@ export const useAxiosRequestWithAuth = () => {
       const statusCode = error.response?.status;
       if (statusCode === 401) {
         console.error("Unauthorized access. Redirecting to login.");
-        navigator("/");
+        navigator("/login");
       }
       // 오류 응답을 처리
       return Promise.reject(error);
