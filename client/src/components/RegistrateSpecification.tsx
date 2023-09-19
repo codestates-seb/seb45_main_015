@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import { useRegistrateItem, useRegistrateItemImage } from "../API/FetchAPI";
 import {
   CategoryField,
@@ -55,7 +56,9 @@ function RegistrateSpecification({
 
   const handlePostRegistrateItem = () => {
     useRegistrateItem(totalItemInfo).then(data => {
+      console.log(data.item_id);
       useRegistrateItemImage(itemImageFile, data.item_id);
+      return <Navigate to="/allList" />;
     });
   };
 

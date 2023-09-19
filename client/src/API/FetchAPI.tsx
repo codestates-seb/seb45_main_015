@@ -304,9 +304,9 @@ export const useRegistrateItemImage = async (
       data: formData,
     });
 
-    console.log("이미지 업로드 성공:", response);
+    alert("등록에 성공하였습니다.");
   } catch (error) {
-    console.error("이미지 업로드 실패:", error);
+    alert("이미지 업로드 실패");
   }
 };
 

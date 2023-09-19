@@ -54,7 +54,7 @@ export interface CategoryField {
 }
 
 export interface RegistrateItemDataField {
-  seller_id: string;
+  seller_id: number;
   title: string;
   content: string;
   auction_time: number;

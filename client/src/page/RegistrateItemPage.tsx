@@ -184,6 +184,7 @@ function RegistrateItemPage() {
   const [categoryTag, setCategoryTag] = useState<CategoryField[]>([]);
   const [totalItemInfo, setTotalItemInfo] = useState<RegistrateItemDataField>();
   const [specification, setSpecification] = useState<boolean>(false);
+  const memberId = localStorage.getItem("memberId");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -282,9 +283,12 @@ function RegistrateItemPage() {
         return;
       }
     }
+    if (!memberId) {
+      return;
+    }
 
     const requestData: RegistrateItemDataField = {
-      seller_id: "1",
+      seller_id: Number(memberId),
       title: itemTitle,
       content: itemContent,
       auction_time: Number(itemAuctionTime),
