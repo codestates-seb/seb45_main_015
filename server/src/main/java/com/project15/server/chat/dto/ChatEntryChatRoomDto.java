@@ -12,14 +12,14 @@ import java.time.LocalDateTime;
 @Getter
 public class ChatEntryChatRoomDto {
         //    private Long chatEntryId;
-       // private String name;
+        private String name;
         private Long memberId;
         //private LocalDateTime deletedAt;
 
         public ChatEntryChatRoomDto(ChatEntry o) {
 //        this.chatEntryId = o.getChatEntryId();
-            //this.name = o.getMember().getName();
-            this.memberId = o.getMemberId();
+            this.name = o.getMemberId().getNickname();
+//            this.memberId = o.getMemberId();
            // this.deletedAt = o.getDeleteAt();
         }
 }

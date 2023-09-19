@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,12 +13,13 @@ import java.time.LocalDateTime;
 
 public class ChatEntryMessageDto {
         private Long messageId;
-        private String content;
+
+        private String message;
        // private LocalDateTime createdAt;
 
         public ChatEntryMessageDto(ChatMessage o) {
             this.messageId = o.getMessageId();
-            this.content = o.getContent();
+            this.message = o.getMessage();
             //this.createdAt = o.getCreatedAt();
         }
 }

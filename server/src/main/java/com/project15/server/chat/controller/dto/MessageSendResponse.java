@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MessageSendResponse {
 
-    private String content;
+    private String message;
 }

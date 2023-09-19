@@ -1,12 +1,12 @@
 package com.project15.server.chat.dto;
 
 import com.project15.server.chat.entity.ChatEntry;
+import com.project15.server.item.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,19 +16,23 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ChatEntryDto {
     private Long chatRoomId;
-    //private Long chatEntryId;
+    private Long chatEntryId;
     private Long memberId;
-    private Long productId;
-    private LocalDateTime deleteAt;
+    private Item itemId;
+    //private LocalDateTime deleteAt;
     private ChatEntryChatRoomDto chatRoom;
     private ChatEntryMessageDto message;
 
     public ChatEntryDto(ChatEntry chatEntry) {
         this.chatRoomId = chatEntry.getChatRoom().getChatRoomId();
-        this.productId = chatEntry.getChatRoom().getProductId();
-//        this.chatEntryId = chatEntry.getChatEntryId();
-        this.memberId = chatEntry.getMemberId();
+        this.itemId = chatEntry.getChatRoom().getItemId();
+
+
+        this.chatEntryId = chatEntry.getChatEntryId();
+        this.memberId = chatEntry.getMemberId().getMemberId();
+
 //        this.deleteAt = chatEntry.getDeleteAt();
+
         this.chatRoom = chatEntry.getChatRoom().getChatEntryList().stream()
                 .map(o -> new ChatEntryChatRoomDto(o))
                 .filter(o -> o.getMemberId() != memberId)

@@ -1,9 +1,11 @@
 package com.project15.server.chat.controller;
 
+import com.project15.server.chat.controller.dto.ChatPostRequest;
 import com.project15.server.chat.dto.ChatEntryDto;
 import com.project15.server.chat.dto.ChatEntryMessageDto;
 import com.project15.server.chat.dto.MessageDto;
 import com.project15.server.chat.service.ChatService;
+import com.project15.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.project15.server.chat.dto.ChatEntryChatRoomDto;
@@ -27,11 +29,11 @@ import java.util.List;
 public class ChatController {
 
     private final ChatService chatService;
-    //private final MemberService memberService;
+    private final MemberService memberService;
     private final ChatMapper chatMapper;
 
     @PostMapping("/chat")
-    public ResponseEntity postChatRoom(@RequestBody ChatEntryChatRoomDto request)
+    public ResponseEntity postChatRoom(@RequestBody ChatPostRequest request)
     {
 
 
@@ -44,7 +46,7 @@ public class ChatController {
 //    @GetMapping("/chat")
 //    public ResponseEntity getChatRoom()
 //    {
-//        Member loginMember = memberService.findLoginMember();
+//        Member loginMember = memberService.findLoggingMember();
 //
 //        log.info("loginMember : " + loginMember.getEmail());
 //
@@ -66,7 +68,7 @@ public class ChatController {
 //    @DeleteMapping("/chat/{room-id}")
 //    public void deleteChatRoom(@PathVariable("room-id") Long chatRoomId)
 //    {
-//        Member loginMember = memberService.findLoginMember();
+//        Member loginMember = memberService.findLoggingMember();
 //
 //        chatService.deleteChatRoom(chatRoomId, loginMember.getMemberId());
 //    }

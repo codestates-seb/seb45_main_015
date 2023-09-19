@@ -1,5 +1,6 @@
 package com.project15.server.chat.entity;
 
+import com.project15.server.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,13 +16,13 @@ public class ChatEntry {
 
     private Long chatEntryId;
 
-    private Long memberId;
-
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member memberId;
     //private LocalDateTime deleteAt;
 
 
     @ManyToOne
-    @JoinColumn(name = "chat_room_id")
-
+    @JoinColumn(name = "chatroom_id")
     private ChatRoom chatRoom;
 }

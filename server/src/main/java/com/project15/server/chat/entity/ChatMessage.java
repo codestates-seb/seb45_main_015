@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -16,11 +15,11 @@ public class ChatMessage {
 
     private Long senderId;
 
-    private String content;
+    private String message;
 
     //private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "chat_room_id")
+    @JoinColumn(name = "chatroom_id")
     private ChatRoom chatRoom;
 }
