@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -102,8 +103,8 @@ public class BidServiceImpl implements BidService {
         }
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public void buyNow(Long buyerId, Long itemId) {
+    @CachePut(value = "itemCache", key = "#itemId", cacheManager = "cacheManager")
+    public ItemDto.ResponseDto buyNow(Long buyerId, Long itemId) {
         Item findItem = itemRepository.findWithIdForUpdate(itemId)
                 .orElseThrow(() -> new GlobalException(ExceptionCode.ITEM_NOT_FOUND));
 
@@ -115,6 +116,11 @@ public class BidServiceImpl implements BidService {
                 .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
 
         findItem.setBuyer(findBuyer);
+        findItem.setCurrentPrice(findItem.getBuyNowPrice());
         findItem.setStatus(ItemStatus.TRADING);
+        LocalDateTime setTime = LocalDateTime.now();
+        findItem.setEndTime(setTime);
+
+        return itemMapper.itemToResponseDto(findItem, null);
     }
 }

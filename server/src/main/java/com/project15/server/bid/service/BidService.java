@@ -10,4 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface BidService {
 
     ItemDto.ResponseDto createBid(Bid bid, Long itemId);
+
+    ItemDto.ResponseDto buyNow(Long buyerId, Long itemId);
 }
