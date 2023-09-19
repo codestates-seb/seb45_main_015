@@ -1,10 +1,14 @@
 package com.project15.server.member.service;
 
 import com.project15.server.member.dto.MemberDto;
+import com.project15.server.member.entity.MemberProvider;
+import com.project15.server.member.entity.MemberRole;
 import com.project15.server.member.repository.MemberRepository;
 import com.project15.server.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,7 +35,6 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         return optionalMember.orElse(null);
     }
-
     private boolean isValidEmailFormat(String email) {
         return EMAIL_PATTERN.matcher(email).matches();
     }
@@ -43,7 +46,6 @@ public class MemberService {
         String nicknamePattern = "^[a-zA-Z가-힣0-9]{2,}$";
         return nickname.matches(nicknamePattern);
     }
-
     public Member signup(MemberDto memberDto) {
         if (memberRepository.findOneWithAuthoritiesByEmail(memberDto.getEmail()).orElse(null) != null) {
             throw new RuntimeException("이미 사용중인 이메일 입니다.");
@@ -61,16 +63,17 @@ public class MemberService {
                 .email(memberDto.getEmail())
                 .password(passwordEncoder.encode(memberDto.getPassword()))
                 .nickname(memberDto.getNickname())
+                .Role(MemberRole.USER)
+                .provider(memberDto.getProvider())
                 .build();
+
 
         return memberRepository.save(member);
     }
-
     @Transactional(readOnly = true)
     public Optional<Member> getMemberWithAuthorities(String email) {
         return memberRepository.findOneWithAuthoritiesByEmail(email);
     }
-
     @Transactional(readOnly = true)
     public Optional<Member> getMyUserWithAuthorities() {
         return SecurityUtil.getCurrentUsername()
@@ -97,7 +100,6 @@ public class MemberService {
             throw new RuntimeException("닉네임 수정 실패");
         }
     }
-
     public boolean updatePassword(Long memberId, String oldPassword, String newPassword) {
 
         Member member = getEmailByMemberId(memberId);
@@ -116,21 +118,20 @@ public class MemberService {
 
         return true;
     }
-
     // 닉네임 중복 검사
     public boolean nicknameAlreadyUse(String nickname) {
         return memberRepository.findByNickname(nickname).isPresent();
     }
-
     // 이메일 중복 검사
     public boolean emailAlreadyUse(String email) {
         return memberRepository.findByEmail(email).isPresent();
     }
-
     public Member getEmailByMemberId(Long memberId) {
         return memberRepository.findByMemberId(memberId).orElse(null);
     }
-
+    public Member getMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElse(null);
+    }
     //회원 닉네임 변경
     private boolean updateMemberNickname(String email, String newNickname) {
 
@@ -144,10 +145,8 @@ public class MemberService {
 
             return true;
         }
-
         return false;
     }
-
     public boolean authenticateMember(String email, String password) {
         UserDetails userDetails = customMemberDetailsService.loadUserByUsername(email);
 
@@ -174,5 +173,18 @@ public class MemberService {
         if (memberOptional.isEmpty()) {
             throw new RuntimeException("사용자를 찾을 수 없습니다.");
         }
+    }
+    public Member findLoggingMember() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<Member> loginMember = memberRepository.findByEmail(authentication.getName());
+        if (loginMember.isEmpty()) {
+            throw new RuntimeException("로그인 중인 회원정보를 찾을 수 없습니다.");
+        }
+        return loginMember.get();
+    }
+    public void updateMemberRole(Member member) {
+        member.setRole(MemberRole.USER);
+        memberRepository.save(member);
     }
 }

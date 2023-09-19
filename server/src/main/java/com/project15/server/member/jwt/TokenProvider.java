@@ -1,10 +1,11 @@
 package com.project15.server.member.jwt;
 
 import com.project15.server.member.entity.Member;
+import com.project15.server.member.entity.MemberRole;
+import com.project15.server.member.repository.MemberRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,15 +20,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-@NoArgsConstructor
 public class TokenProvider {
 
     private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
     private static final String AUTHORITIES_KEY = "auth";
+    private final MemberRepository memberRepository;
 
 
     @Value("${jwt.secret}") private String secret;
     @Value("${jwt.token-validity-in-seconds}") private long tokenValidityInSeconds;
+
+    public TokenProvider(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
 
     public String createToken(Authentication authentication, Member member) {
@@ -52,6 +57,7 @@ public class TokenProvider {
                 .setExpiration(validity)
                 .compact();
     }
+
     public Authentication getAuthentication(String token) {
 
         byte[] keyBytes = Decoders.BASE64.decode(secret);
@@ -95,5 +101,12 @@ public class TokenProvider {
             logger.info("JWT 토큰이 잘못되었습니다.");
         }
         return false;
+    }
+    public Member getMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElse(null);
+    }
+    public void updateMemberRole(Member member) {
+        member.setRole(MemberRole.USER);
+        memberRepository.save(member);
     }
 }

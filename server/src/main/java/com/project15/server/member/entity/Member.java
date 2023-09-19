@@ -7,11 +7,11 @@ import com.project15.server.item.entity.Item;
 import com.project15.server.rating.entity.StarRating;
 import com.project15.server.wish.entity.Wish;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -29,10 +29,14 @@ public class Member extends Auditable {
     @JsonIgnore
     private String password;
     private String nickname;
-    private String role;
-
-
-   @ManyToMany
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberRole Role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberProvider provider;
+    private String socialId;
+    @ManyToMany
     private Set<Authority> authorities;
 
 

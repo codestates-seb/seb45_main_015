@@ -1,10 +1,12 @@
 package com.project15.server.member.controller;
 
 import com.project15.server.member.dto.LoginDto;
+import com.project15.server.member.dto.LogoutDto;
 import com.project15.server.member.dto.MemberDto;
 import com.project15.server.member.dto.TokenDto;
 import com.project15.server.member.jwt.JwtFilter;
 import com.project15.server.member.jwt.TokenProvider;
+import com.project15.server.member.repository.TokenBlacklistRepository;
 import com.project15.server.member.service.MemberService;
 import com.project15.server.member.entity.Member;
 import com.project15.server.member.service.PasswordResetException;
@@ -36,6 +38,7 @@ public class MemberController {
     private final MemberService memberService;
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final TokenBlacklistRepository tokenBlacklistRepository;
 
     @GetMapping("/{member-id}")
     public ResponseEntity<Member> getMemberById(@PathVariable("member-id") Long memberId) {
@@ -76,13 +79,10 @@ public class MemberController {
 
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
-    @PostMapping("/logout")
-    public ResponseEntity<String> logoutMember(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        return ResponseEntity.ok("로그아웃 성공");
+    @PostMapping("/logout/{member-id}")
+    public void logout(@PathVariable("member-id") Long memberId, @RequestBody LogoutDto requestDto) {
+        String token = requestDto.getToken();
+        tokenBlacklistRepository.save(token, memberId);
     }
     @PatchMapping("/change-nickname/{member-id}")
     public ResponseEntity<String> updateNickname(@PathVariable("member-id") Long memberId, @RequestBody Map<String, String> requestBody) {
@@ -102,10 +102,10 @@ public class MemberController {
         }
     }
     @PostMapping("/verify-email")
-    public ResponseEntity<String> verifyEmail(@RequestParam("email") String email) {
+    public ResponseEntity<String> verifyEmail(@RequestParam("email") String email, Long memberId) {
         try {
             memberService.verifyEmail(email);
-            return ResponseEntity.ok("이메일 인증 성공");
+            return ResponseEntity.ok("member_id :" + memberId);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
         }
@@ -122,5 +122,10 @@ public class MemberController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+    @PatchMapping("/oauth2/sign-up/{member-id}")
+    public ResponseEntity<String> social_signup(@PathVariable("member-id") Long memberId, @RequestBody Map<String, String> requestBody) {
+        String newNickname = requestBody.get("newNickname");
+        return memberService.updateNickname(memberId, newNickname);
     }
 }
