@@ -18,9 +18,10 @@ import {
 import Modal from "../alret/Modal";
 import { MyTradeType } from "../type/type";
 
-const ItemListCard: React.FC<MyTradeType> = ({ items }) => {
+const ItemListCard: React.FC = (props: MyTradeType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(items);
+
+  console.log(props);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -34,14 +35,11 @@ const ItemListCard: React.FC<MyTradeType> = ({ items }) => {
     <Container>
       <ItemContent>
         <ImgContainer>
-          <FontAwesomeIcon icon={faImage} />
+          <img src="" alt="" />
         </ImgContainer>
         <InfoContainer>
           <TitleWrapper>
-            <ProductName>
-              제목없음
-              {/* {items.title ? items.title : "제목없음"} */}
-            </ProductName>
+            <ProductName>{props.title ? props.title : ""}</ProductName>
             <Button onClick={openModal}>별점 남기기</Button>
             {isModalOpen && <Modal mode={"star"} closeModal={closeModal} />}
           </TitleWrapper>
@@ -50,19 +48,19 @@ const ItemListCard: React.FC<MyTradeType> = ({ items }) => {
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래상대</Text>
                 <Text className="itemListCard-product-value">
-                  {items.seller_nickname}
+                  {props.seller_nickname ? props.seller_nickname : ""}
                 </Text>
               </TextWrapper>
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래상태</Text>
                 <Text className="itemListCard-product-value">
-                  {items.status}
+                  {props.status ? props.status : ""}
                 </Text>
               </TextWrapper>
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래일자</Text>
                 <Text className="itemListCard-product-value">
-                  {items.end_time}
+                  {props.end_time ? props.end_time : ""}
                 </Text>
               </TextWrapper>
             </TextSection>
@@ -70,19 +68,19 @@ const ItemListCard: React.FC<MyTradeType> = ({ items }) => {
               <TextWrapper className="product-price-wrapper">
                 <Text className="itemListCard-product-key">최저가</Text>
                 <Text className="itemListCard-product-value">
-                  {items.start_price}원
+                  {props.start_price ? props.start_price : "0"}원
                 </Text>
               </TextWrapper>
               <TextWrapper className="product-price-wrapper">
                 <Text className="itemListCard-product-key">입찰가</Text>
                 <Text className="itemListCard-product-value">
-                  {items.current_price}원
+                  {props.current_price ? props.current_price : "0"}원
                 </Text>
               </TextWrapper>
               <TextWrapper className="product-price-wrapper">
                 <Text className="itemListCard-product-key">최고가</Text>
                 <Text className="itemListCard-product-value">
-                  {items.buy_now_price}원
+                  {props.buy_now_price ? props.buy_now_price : "0"}원
                 </Text>
               </TextWrapper>
             </TextSection>

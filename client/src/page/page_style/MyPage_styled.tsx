@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import globalTokens from "../../design_tokens/global.json";
 
 export const Container = styled.div`
   display: flex;
@@ -40,6 +41,26 @@ export const Section = styled.div`
     & > button {
       padding: 10px 0;
       width: 420px;
+    }
+
+    & > .change-mydata {
+      /* width: 100%; */
+      height: 100%;
+      background-color: ${globalTokens.Button.default.value};
+      color: #ffffff;
+      font-size: 21px;
+      cursor: pointer;
+      border-radius: 90px;
+      border: 2px solid ${globalTokens.Button.default.value};
+
+      &:hover {
+        background-color: #ffffff;
+        color: ${globalTokens.Button.default.value};
+        border: 2px solid ${globalTokens.Button.default.value};
+      }
+
+      @media (max-width: 768px) {
+      }
     }
   }
 `;

@@ -16,13 +16,18 @@ const ChangePasswordPage: React.FC = () => {
   const { passwordMessage, userInfo, setUserInfo, inputHandler } =
     useInputValidate({ newPassword: "", confirmPassword: "" });
 
+  const { data, isLoading, mutate } = useChange({
+    old_password: userInfo.newPassword as string,
+    new_password: userInfo.confirmPassword as string,
+  });
+
   const handleChangePWSumbit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 비밀번호 입력확인
     if (userInfo.newPassword !== userInfo.confirmPassword) {
       console.log("두 번호가 맞지않음");
     } else {
-      inputHandler(userInfo).changePwPage ? useChange(userInfo) : null;
+      inputHandler(userInfo).changePwPage ? mutate() : null;
     }
   };
 
