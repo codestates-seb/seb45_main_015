@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class BidServiceImpl implements BidService {
 
@@ -27,7 +28,6 @@ public class BidServiceImpl implements BidService {
     private final MemberRepository memberRepository;
 
     @Override
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void createBid(Bid bid) {
         //itemRepository.findByIdForUpdate 에 Lock(SELECT FOR UPDATE)
         Item findItem = itemRepository
@@ -63,6 +63,7 @@ public class BidServiceImpl implements BidService {
             bidRepository.save(bid);
         }
         findItem.setCurrentPrice(bid.getBidPrice());
+        findItem.setBuyer(bid.getBuyer());
     }
 
     private void verifyBidPrice(int startPrice, int bidUnit, int currentPrice, int bidPrice) {

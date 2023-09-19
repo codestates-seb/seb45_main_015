@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project15.server.audit.Auditable;
 import com.project15.server.bid.entity.Bid;
 import com.project15.server.item.entity.Item;
-import com.project15.server.item.entity.ItemImage;
+import com.project15.server.rating.entity.StarRating;
 import com.project15.server.wish.entity.Wish;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -29,17 +29,15 @@ public class Member extends Auditable {
     @JsonIgnore
     private String password;
     private String nickname;
-    private String role;
-    /*@JsonIgnore
-    private boolean activated;*/
-
-   @ManyToMany
-  /* @JoinTable(
-            name = "authority",
-            joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "memberId")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authorityName")})*/
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberRole Role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberProvider provider;
+    private String socialId;
+    @ManyToMany
     private Set<Authority> authorities;
-
 
 
     @OneToMany(targetEntity = Item.class, mappedBy = "seller")
@@ -53,4 +51,10 @@ public class Member extends Auditable {
 
     @OneToMany(targetEntity = Wish.class, mappedBy = "member")
     private List<Wish> wishes = new ArrayList<>();
+
+    @OneToMany(targetEntity = StarRating.class, mappedBy = "seller")
+    private List<StarRating> sellerStarRatings = new ArrayList<>();
+
+    @OneToMany(targetEntity = StarRating.class, mappedBy = "buyer")
+    private List<StarRating> buyerStarRatings = new ArrayList<>();
 }
