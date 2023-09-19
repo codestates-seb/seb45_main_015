@@ -188,7 +188,6 @@ export const getItem = async (page: number) => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response.data.items);
     return response.data.items;
   } catch (error) {
     console.log(`데이터 불러오기를 실패했습니다.${error}`);
@@ -348,7 +347,6 @@ export const getCategoryItem = async (page: number, id: number) => {
       },
     });
     const data = response.data.items;
-    console.log(data);
     return data;
   } catch (error) {
     console.log(`데이터 불러오기를 실패했습니다.${error}`);
@@ -388,6 +386,7 @@ export const postItem = async (itemId: number) => {
         "Content-Type": "application/json",
       },
     });
+    console.log("추가성공");
   } catch (error) {
     console.log(`찜목록 추가를 실패했습니다.${error}`);
   }
@@ -438,7 +437,7 @@ export const deleteAllFavorite = async (length: number) => {
   try {
     const response = await axios({
       method: "delete",
-      url: `http://15.164.84.204:8080/members/${memberId}/wishes?page_number=1&page_size=${length}`,
+      url: `http://15.164.84.204:8080/members/${memberId}/wishes`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

@@ -3,13 +3,13 @@ import styled from "styled-components";
 interface ContainerProps {
   isCheck?: boolean;
 }
-//margin: ${({ isCheck }) => (isCheck ? "10px 15px 1px 0" : "25px 8px 0 3px")};
-// box-shadow: ${({ isCheck }) => (isCheck ? "5px 5px 5px " : "none")};
 export const Container = styled.div<ContainerProps>`
   width: 240px;
   border-radius: 20px 20px;
   height: 383px;
   margin: 25px 8px 0 3px;
+  border: solid 1px #b1b5c3;
+  overflow: hidden;
   color: black;
   @media (max-width: 1209px) {
     & {
@@ -20,13 +20,13 @@ export const Container = styled.div<ContainerProps>`
 `;
 export const ImgContainer = styled.div`
   display: flex;
+  overflow: hidden;
   justify-content: center;
   align-items: center;
   color: #fcfcfd;
   width: 100%;
   height: 188px;
   background-color: #b1b5c3;
-  border: solid 1px #b1b5c3;
   border-radius: 20px 20px 0 0;
   overflow: hidden;
 
@@ -76,7 +76,7 @@ export const InfoContainer = styled.div`
   height: 195px;
   color: black;
   width: 100%;
-  border: solid 1px #b1b5c3;
+  border-top: solid 1px #b1b5c3;
   border-radius: 0 0 20px 20px;
 
   @media (max-width: 1209px) {

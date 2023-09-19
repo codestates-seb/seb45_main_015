@@ -6,7 +6,6 @@ import { ItemCard } from "../components/ItemCard";
 import { MediumButtonB } from "../components/ButtonComponent";
 import { getItem } from "../API/FetchAPI";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 
 // const carouselItems = [
 //   {

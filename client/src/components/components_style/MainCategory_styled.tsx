@@ -15,11 +15,22 @@ const CategoryNav = styled.div`
       white-space: nowrap;
       margin-bottom: 30px;
       border-bottom: 1px solid ${globalTokens.heart.default.value};
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #808080;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 3px solid transparent;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
     }
   }
   & h2 {
     margin: 48px 0 56px 0;
-    font-family: "Gmarket Sans TTF";
     font-size: 1.5rem;
     font-weight: 700;
   }
@@ -35,7 +46,6 @@ const CategoryNav = styled.div`
     align-items: center;
     flex-shrink: 0;
     color: #000;
-    font-family: "Gmarket Sans TTF";
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;

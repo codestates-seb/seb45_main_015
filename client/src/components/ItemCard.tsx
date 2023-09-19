@@ -205,7 +205,6 @@ export function DeleteItemCard({
             <FontAwesomeIcon icon={faTimes} />
           </Icon>
         )}
-        ;
       </ImgContainer>
       {!selectMode ? (
         <Link to={`/item/${cardData.item_id}`}>
