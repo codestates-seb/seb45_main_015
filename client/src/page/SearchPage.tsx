@@ -6,6 +6,7 @@ import { MediumButtonB } from "../components/ButtonComponent";
 import { useQuery } from "@tanstack/react-query";
 import { searchItem } from "../API/FetchAPI";
 import { useParams } from "react-router-dom";
+import Loading from "../loading/Loading";
 
 const SearchPage: React.FC = () => {
   const { keyWord } = useParams();
@@ -35,7 +36,7 @@ const SearchPage: React.FC = () => {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (isError) {

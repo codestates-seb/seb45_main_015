@@ -44,7 +44,7 @@ function CategorySideVar() {
                   }}
                 >
                   {category.name}
-                </li>{" "}
+                </li>
               </Link>
             ))}
         </ul>

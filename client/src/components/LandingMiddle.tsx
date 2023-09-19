@@ -18,6 +18,7 @@ import life from "../images/life.png";
 import home from "../images/home.png";
 import office from "../images/office.png";
 import { LandingMiddeBox } from "./components_style/LandingMiddle_styled";
+import Loading from "../loading/Loading";
 
 const LandingMiddle = () => {
   const handleItemRefetch = () => {
@@ -32,7 +33,7 @@ const LandingMiddle = () => {
   const { data, isLoading, isError, refetch } = useQuery(["itemList"], getData);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (isError) {
