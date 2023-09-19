@@ -18,7 +18,7 @@ import {
 import Modal from "../alret/Modal";
 import { MyTradeType } from "../type/type";
 
-const ItemListCard: React.FC<MyTradeType> = items => {
+const ItemListCard: React.FC<MyTradeType> = ({ items }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   console.log(items);
 
@@ -38,7 +38,10 @@ const ItemListCard: React.FC<MyTradeType> = items => {
         </ImgContainer>
         <InfoContainer>
           <TitleWrapper>
-            <ProductName>{items.items.title}</ProductName>
+            <ProductName>
+              제목없음
+              {/* {items.title ? items.title : "제목없음"} */}
+            </ProductName>
             <Button onClick={openModal}>별점 남기기</Button>
             {isModalOpen && <Modal mode={"star"} closeModal={closeModal} />}
           </TitleWrapper>
@@ -47,19 +50,19 @@ const ItemListCard: React.FC<MyTradeType> = items => {
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래상대</Text>
                 <Text className="itemListCard-product-value">
-                  {items.items.seller_nickname}
+                  {items.seller_nickname}
                 </Text>
               </TextWrapper>
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래상태</Text>
                 <Text className="itemListCard-product-value">
-                  {items.items.status}
+                  {items.status}
                 </Text>
               </TextWrapper>
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래일자</Text>
                 <Text className="itemListCard-product-value">
-                  {items.items.end_time}
+                  {items.end_time}
                 </Text>
               </TextWrapper>
             </TextSection>
@@ -67,19 +70,19 @@ const ItemListCard: React.FC<MyTradeType> = items => {
               <TextWrapper className="product-price-wrapper">
                 <Text className="itemListCard-product-key">최저가</Text>
                 <Text className="itemListCard-product-value">
-                  {items.items.start_price}원
+                  {items.start_price}원
                 </Text>
               </TextWrapper>
               <TextWrapper className="product-price-wrapper">
                 <Text className="itemListCard-product-key">입찰가</Text>
                 <Text className="itemListCard-product-value">
-                  {items.items.current_price}원
+                  {items.current_price}원
                 </Text>
               </TextWrapper>
               <TextWrapper className="product-price-wrapper">
                 <Text className="itemListCard-product-key">최고가</Text>
                 <Text className="itemListCard-product-value">
-                  {items.items.buy_now_price}원
+                  {items.buy_now_price}원
                 </Text>
               </TextWrapper>
             </TextSection>

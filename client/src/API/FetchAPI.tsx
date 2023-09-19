@@ -7,6 +7,7 @@ import {
   LoginData,
   SignupData,
   ChangePWData,
+  ChangeNickNameData,
   MyPageData,
   RegistrateItemDataField,
   ItemBidField,
@@ -70,6 +71,7 @@ export const useLogin = (data: LoginData) => {
 export const useLogout = () => {
   const req = useAxiosRequestWithAuth();
   const memberId = localStorage.getItem("memberId");
+  const navigator = useNavigate();
 
   const logout = async () => {
     const response = await req.post(`/members/logout/${memberId}`);
@@ -78,6 +80,9 @@ export const useLogout = () => {
   const mutation = useMutation(logout, {
     onSuccess(data) {
       localStorage.removeItem("memberId");
+      localStorage.removeItem("login");
+      localStorage.removeItem("token");
+      navigator("/login");
     },
     onError(error) {
       console.log(error);
@@ -132,6 +137,7 @@ export const useFind = (data: FindPWData) => {
     onSuccess(data) {
       // FIXME
       // 응답 멤버아이디가 있으면 비빌먼호 변경페이지로 네비게이션 설정 추가
+
       // localStorage.setItem("verifyMemberID",);
       console.log(`[mutation] 비번찾기 이메일 전송 성공: ${data}`);
       navigator("/change-password");
@@ -510,7 +516,7 @@ export const usefetchMyPage = () => {
 };
 
 // 닉네임 변경 //////////////////////////////////////
-export const useChangeNickname = (inputData: MyPageData) => {
+export const useChangeNickname = (inputData: ChangeNickNameData) => {
   const req = useAxiosRequestWithAuth();
   const memberId = localStorage.getItem("memberId");
 
@@ -531,7 +537,7 @@ export const useChangeNickname = (inputData: MyPageData) => {
 };
 
 // 비밀번호 변경 //////////////////////////////////////
-export const useChangePassword = (inputData: MyPageData) => {
+export const useChangePassword = (inputData: ChangePWData) => {
   const req = useAxiosRequestWithAuth();
   const memberId = localStorage.getItem("memberId");
 

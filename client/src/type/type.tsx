@@ -17,6 +17,8 @@ export type LoginData = Omit<SignupData, "nickname">;
 // 비밀번호 변경 - 인증메일
 export type FindPWData = Pick<SignupData, "email">;
 
+export type ChangeNickNameData = Pick<SignupData, "nickname">;
+
 // 비밀번호 변경데이터 - 비밀번호입력
 export type ChangePWData = Pick<SignupData, "newPassword" | "confirmPassword">;
 
