@@ -26,7 +26,7 @@ const ItemListPageContainer = styled.div`
     flex-direction: column;
     align-items: center;
     list-style: none;
-    @media (max-width: 950px) {
+    @media (max-width: 1209px) {
       border: none;
     }
   }
@@ -67,7 +67,7 @@ const ItemListPageContainer = styled.div`
   & .moreButton {
     width: 340px;
     height: 48px;
-    margin-top: 100px;
+    margin: 100px 0 100px 0;
   }
 `;
 

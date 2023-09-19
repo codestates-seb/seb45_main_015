@@ -16,6 +16,7 @@ import ItemCategoryPage from "./page/ItemCategoryPage";
 import FavoritePage from "./page/FavoritePage";
 import SupportButton from "./components/SupportButton";
 import SearchPage from "./page/SearchPage";
+import LandingPage from "./page/LandingPage";
 
 const App: React.FC = () => {
   return (
@@ -37,6 +38,7 @@ const App: React.FC = () => {
             <Route path="/favorite" element={<FavoritePage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/search/:keyWord" element={<SearchPage />} />
+            <Route path="/" element={<LandingPage />} />
           </Routes>
         </div>
         <SupportButton />
