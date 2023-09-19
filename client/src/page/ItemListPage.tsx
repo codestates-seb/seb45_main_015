@@ -6,24 +6,25 @@ import { ItemCard } from "../components/ItemCard";
 import { MediumButtonB } from "../components/ButtonComponent";
 import { getItem } from "../API/FetchAPI";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
-const carouselItems = [
-  {
-    imageUrl:
-      "https://i.pinimg.com/564x/1c/72/93/1c7293afa416f1a1a51c3c723536bba9.jpg",
-    caption: "Image 1",
-  },
-  {
-    imageUrl:
-      "https://i.pinimg.com/564x/6c/b3/3a/6cb33ac0c0a2c5942d007014da8c6c44.jpg",
-    caption: "Image 2",
-  },
-  {
-    imageUrl:
-      "https://i.pinimg.com/564x/dd/bf/38/ddbf38f2067578c9da22378a83eaddb3.jpg",
-    caption: "Image 3",
-  },
-];
+// const carouselItems = [
+//   {
+//     imageUrl:
+//       "https://i.pinimg.com/564x/1c/72/93/1c7293afa416f1a1a51c3c723536bba9.jpg",
+//     caption: "Image 1",
+//   },
+//   {
+//     imageUrl:
+//       "https://i.pinimg.com/564x/6c/b3/3a/6cb33ac0c0a2c5942d007014da8c6c44.jpg",
+//     caption: "Image 2",
+//   },
+//   {
+//     imageUrl:
+//       "https://i.pinimg.com/564x/dd/bf/38/ddbf38f2067578c9da22378a83eaddb3.jpg",
+//     caption: "Image 3",
+//   },
+// ];
 
 const ItemListPage: React.FC = () => {
   const [page, setPage] = useState<number>(18);

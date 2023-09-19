@@ -10,6 +10,7 @@ export const Container = styled.div<ContainerProps>`
   border-radius: 20px 20px;
   height: 383px;
   margin: 25px 8px 0 3px;
+  color: black;
   @media (max-width: 1209px) {
     & {
       width: 167px;
@@ -73,6 +74,7 @@ export const Icon = styled.button`
 
 export const InfoContainer = styled.div`
   height: 195px;
+  color: black;
   width: 100%;
   border: solid 1px #b1b5c3;
   border-radius: 0 0 20px 20px;

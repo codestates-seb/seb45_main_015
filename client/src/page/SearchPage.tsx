@@ -20,7 +20,7 @@ const SearchPage: React.FC = () => {
 
   const getData = async () => {
     if (!keyWord) {
-      return null; // keyWord가 없을 경우에 대한 처리 (빈 데이터 또는 에러 처리)
+      return null;
     }
     const result = await searchItem(keyWord, page);
     return result.items;
@@ -29,6 +29,9 @@ const SearchPage: React.FC = () => {
   const { data, isLoading, isError, refetch } = useQuery(
     ["itemList", keyWord, page],
     getData,
+    {
+      keepPreviousData: true,
+    },
   );
 
   if (isLoading) {
