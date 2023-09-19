@@ -34,6 +34,7 @@ function Header() {
   const [mypagedropDown, setMypageDropDown] = useState(false);
   const [searchdropDown, setSearchDropDown] = useState(false);
   const [hamburgerdropDown, setHamburgerDropDown] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleShowMypageDropDown = () => {
     setMypageDropDown(true);
@@ -87,24 +88,29 @@ function Header() {
               >
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </Button>
-            )}{" "}
-            <Button className="header-icon">
-              <Link to="/favorite">
-                <FontAwesomeIcon icon={faHeart} />
-              </Link>
-            </Button>
-            <Button
-              className="header-icon header-dropdown"
-              onMouseEnter={handleShowMypageDropDown}
-              onMouseLeave={handleHideMypageDropDown}
-            >
-              <FontAwesomeIcon icon={faUser} />
-              {mypagedropDown && <HeaderDropDown />}
-            </Button>
-            {dummy === "로그아웃" && (
-              <Button>
-                <Link to="/login">로그인</Link>
-              </Button>
+            )}
+            {isLogin ? (
+              <>
+                <Button className="header-icon">
+                  <Link to="/favorite">
+                    <FontAwesomeIcon icon={faHeart} />
+                  </Link>
+                </Button>
+                <Button
+                  className="header-icon header-dropdown"
+                  onMouseEnter={handleShowMypageDropDown}
+                  onMouseLeave={handleHideMypageDropDown}
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                  {mypagedropDown && <HeaderDropDown />}
+                </Button>
+              </>
+            ) : (
+              dummy === "로그아웃" && (
+                <Button>
+                  <Link to="/login">로그인</Link>
+                </Button>
+              )
             )}
           </UserWrapper>
           <HamburgerWrapper>

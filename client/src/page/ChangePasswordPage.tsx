@@ -14,12 +14,15 @@ import { ChangePWData } from "../type/type";
 
 const ChangePasswordPage: React.FC = () => {
   const { passwordMessage, userInfo, setUserInfo, inputHandler } =
-    useInputValidate({ password: "" });
+    useInputValidate({ newPassword: "", confirmPassword: "" });
 
   const handleChangePWSumbit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (inputHandler(userInfo).changePwPage) {
-      useChange(userInfo);
+    // 비밀번호 입력확인
+    if (userInfo.newPassword !== userInfo.confirmPassword) {
+      console.log("두 번호가 맞지않음");
+    } else {
+      inputHandler(userInfo).changePwPage ? useChange(userInfo) : null;
     }
   };
 
@@ -32,19 +35,19 @@ const ChangePasswordPage: React.FC = () => {
             <h2>비밀번호 변경</h2>
             <InputComponent
               type="password"
-              name="password"
+              name="newPassword"
               labelText="새로운 비밀번호"
               placeholder="새로운 비밀번호를 입력해주세요"
-              stateValue={userInfo}
+              stateValue={userInfo.newPassword}
               setStateValue={setUserInfo}
               errorMessage={passwordMessage}
             />
             <InputComponent
               type="password"
-              name="password"
+              name="confirmPassword"
               labelText="비밀번호 확인"
               placeholder="다시한번 비밀번호를 입력해주세요"
-              stateValue={userInfo}
+              stateValue={userInfo.confirmPassword}
               setStateValue={setUserInfo}
               errorMessage={passwordMessage}
             />
