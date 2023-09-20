@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { LoginStateContext } from "../context/LoginStateContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +13,7 @@ import {
 } from "./components_style/HeaderDropDown_styled";
 import { Link } from "react-router-dom";
 import { useLogout } from "../API/FetchAPI";
+import { LoginStateContext } from "../context/LoginStateContext";
 
 const nav = [
   {
@@ -24,13 +24,13 @@ const nav = [
 ];
 
 function HeaderDropDown() {
-  const { isLogin, setIsLogin } = useContext(LoginStateContext);
+  const { currentLogin } = useContext(LoginStateContext);
 
   const mutation = useLogout();
 
   const logoutHandler = () => {
     mutation.mutate();
-    setIsLogin?.(false);
+    currentLogin.current = false;
   };
 
   return (

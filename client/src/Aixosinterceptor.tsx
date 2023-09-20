@@ -1,16 +1,10 @@
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import jwtDecode from "jwt-decode";
 
 // const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const BASE_URL = "http://15.164.84.204:8080";
-type DecodeToken = {
-  auth: any;
-  nickname: string;
-  memberId: number;
-  exp: number;
-};
+
 export const useAxiosRequestWithAuth = () => {
   const [cookies, setCookie] = useCookies(["jwt"]);
   const navigator = useNavigate();
@@ -31,13 +25,6 @@ export const useAxiosRequestWithAuth = () => {
         // token이 있다면 요청헤더에
         config.headers = config.headers || {};
         config.headers.Authorization = `Bearer ${token}`;
-
-        // 토큰에서 멤버아이디 추출
-        const decodeToken: DecodeToken = jwtDecode(token);
-        const memberId = decodeToken.memberId;
-        // 추출한 멤버아이디 로컬에 저장
-        localStorage.setItem("memberId", memberId.toString());
-        localStorage.setItem("token", token);
       }
       return config;
     },

@@ -1,8 +1,9 @@
-import { Dispatch, SetStateAction, createContext } from "react";
+import { MutableRefObject, createContext } from "react";
 
 type LoginStateContextType = {
-  isLogin?: boolean;
-  setIsLogin?: Dispatch<SetStateAction<boolean>>;
+  currentLogin: MutableRefObject<boolean>;
 };
 
-export const LoginStateContext = createContext<LoginStateContextType>({});
+export const LoginStateContext = createContext<LoginStateContextType>({
+  currentLogin: { current: false },
+});

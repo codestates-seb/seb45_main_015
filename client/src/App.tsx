@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Toast from "./alret/Toast";
@@ -18,15 +19,14 @@ import SupportButton from "./components/SupportButton";
 import SearchPage from "./page/SearchPage";
 import LandingPage from "./page/LandingPage";
 import { LoginStateContext } from "./context/LoginStateContext";
-import { useState } from "react";
 
 const App: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const currentLogin = useRef(false);
 
   return (
     <div className="App">
       <BrowserRouter>
-        <LoginStateContext.Provider value={{ isLogin, setIsLogin }}>
+        <LoginStateContext.Provider value={{ currentLogin }}>
           <Header />
           {/* <Toast /> */}
           <div className="Main">
