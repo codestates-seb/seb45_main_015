@@ -65,12 +65,22 @@ public class ItemController {
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
-    //나의 거래 페이지 내가 올린 물품의 전체 목록
-    @GetMapping("/my-item")
-    public ResponseEntity getMyItems(@RequestParam("page_number") int pageNumber,
-                                     @RequestParam("page_size") int pageSize,
-                                     @RequestParam("member_id") Long memberId) {
+    //나의 거래 페이지에서 내가 구매하거나 판매한 물품의 전체 목록
+    @GetMapping("/my-item/home")
+    public ResponseEntity getMyItemsHome(@RequestParam("page_number") int pageNumber,
+                                         @RequestParam("page_size") int pageSize,
+                                         @RequestParam("member_id") Long memberId) {
         ItemDto.MultiResponseDto multiResponseDto = itemService.findMyItems(pageNumber, pageSize, memberId);
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
+    }
+
+    //나의 거래 페이지에서 내가 등록한 판매 물품의 전체 목록
+    @GetMapping("/my-item/sells")
+    public ResponseEntity getMySellItems(@RequestParam("page_number") int pageNumber,
+                                         @RequestParam("page_size") int pageSize,
+                                         @RequestParam("seller_id") Long sellerId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findMySellItems(pageNumber, pageSize, sellerId);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
@@ -97,13 +107,24 @@ public class ItemController {
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
-    //마이페이지의 나의 거래 상태별 목록
-    @GetMapping("/status")
+    //마이페이지의 내가 등록한 물품의 상태별 목록
+    @GetMapping("/my-item/status")
     public ResponseEntity getItemsByStatus(@RequestParam("page_number") int pageNumber,
                                            @RequestParam("page_size") int pageSize,
                                            @RequestParam("item_status") String itemStatus,
                                            @RequestParam("seller_id") Long sellerId) {
-        ItemDto.MultiResponseDto multiResponseDto = itemService.findItemsByStatus(pageNumber, pageSize, itemStatus, sellerId);
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findSellItemsByStatus(pageNumber, pageSize, itemStatus, sellerId);
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
+    }
+
+    //마이페이지의 내가 등록하거나 구매중인 거래중, 거래완료 상태의 물품 목록
+    @GetMapping("/my-item/trade")
+    public ResponseEntity getMyItemsByStatus(@RequestParam("page_number") int pageNumber,
+                                             @RequestParam("page_size") int pageSize,
+                                             @RequestParam("item_status") String itemStatus,
+                                             @RequestParam("member_id") Long memberId) {
+        ItemDto.MultiResponseDto multiResponseDto = itemService.findSellAndBuyItemsByStatus(pageNumber, pageSize, itemStatus, memberId);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }

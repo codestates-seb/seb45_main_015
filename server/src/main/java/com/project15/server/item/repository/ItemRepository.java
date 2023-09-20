@@ -27,7 +27,14 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
 
     Page<Item> findBySellerMemberIdAndStatus(Long sellerId, ItemStatus itemStatus, Pageable pageable);
 
+    Page<Item> findBySellerMemberIdOrBuyerMemberId(Long sellerId, Long buyerId, Pageable pageable);
+
+    @Query("SELECT i FROM Item i WHERE (i.seller.memberId = :sellerId OR i.buyer.memberId = :buyerId) AND i.status = :itemStatus")
+    Page<Item> findBySellerMemberIdOrBuyerMemberIdAndStatus(Long sellerId, Long buyerId, ItemStatus itemStatus, Pageable pageable);
+
     Page<Item> findBySellerMemberId(Long sellerId, Pageable pageable);
+
+    Page<Item> findByBuyerMemberIdAndStatus(Long buyerId, ItemStatus itemStatus, Pageable pageable);
 
     @Query("SELECT i FROM Item AS i WHERE i.content LIKE %:searchKeyword%")
     Page<Item> findByTitleContaining(@Param("searchKeyword") String searchKeyword, Pageable pageable);

@@ -24,7 +24,9 @@ public interface ItemService {
 
     ItemDto.MultiResponseDto findItemsByCategory(int pageNumber, int pageSize, Long categoryId, Long watcherId);
 
-    ItemDto.MultiResponseDto findItemsByStatus(int pageNumber, int pageSize, String status, Long sellerId);
+    ItemDto.MultiResponseDto findSellItemsByStatus(int pageNumber, int pageSize, String status, Long sellerId);
+
+    ItemDto.MultiResponseDto findSellAndBuyItemsByStatus(int pageNumber, int pageSize, String itemStatus, Long memberId);
 
     ItemDto.MultiResponseDto findItemsByKeyword(int pageNumber, int pageSize, String keyword, Long watcherId);
 

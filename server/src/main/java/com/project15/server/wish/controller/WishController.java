@@ -28,7 +28,7 @@ public class WishController {
     public HttpStatus postWish(@PathVariable("item-id") Long itemId,
                                @PathVariable("member-id") Long memberId) {
         Wish wish = wishMapper.postToWish(itemId, memberId);
-        wishService.createWish(wish);
+        wishService.createWish(wish, itemId);
 
         return HttpStatus.OK;
     }

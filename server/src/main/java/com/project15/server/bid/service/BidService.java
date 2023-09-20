@@ -12,4 +12,6 @@ public interface BidService {
     ItemDto.ResponseDto createBid(Bid bid, Long itemId);
 
     ItemDto.ResponseDto buyNow(Long buyerId, Long itemId);
+
+    ItemDto.MultiResponseDto findMyBids(int pageNumber, int pageSize, Long buyerId);
 }
