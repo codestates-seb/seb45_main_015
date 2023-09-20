@@ -12,20 +12,28 @@ import com.project15.server.item.repository.ItemRepository;
 import com.project15.server.member.entity.Member;
 import com.project15.server.member.repository.MemberRepository;
 import com.project15.server.member.service.MemberService;
+import com.project15.server.wish.entity.Wish;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class BidServiceImpl implements BidService {
+    final String ITEM_STATUS_BIDDING = "BIDDING";
 
     private final BidRepository bidRepository;
 
@@ -103,6 +111,7 @@ public class BidServiceImpl implements BidService {
         }
     }
 
+    @Override
     @CachePut(value = "itemCache", key = "#itemId", cacheManager = "cacheManager")
     public ItemDto.ResponseDto buyNow(Long buyerId, Long itemId) {
         Item findItem = itemRepository.findWithIdForUpdate(itemId)
@@ -122,5 +131,35 @@ public class BidServiceImpl implements BidService {
         findItem.setEndTime(setTime);
 
         return itemMapper.itemToResponseDto(findItem, null);
+    }
+
+    @Override
+    public ItemDto.MultiResponseDto findMyBids(int pageNumber, int pageSize, Long buyerId) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
+
+        Page<Item> itemPage = itemRepository.findByBuyerMemberIdAndStatus(buyerId, ItemStatus.BIDDING, pageable);
+
+        Member findMember;
+        List<Wish> wishes;
+        List<Long> itemIds;
+
+        //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
+        if(buyerId == null) {
+            itemIds = null;
+        }
+        else {
+            findMember = memberRepository
+                    .findById(buyerId)
+                    .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
+
+            wishes = findMember.getWishes();
+            itemIds = wishes.stream()
+                    .map(wish -> wish.getItem().getItemId())
+                    .collect(Collectors.toList());
+        }
+
+        ItemDto.MultiResponseDto responseDto = itemMapper.itemPageToMultiResponseDto(itemPage, itemIds);
+
+        return responseDto;
     }
 }

@@ -84,6 +84,7 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public ItemDto.ResponseDto createItem(Item item, int dateUntilEnd) {
         Item savedItem = itemRepository.save(item);
+        itemRepository.flush();
 
         //10보다 큰 값으로 들어온 end_time 은 추후 테스트 시현을 위한 초 단위 이므로 따로 초에 더해줌
         LocalDateTime endTime = checkDateUntilEndIsDayOrSec(savedItem.getCreatedAt(), dateUntilEnd);
@@ -154,9 +155,39 @@ public class ItemServiceImpl implements ItemService{
         return itemMapper.itemPageToMultiResponseDto(itemPage, itemIds);
     }
 
+    public ItemDto.MultiResponseDto findMySellItems(int pageNumber, int pageSize, Long sellerId) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
+        Page<Item> itemPage = itemRepository.findBySellerMemberId(sellerId, pageable);
+
+        Member findMember;
+        List<Wish> wishes;
+        List<Long> itemIds;
+
+        //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
+        if(sellerId == null) {
+            itemIds = null;
+        }
+        else {
+            findMember = memberRepository
+                    .findById(sellerId)
+                    .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
+
+            wishes = findMember.getWishes();
+            itemIds = wishes.stream()
+                    .map(wish -> wish.getItem().getItemId())
+                    .collect(Collectors.toList());
+        }
+
+        itemPage.getContent().stream()
+                .filter(item -> isStatusBidding(item.getCreatedAt()) && item.getStatus().equals(ItemStatus.WAITING))
+                .forEach(item -> item.setStatus(ItemStatus.BIDDING));
+
+        return itemMapper.itemPageToMultiResponseDto(itemPage, itemIds);
+    }
+
     public ItemDto.MultiResponseDto findMyItems(int pageNumber, int pageSize, Long memberId) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
-        Page<Item> itemPage = itemRepository.findBySellerMemberId(memberId, pageable);
+        Page<Item> itemPage = itemRepository.findBySellerMemberIdOrBuyerMemberId(memberId, memberId, pageable);
 
         Member findMember;
         List<Wish> wishes;
@@ -216,7 +247,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public ItemDto.MultiResponseDto findItemsByStatus(int pageNumber, int pageSize, String itemStatus, Long sellerId) {
+    public ItemDto.MultiResponseDto findSellItemsByStatus(int pageNumber, int pageSize, String itemStatus, Long sellerId) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
         Page<Item> itemPage = itemRepository.findBySellerMemberIdAndStatus(sellerId, ItemStatus.valueOf(itemStatus), pageable);
 
@@ -231,6 +262,37 @@ public class ItemServiceImpl implements ItemService{
         else {
             findMember = memberRepository
                     .findById(sellerId)
+                    .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
+
+            wishes = findMember.getWishes();
+            itemIds = wishes.stream()
+                    .map(wish -> wish.getItem().getItemId())
+                    .collect(Collectors.toList());
+        }
+
+        itemPage.getContent().stream()
+                .filter(item -> isStatusBidding(item.getCreatedAt()) && item.getStatus().equals(ItemStatus.WAITING))
+                .forEach(item -> item.setStatus(ItemStatus.BIDDING));
+
+        return itemMapper.itemPageToMultiResponseDto(itemPage, itemIds);
+    }
+
+    @Override
+    public ItemDto.MultiResponseDto findSellAndBuyItemsByStatus(int pageNumber, int pageSize, String itemStatus, Long memberId) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
+        Page<Item> itemPage = itemRepository.findBySellerMemberIdOrBuyerMemberIdAndStatus(memberId, memberId, ItemStatus.valueOf(itemStatus), pageable);
+
+        Member findMember;
+        List<Wish> wishes;
+        List<Long> itemIds;
+
+        //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
+        if(memberId == null) {
+            itemIds = null;
+        }
+        else {
+            findMember = memberRepository
+                    .findById(memberId)
                     .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
 
             wishes = findMember.getWishes();

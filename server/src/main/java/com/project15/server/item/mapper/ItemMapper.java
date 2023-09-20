@@ -27,7 +27,6 @@ public class ItemMapper {
             item.setCategory(postDto.getCategory_id());
             item.setStartPrice(postDto.getStart_price());
             item.setBidUnit(postDto.getBid_unit());
-            item.setStartPrice(postDto.getStart_price());
             item.setBuyNowPrice(postDto.getBuy_now_price());
             item.setSeller(postDto.getSeller_id());
 
