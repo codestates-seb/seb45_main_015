@@ -38,7 +38,6 @@ export const useAxiosRequestWithAuth = () => {
         // 추출한 멤버아이디 로컬에 저장
         localStorage.setItem("memberId", memberId.toString());
         localStorage.setItem("token", token);
-        localStorage.setItem("login", "ok");
       }
       return config;
     },
@@ -51,7 +50,7 @@ export const useAxiosRequestWithAuth = () => {
 
   axiosInstance.interceptors.response.use(
     response => {
-      if (response.data && response.data.token) {
+      if (response.data.token) {
         setCookie("jwt", response.data.token);
       }
       return response;

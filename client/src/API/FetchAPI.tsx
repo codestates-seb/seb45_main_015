@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import {
   FindPWData,
@@ -72,8 +73,10 @@ export const useLogout = () => {
   const memberId = localStorage.getItem("memberId");
   const token = localStorage.getItem("token");
   const navigator = useNavigate();
+  const [removeCookie] = useCookies(["jwt"]);
 
-  const logOutData = { token: token, member_id: memberId };
+  const logOutData = { token: token, member_id: parseInt(memberId as string) };
+
   const logout = async () => {
     const response = await req.post(`/members/logout/${memberId}`, logOutData);
   };
@@ -81,8 +84,8 @@ export const useLogout = () => {
   const mutation = useMutation(logout, {
     onSuccess(data) {
       localStorage.removeItem("memberId");
-      localStorage.removeItem("login");
       localStorage.removeItem("token");
+      // removeCookie(["jwt"]);
       navigator("/login");
     },
     onError(error) {
@@ -452,22 +455,56 @@ export const searchItem = async (keyWord: string, page: number) => {
 
 // FIXME
 // 나의 거래목록 불러오기 ///////////////////////////////////////////
-export const useMyTrade = () => {
+export const useMyTrade = (tradeStatus: string) => {
   const req = useAxiosRequestWithAuth();
   const memberId = localStorage.getItem("memberId");
-  const status_code = "상태코드";
 
+  let converResult = "";
+  const convertStatusEng = (status: string) => {
+    switch (status) {
+      case "경매대기중":
+        converResult = "WAITING";
+        break;
+      case "입찰 진행중":
+        converResult = "BIDDING";
+        break;
+      case "거래중":
+        converResult = "TRADING";
+        break;
+      case "유찰된 물품":
+        converResult = "FAILED";
+        break;
+      case "거래완료":
+        converResult = "CLOSED";
+        break;
+      default:
+        converResult = "";
+    }
+    return converResult;
+  };
+
+  // NOTE : 배포전에 이 코드로 교체
   // const tradeEndPoint = `/items/my-item?page_number=1&page_size=2&member_id=${memberId}`;
-  const tradeEndPoint = `/items/my-item?page_number=1&page_size=2&member_id=1`;
-  // `/items/status?page_number=1&page_size=2&item_status=${status_code}&seller_id=1`
-  const fetchMyTrade = async () => {
+
+  const fetchMyTrade = async (tradeStatus: string) => {
+    const tradeEndPoint =
+      convertStatusEng(tradeStatus) === ""
+        ? `/items/my-item?page_number=1&page_size=2&member_id=1`
+        : `/items/status?page_number=1&page_size=2&item_status=${converResult}&seller_id=1`;
+
+    console.log(`converResult 영어: ${converResult}`);
+    // FIXME : 이게 한글임.
+    console.log(`tradeStatus 한글: ${tradeStatus}`);
+
     try {
       const response = await req.get(tradeEndPoint);
       return response.data;
     } catch (error) {}
   };
 
-  const query = useQuery(["tradeData"], fetchMyTrade);
+  const query = useQuery(["tradeData", tradeStatus], () =>
+    fetchMyTrade(tradeStatus),
+  );
   return query;
 };
 

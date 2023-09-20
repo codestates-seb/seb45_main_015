@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleLoginBtn from "../components/GoogleLogin";
 
@@ -15,14 +15,17 @@ import {
 } from "./page_style/LoginPage_styled";
 import { LargeButtonB } from "../components/ButtonComponent";
 import Loading from "../loading/Loading";
+import { LoginStateContext } from "../context/LoginStateContext";
 
 const LoginPage: React.FC = () => {
   const navigator = useNavigate();
+  const { setIsLogin } = useContext(LoginStateContext);
+
   // 데이터 유효성 검사 훅
   const { emailMessage, passwordMessage, userInfo, setUserInfo, inputHandler } =
     useInputValidate({ email: "", password: "" });
 
-  const { mutate, isLoading } = useLogin(userInfo);
+  const { mutate, status, isLoading } = useLogin(userInfo);
 
   const guestLoginMutation = useGuestLogin();
 
@@ -30,6 +33,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     if (inputHandler(userInfo).loginPage) {
       mutate();
+      setIsLogin?.(true);
     }
   };
 

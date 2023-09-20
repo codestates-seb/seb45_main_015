@@ -12,18 +12,23 @@ import Loading from "../loading/Loading";
 import { MyTradeType } from "../type/type";
 
 const MyTrade: React.FC = () => {
-  const { data, isLoading } = useMyTrade();
+  const [tradeStatus, setTradeStatus] = useState("");
+  const { data, isLoading } = useMyTrade(tradeStatus);
+  console.log(tradeStatus);
 
   return (
     <TradePageContainer>
-      <TradeNav />
+      <TradeNav statusChanger={setTradeStatus} />
       <TradeList>
         <TradeTitle>나의 거래</TradeTitle>
-        {isLoading ? (
-          <h1>거래한 내역이 없습니다</h1>
-        ) : (
-          data.items.map((item: any) => <ItemListCard {...item} />)
-        )}
+        <div id="trade-list-contents">
+          {/* FIXME : KEY 추가 */}
+          {isLoading ? (
+            <h1>거래한 내역이 없습니다</h1>
+          ) : (
+            data.items.map((item: any) => <ItemListCard {...item} />)
+          )}
+        </div>
       </TradeList>
     </TradePageContainer>
   );
