@@ -48,6 +48,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -75,8 +76,7 @@ public class SecurityConfig {
                 .antMatchers("/items").permitAll()
                 .antMatchers("/items/categories").permitAll()
                 .antMatchers("/items/search").permitAll()
-
-
+                .antMatchers("/categories").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider))
