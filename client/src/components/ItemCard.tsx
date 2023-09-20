@@ -43,6 +43,7 @@ interface wishesItemCardProps {
 
 interface ItemCardProps {
   cardData: {
+    seller_nickname: string;
     member_id: number;
     member_nickname: string;
     item_id: number;
@@ -139,7 +140,7 @@ export function ItemCard({
             <Wrapper className="itemCard-product-seller">
               <Text className="itemCard-product-key">판매자명</Text>
               <Text className="itemCard-product-value">
-                {cardData.member_nickname}
+                {cardData.seller_nickname}
               </Text>
             </Wrapper>
             <Wrapper>
@@ -163,8 +164,6 @@ export function DeleteItemCard({
   handledAddOrDeleteId, // 선택모드에서 카드 선택 추가
   checkList, // 현재 선택되어있는 카드들 [1,2,3,4]
 }: wishesItemCardProps) {
-  const [isCheck, setIsCheck] = useState(false);
-
   //------X눌러서 찜목록 삭제
   const DeleteData = async () => {
     const result = await deleteItem([cardData.item_id]);
@@ -182,13 +181,9 @@ export function DeleteItemCard({
   //--------선택모드일때 카드 눌러서 선택
   const handleCheckButtonClick = () => {
     handledAddOrDeleteId(cardData.item_id);
-    setIsCheck(!isCheck);
   };
   return (
-    <Container
-      onClick={selectMode ? handleCheckButtonClick : undefined}
-      isCheck={selectMode && isCheck ? true : false}
-    >
+    <Container onClick={selectMode ? handleCheckButtonClick : undefined}>
       <ImgContainer>
         <img src={`${cardData.item_image_urls[0]}`} />
         {buttonOption === "select" || buttonOption === "allSelect" ? (
