@@ -13,6 +13,8 @@ import axios from "../images/axios.png";
 import query from "../images/react-query.png";
 import prettier from "../images/Prettier.png";
 import eslint from "../images/ESLint.png";
+import redis from "../images/redis.png";
+import jwt from "../images/jwt.png";
 
 const LandingMiddle = () => {
   return (
@@ -32,8 +34,8 @@ const LandingMiddle = () => {
           </div>
           <div className="BEskill">
             <div className="itemBox">
-              <img src={java} alt="JAVA" />
-              <p>JAVA</p>
+              <img src={spring} alt="Spring" />
+              <p>Spring</p>
             </div>
             <div className="itemBox">
               <img src={boot} alt="Spring Boot" />
@@ -44,6 +46,10 @@ const LandingMiddle = () => {
               <p>Spring Security</p>
             </div>
             <div className="itemBox">
+              <img src={redis} alt="REDIS" />
+              <p>Redis</p>
+            </div>
+            <div className="itemBox">
               <img src={aws} alt="AWS" />
               <p>AWS</p>
             </div>
@@ -52,8 +58,12 @@ const LandingMiddle = () => {
               <p>MySQL</p>
             </div>
             <div className="itemBox">
-              <img src={spring} alt="Spring" />
-              <p>Spring</p>
+              <img src={java} alt="JAVA" />
+              <p>JAVA</p>
+            </div>
+            <div className="itemBox">
+              <img src={jwt} alt="JWT" />
+              <p>JWT</p>
             </div>
           </div>
         </div>
@@ -87,7 +97,7 @@ const LandingMiddle = () => {
             </div>
             <div className="itemBox">
               <img src={query} alt="React-Query" />
-              <p>React=Query</p>
+              <p>React-Query</p>
             </div>
             <div className="itemBox">
               <img src={eslint} alt="ESLint" />
