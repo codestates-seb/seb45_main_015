@@ -2,6 +2,7 @@ import axios from "axios";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import jwtDecode from "jwt-decode";
 
 import {
   FindPWData,
@@ -15,6 +16,13 @@ import {
   ItemBuyNowField,
 } from "../type/type";
 import { useAxiosRequestWithAuth } from "../Aixosinterceptor";
+
+type DecodeToken = {
+  auth: any;
+  nickname: string;
+  memberId: number;
+  exp: number;
+};
 
 // 회원가입 ////////////////////////////////////////////
 export const useSignup = (userData: SignupData) => {
@@ -48,32 +56,63 @@ export const useSignup = (userData: SignupData) => {
 
 // 로그인 ////////////////////////////////////////////
 export const useLogin = (data: LoginData) => {
-  const req = useAxiosRequestWithAuth();
   const navigator = useNavigate();
+  const [cookies, setCookie] = useCookies(["jwt"]);
 
-  const login = async () => {
-    await req.post("/members/login", data);
+  const handleLoginSuccess = (token: string) => {
+    // 토큰 저장 (보안 고려 필요)
+    setCookie("jwt", token);
+    // 토큰에서 멤버아이디 추출
+    const decodeToken: DecodeToken = jwtDecode(cookies.jwt);
+    const memberId = decodeToken.memberId;
+
+    // 추출한 멤버아이디 로컬에 저장
+    localStorage.setItem("memberId", memberId.toString());
+    localStorage.setItem("token", token);
+
+    // 페이지 리다이렉션
+    navigator("/allList");
   };
 
-  const { status, mutate, isLoading, isError } = useMutation(login, {
-    onSuccess(data) {
-      navigator("/allList");
-      console.log(`[mutation] 로그인 성공: ${data}`);
-    },
-    onError(error) {
-      console.log(`[mutation] 로그인 실패: ${error}`);
-    },
-  });
-  return { data, status, mutate, isLoading, isError };
+  const handleLoginError = (error: string) => {
+    // 에러 처리 (예: 오류 메시지 표시)
+    console.error("로그인 실패:", error);
+    // 사용자에게 에러 메시지 표시 등 추가 처리 필요
+  };
+
+  const login = async () => {
+    try {
+      const response = await axios.post(
+        "http://15.164.84.204:8080/members/login",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const { token } = response.data;
+      // 로그인 성공 시 처리
+      handleLoginSuccess(token);
+    } catch (error) {
+      // 에러 처리
+      handleLoginError(error);
+    }
+  };
+
+  return login;
 };
 
 // 로그아웃 ////////////////////////////////////////////
 export const useLogout = () => {
   const req = useAxiosRequestWithAuth();
+
+  const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
+
   const memberId = localStorage.getItem("memberId");
   const token = localStorage.getItem("token");
+
   const navigator = useNavigate();
-  const [removeCookie] = useCookies(["jwt"]);
 
   const logOutData = { token: token, member_id: parseInt(memberId as string) };
 
@@ -85,7 +124,7 @@ export const useLogout = () => {
     onSuccess(data) {
       localStorage.removeItem("memberId");
       localStorage.removeItem("token");
-      // removeCookie(["jwt"]);
+      removeCookie("jwt");
       navigator("/login");
     },
     onError(error) {

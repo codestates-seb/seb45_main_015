@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useRef, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
@@ -37,8 +37,7 @@ function Header() {
   const [hamburgerdropDown, setHamburgerDropDown] = useState(false);
   const [keyWord, setKeyWord] = useState("");
   const navigate = useNavigate();
-
-  const { isLogin } = useContext(LoginStateContext);
+  const { currentLogin } = useContext(LoginStateContext);
 
   const handleShowMypageDropDown = () => {
     setMypageDropDown(true);
@@ -106,7 +105,7 @@ function Header() {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </Button>
             )}
-            {isLogin ? (
+            {currentLogin.current ? (
               <>
                 <Button className="header-icon">
                   <Link to="/favorite">
@@ -148,7 +147,9 @@ function Header() {
         {searchdropDown && (
           <HeaderSearchDropDown handleSearchDropDown={handleSearchDropDown} />
         )}
-        {hamburgerdropDown && <HeaderHamburgerDropDown />}
+        {hamburgerdropDown && (
+          <HeaderHamburgerDropDown loginState={currentLogin.current} />
+        )}
       </HeaderContainer>
     </Container>
   );

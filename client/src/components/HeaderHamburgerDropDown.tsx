@@ -5,10 +5,16 @@ import {
   Container,
   HamburgerContainer,
 } from "./components_style/HeaderHamburgerDropDown_styled";
+import { useLogout } from "../API/FetchAPI";
 import { LoginStateContext } from "../context/LoginStateContext";
 
-function HeaderHamburgerDropDown() {
-  const { isLogin, setIsLogin } = useContext(LoginStateContext);
+type LoginType = {
+  loginState: boolean;
+};
+
+function HeaderHamburgerDropDown({ loginState }: LoginType) {
+  const mutation = useLogout();
+  const { currentLogin } = useContext(LoginStateContext);
 
   return (
     <Container>
@@ -25,14 +31,19 @@ function HeaderHamburgerDropDown() {
         <Button>
           <Link to="/favorite">찜목록</Link>
         </Button>
-        {isLogin ? (
+        {loginState ? (
           <>
             <Button>
               <Link to="/mypage">마이페이지</Link>
             </Button>
-            <Button>
+            <Button
+              onClick={() => {
+                mutation.mutate();
+                currentLogin.current = false;
+              }}
+            >
               {/* 로그아웃 함수 추가 */}
-              <Link to="/">로그아웃</Link>
+              로그아웃
             </Button>
           </>
         ) : (
