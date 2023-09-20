@@ -203,7 +203,7 @@ export const fetchItemDetail = async (itemId: number, watcherId?: number) => {
     const response = await axios({
       method: "get",
       url: `http://15.164.84.204:8080/items/${itemId}?page_number=1&page_size=2${
-        watcherId && `&watcher_id=${watcherId}`
+        watcherId ? `&watcher_id=${watcherId}` : ""
       }`,
       headers: {
         "Content-Type": "application/json",

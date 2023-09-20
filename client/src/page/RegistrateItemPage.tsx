@@ -300,7 +300,6 @@ function RegistrateItemPage() {
 
     setTotalItemInfo(requestData);
     setSpecification(true);
-    console.log(totalItemInfo);
   };
 
   return (

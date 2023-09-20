@@ -42,7 +42,10 @@ const App: React.FC = () => {
           </Routes>
         </div>
         <SupportButton />
-        <Footer />
+        {window.location.pathname !== "/login" &&
+          window.location.pathname !== "/signup" &&
+          window.location.pathname !== "/find-password" &&
+          window.location.pathname !== "/change-password" && <Footer />}
       </BrowserRouter>
     </div>
   );

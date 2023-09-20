@@ -20,7 +20,6 @@ import HeaderDropDown from "./HeaderDropDown";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/LogoImg.png";
-
 import HeaderSearchDropDown from "./HeaderSearchDropDown";
 import HeaderHamburgerDropDown from "./HeaderHamburgerDropDown";
 
@@ -91,7 +90,7 @@ function Header() {
             <SearchForm>
               <Search
                 type="text"
-                placeholder="제목 검색"
+                placeholder="검색"
                 value={keyWord}
                 onChange={e => setKeyWord(e.target.value)}
                 onKeyDown={handleKeyPress}

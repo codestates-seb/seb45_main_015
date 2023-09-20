@@ -104,16 +104,19 @@ export function ItemCard({
 
   return (
     <Container>
-      <ImgContainer>
-        <img src={`${cardData.item_image_urls[0]}`} />
-        <Icon
-          className={state ? "favorite-on" : "favorite-off"}
-          onClick={state ? handleFavoriteDelete : handleFavoriteAdd}
-        >
-          <FontAwesomeIcon icon={faHeart} />
-        </Icon>
-      </ImgContainer>
       <Link to={`/item/${cardData.item_id}`}>
+        <ImgContainer>
+          <img src={`${cardData.item_image_urls[0]}`} />
+          <Icon
+            className={state ? "favorite-on" : "favorite-off"}
+            onClick={e => {
+              e.preventDefault();
+              state ? handleFavoriteDelete() : handleFavoriteAdd();
+            }}
+          >
+            <FontAwesomeIcon icon={faHeart} />
+          </Icon>
+        </ImgContainer>
         <InfoContainer>
           <InfoWrapper>
             <Text className="itemCard-product-name">
