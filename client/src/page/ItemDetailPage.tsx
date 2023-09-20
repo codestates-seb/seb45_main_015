@@ -20,7 +20,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  deleteItem,
   fetchItemDetail,
+  postItem,
   postItemDetailBid,
   postItemDetailBuyNow,
 } from "../API/FetchAPI";
@@ -78,6 +80,8 @@ function ItemDetailPage() {
       clearInterval(interval);
     };
   }, [data, isLoading]);
+
+  console.log(data);
 
   if (isLoading) {
     return <Loading />;
@@ -138,6 +142,15 @@ function ItemDetailPage() {
         buyer_id: Number(memberId),
       };
       postItemDetailBuyNow(buyNowData);
+    }
+  };
+
+  const handleIsfavoriteButton = () => {
+    console.log(data.item_id);
+    if (data.in_wish_list) {
+      deleteItem([Number(data.item_id)]);
+    } else if (!data.in_wish_list) {
+      postItem(Number(data.item_id));
     }
   };
 
@@ -222,36 +235,42 @@ function ItemDetailPage() {
                 </Wrapper>
               )}
             </Content>
-            {data.status === "BIDDING" && (
-              <Content className="detail-button-content">
-                <Wrapper className="space-between">
-                  {Number(data.buyer_id) !== Number(memberId) ? (
-                    <ButtonWrapper
-                      className="margin-right"
-                      onClick={handleBidButton}
-                    >
-                      <LargeButtonA value="입찰하기" />
+            {data.status === "BIDDING" &&
+              remainingTimeString === "0일 0시간 0분 0초" && (
+                <Content className="detail-button-content">
+                  <Wrapper className="space-between">
+                    {Number(data.buyer_id) !== Number(memberId) ? (
+                      <ButtonWrapper
+                        className="margin-right"
+                        onClick={handleBidButton}
+                      >
+                        <LargeButtonA value="입찰하기" />
+                      </ButtonWrapper>
+                    ) : (
+                      <ButtonWrapper
+                        className="margin-right top-bid-button"
+                        onClick={handleBidButton}
+                      >
+                        <LargeButtonA value="추가 입찰하기" />
+                      </ButtonWrapper>
+                    )}
+                    <ButtonWrapper onClick={handleBuyNowButton}>
+                      <LargeButtonA value="즉시구매" />
                     </ButtonWrapper>
-                  ) : (
-                    <ButtonWrapper
-                      className="margin-right top-bid-button"
-                      onClick={handleBidButton}
-                    >
-                      <LargeButtonA value="추가 입찰하기" />
-                    </ButtonWrapper>
-                  )}
-                  <ButtonWrapper onClick={handleBuyNowButton}>
-                    <LargeButtonA value="즉시구매" />
+                  </Wrapper>
+                  <ButtonWrapper
+                    className="margin-top"
+                    onClick={handleIsfavoriteButton}
+                  >
+                    <LargeButtonC
+                      value={data.in_wish_list ? "찜 해제하기" : "찜하기"}
+                    />
                   </ButtonWrapper>
-                </Wrapper>
-                <ButtonWrapper className="margin-top">
-                  <LargeButtonC value="찜하기" />
-                </ButtonWrapper>
-                {/* <ButtonWrapper className="margin-top">
+                  {/* <ButtonWrapper className="margin-top">
                 <LargeButtonC value="수정하기" />
               </ButtonWrapper> */}
-              </Content>
-            )}
+                </Content>
+              )}
           </ContentSection>
         </ItemDetailContent>
         <ItemDetailContent className="column">
