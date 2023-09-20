@@ -18,7 +18,7 @@ export const RegistrateContent = styled.div`
 export const Title = styled.h1`
   margin: 0;
   white-space: nowrap;
-  font-size: 48px;
+  font-size: 38px;
   margin-bottom: 52px;
 `;
 

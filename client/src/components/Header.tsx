@@ -87,7 +87,7 @@ function Header() {
             <SearchForm>
               <Search
                 type="text"
-                placeholder="제목 검색"
+                placeholder="검색"
                 value={keyWord}
                 onChange={e => setKeyWord(e.target.value)}
                 onKeyDown={handleKeyPress}

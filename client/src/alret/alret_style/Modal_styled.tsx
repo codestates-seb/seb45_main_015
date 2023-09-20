@@ -2,12 +2,16 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: transparent;
-  z-index: 999;
+  z-index: 1004;
+  background-color: #00000025;
 `;
 
 export const Content = styled.div`
@@ -74,8 +78,8 @@ export const Button = styled.button`
 
   &.modal-cancel {
     margin-left: 11px;
-    border: solid 1px #bcbfc2;
+    border: solid 2px #0064ff;
     background-color: #fff;
-    color: #000;
+    color: #0064ff;
   }
 `;

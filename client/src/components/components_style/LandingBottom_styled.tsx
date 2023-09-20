@@ -38,7 +38,7 @@ export const LandingBottomBox = styled.div`
       transition: 500ms;
     }
     @media (min-width: 1485px) {
-      grid-template-columns: repeat(3, auto);
+      grid-template-columns: repeat(4, auto);
       transition: 500ms;
     }
   }

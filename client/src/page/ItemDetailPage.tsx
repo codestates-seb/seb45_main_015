@@ -20,7 +20,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  deleteItem,
   fetchItemDetail,
+  postItem,
   postItemDetailBid,
   postItemDetailBuyNow,
 } from "../API/FetchAPI";
@@ -39,8 +41,6 @@ function ItemDetailPage() {
   const [remainingTimeString, setRemainingTimeString] = useState<string>("");
   const [isAuctionEnded, setIsAuctionEnded] = useState<boolean>(false);
   const memberId = localStorage.getItem("memberId");
-
-  console.log(memberId);
 
   const { data, isLoading } = useQuery(
     ["itemDetail", itemId],
@@ -81,10 +81,11 @@ function ItemDetailPage() {
     };
   }, [data, isLoading]);
 
+  console.log(data);
+
   if (isLoading) {
     return <Loading />;
   }
-  console.log(data);
 
   const handleChangeMainImage = (index: number) => {
     setMainImage(index);
@@ -141,7 +142,15 @@ function ItemDetailPage() {
         buyer_id: Number(memberId),
       };
       postItemDetailBuyNow(buyNowData);
-      console.log(buyNowData);
+    }
+  };
+
+  const handleIsfavoriteButton = () => {
+    console.log(data.item_id);
+    if (data.in_wish_list) {
+      deleteItem([Number(data.item_id)]);
+    } else if (!data.in_wish_list) {
+      postItem(Number(data.item_id));
     }
   };
 
@@ -185,7 +194,7 @@ function ItemDetailPage() {
                 <Text className="detail-title">{data.title}</Text>
               </Wrapper>
               <Wrapper className="space-between">
-                <Text className="detail-info-init">최저가</Text>
+                <Text className="detail-info-init">시작가격</Text>
                 <Text className="detail-info">
                   {data.start_price.toLocaleString()}원
                 </Text>
@@ -226,36 +235,42 @@ function ItemDetailPage() {
                 </Wrapper>
               )}
             </Content>
-            {data.status === "BIDDING" && (
-              <Content className="detail-button-content">
-                <Wrapper className="space-between">
-                  {Number(data.buyer_id) !== Number(memberId) ? (
-                    <ButtonWrapper
-                      className="margin-right"
-                      onClick={handleBidButton}
-                    >
-                      <LargeButtonA value="입찰하기" />
+            {data.status === "BIDDING" &&
+              remainingTimeString === "0일 0시간 0분 0초" && (
+                <Content className="detail-button-content">
+                  <Wrapper className="space-between">
+                    {Number(data.buyer_id) !== Number(memberId) ? (
+                      <ButtonWrapper
+                        className="margin-right"
+                        onClick={handleBidButton}
+                      >
+                        <LargeButtonA value="입찰하기" />
+                      </ButtonWrapper>
+                    ) : (
+                      <ButtonWrapper
+                        className="margin-right top-bid-button"
+                        onClick={handleBidButton}
+                      >
+                        <LargeButtonA value="추가 입찰하기" />
+                      </ButtonWrapper>
+                    )}
+                    <ButtonWrapper onClick={handleBuyNowButton}>
+                      <LargeButtonA value="즉시구매" />
                     </ButtonWrapper>
-                  ) : (
-                    <ButtonWrapper
-                      className="margin-right top-bid-button"
-                      onClick={handleBidButton}
-                    >
-                      <LargeButtonA value="추가 입찰하기" />
-                    </ButtonWrapper>
-                  )}
-                  <ButtonWrapper onClick={handleBuyNowButton}>
-                    <LargeButtonA value="즉시구매" />
+                  </Wrapper>
+                  <ButtonWrapper
+                    className="margin-top"
+                    onClick={handleIsfavoriteButton}
+                  >
+                    <LargeButtonC
+                      value={data.in_wish_list ? "찜 해제하기" : "찜하기"}
+                    />
                   </ButtonWrapper>
-                </Wrapper>
-                <ButtonWrapper className="margin-top">
-                  <LargeButtonC value="찜하기" />
-                </ButtonWrapper>
-                {/* <ButtonWrapper className="margin-top">
+                  {/* <ButtonWrapper className="margin-top">
                 <LargeButtonC value="수정하기" />
               </ButtonWrapper> */}
-              </Content>
-            )}
+                </Content>
+              )}
           </ContentSection>
         </ItemDetailContent>
         <ItemDetailContent className="column">
