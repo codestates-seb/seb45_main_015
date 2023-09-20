@@ -181,7 +181,7 @@ function ItemDetailPage() {
                 <Text className="detail-title">{data.title}</Text>
               </Wrapper>
               <Wrapper className="space-between">
-                <Text className="detail-info-init">최저가</Text>
+                <Text className="detail-info-init">시작가격</Text>
                 <Text className="detail-info">
                   {data.start_price.toLocaleString()}원
                 </Text>

@@ -188,10 +188,7 @@ export function DeleteItemCard({
     setIsCheck(!isCheck);
   };
   return (
-    <Container
-      onClick={selectMode ? handleCheckButtonClick : undefined}
-      isCheck={selectMode && isCheck ? true : false}
-    >
+    <Container onClick={selectMode ? handleCheckButtonClick : undefined}>
       <ImgContainer>
         <img src={`${cardData.item_image_urls[0]}`} />
         {buttonOption === "select" || buttonOption === "allSelect" ? (

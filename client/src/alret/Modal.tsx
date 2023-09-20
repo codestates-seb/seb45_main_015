@@ -43,9 +43,13 @@ function Modal({ mode, closeModal }: { mode: string; closeModal: () => void }) {
     setStar(index + 1);
   };
 
+  const handleBubbling = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
-    <Container>
-      <Content>
+    <Container onClick={closeModal}>
+      <Content onClick={handleBubbling}>
         <TextWrapper>
           <Text>
             {currentMode.text.split("\n").map((line, index) => (
@@ -71,9 +75,9 @@ function Modal({ mode, closeModal }: { mode: string; closeModal: () => void }) {
           <Button onClick={closeModal}>
             {currentMode.mode !== "registered" ? "확인" : "등록하기"}
           </Button>
-          {currentMode.mode !== "star" && (
-            <Button className="modal-cancel">취소</Button>
-          )}
+          <Button className="modal-cancel" onClick={closeModal}>
+            취소
+          </Button>
         </ButtonWrapper>
       </Content>
     </Container>
