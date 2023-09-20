@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import GoogleLoginBtn from "../components/GoogleLogin";
+import { useQueryClient } from "@tanstack/react-query";
 
+import GoogleLoginBtn from "../components/GoogleLogin";
 import { useSignup } from "../API/FetchAPI";
 import useInputValidate from "../hooks/InputValidata";
 import InputComponent from "../components/InputComponent";

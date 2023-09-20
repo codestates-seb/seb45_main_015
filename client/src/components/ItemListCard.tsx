@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 import {
   Button,
@@ -22,6 +20,34 @@ const ItemListCard: React.FC = (props: MyTradeType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   console.log(props);
+
+  const convertStatusKorean = (status: string) => {
+    let converResult = "";
+    switch (status) {
+      case "WAITING":
+        converResult = "경매대기중";
+        break;
+
+      case "BIDDING":
+        converResult = "입찰 진행중";
+        break;
+
+      case "TRADING":
+        converResult = "거래중";
+        break;
+
+      case "FAILED":
+        converResult = "유찰된 물품";
+        break;
+
+      case "CLOSED":
+        converResult = "거래완료";
+        break;
+      default:
+        console.log("default");
+    }
+    return converResult;
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -54,11 +80,11 @@ const ItemListCard: React.FC = (props: MyTradeType) => {
               <TextWrapper>
                 <Text className="itemListCard-product-key">거래상태</Text>
                 <Text className="itemListCard-product-value">
-                  {props.status ? props.status : ""}
+                  {props.status ? convertStatusKorean(props.status) : ""}
                 </Text>
               </TextWrapper>
               <TextWrapper>
-                <Text className="itemListCard-product-key">거래일자</Text>
+                <Text className="itemListCard-product-key">경매마감</Text>
                 <Text className="itemListCard-product-value">
                   {props.end_time ? props.end_time : ""}
                 </Text>
@@ -66,19 +92,19 @@ const ItemListCard: React.FC = (props: MyTradeType) => {
             </TextSection>
             <TextSection>
               <TextWrapper className="product-price-wrapper">
-                <Text className="itemListCard-product-key">최저가</Text>
+                <Text className="itemListCard-product-key">호가</Text>
                 <Text className="itemListCard-product-value">
-                  {props.start_price ? props.start_price : "0"}원
+                  {props.bid_unit ? props.bid_unit : "0"}원
                 </Text>
               </TextWrapper>
               <TextWrapper className="product-price-wrapper">
-                <Text className="itemListCard-product-key">입찰가</Text>
+                <Text className="itemListCard-product-key">현재가격</Text>
                 <Text className="itemListCard-product-value">
                   {props.current_price ? props.current_price : "0"}원
                 </Text>
               </TextWrapper>
               <TextWrapper className="product-price-wrapper">
-                <Text className="itemListCard-product-key">최고가</Text>
+                <Text className="itemListCard-product-key">즉시구매가</Text>
                 <Text className="itemListCard-product-value">
                   {props.buy_now_price ? props.buy_now_price : "0"}원
                 </Text>

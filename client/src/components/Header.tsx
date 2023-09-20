@@ -1,3 +1,9 @@
+import { useEffect, useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
+
 import {
   Container,
   LogoWrapper,
@@ -13,15 +19,11 @@ import {
   HamburgerWrapper,
   HeaderContainer,
 } from "./components_style/Header_styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
-import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import HeaderDropDown from "./HeaderDropDown";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/LogoImg.png";
 import HeaderSearchDropDown from "./HeaderSearchDropDown";
 import HeaderHamburgerDropDown from "./HeaderHamburgerDropDown";
+import { LoginStateContext } from "../context/LoginStateContext";
 
 const Nav = [
   { page: "둘러보기", router: "/allList" },
@@ -33,15 +35,10 @@ function Header() {
   const [mypagedropDown, setMypageDropDown] = useState(false);
   const [searchdropDown, setSearchDropDown] = useState(false);
   const [hamburgerdropDown, setHamburgerDropDown] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
   const [keyWord, setKeyWord] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    localStorage.getItem("login") === "ok"
-      ? setIsLogin(true)
-      : setIsLogin(false);
-  }, []);
+  const { isLogin } = useContext(LoginStateContext);
 
   const handleShowMypageDropDown = () => {
     setMypageDropDown(true);
