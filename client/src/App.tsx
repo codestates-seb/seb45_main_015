@@ -47,10 +47,7 @@ const App: React.FC = () => {
             </Routes>
           </div>
           <SupportButton />
-          {window.location.pathname !== "/login" &&
-            window.location.pathname !== "/signup" &&
-            window.location.pathname !== "/find-password" &&
-            window.location.pathname !== "/change-password" && <Footer />}
+          <Footer />
         </LoginStateContext.Provider>
       </BrowserRouter>
     </div>
