@@ -78,6 +78,8 @@ public class ItemServiceImpl implements ItemService{
 
         itemImages.forEach(itemImageRepository::save);
 
+        itemRepository.flush();
+
         return itemMapper.itemToResponseDto(findItem, null);
     }
 
@@ -87,7 +89,7 @@ public class ItemServiceImpl implements ItemService{
         itemRepository.flush();
 
         //10보다 큰 값으로 들어온 end_time 은 추후 테스트 시현을 위한 초 단위 이므로 따로 초에 더해줌
-        LocalDateTime endTime = checkDateUntilEndIsDayOrSec(savedItem.getCreatedAt(), dateUntilEnd);
+        LocalDateTime endTime = checkDateUntilEndIsDayOrSec(savedItem.getCreatedAt(), dateUntilEnd, savedItem);
 
         savedItem.setEndTime(endTime);
 
@@ -373,7 +375,7 @@ public class ItemServiceImpl implements ItemService{
         }
 
         if (patchDto.getEnd_time() != null) {
-            LocalDateTime endTime = checkDateUntilEndIsDayOrSec(findItem.getCreatedAt(), patchDto.getEnd_time());
+            LocalDateTime endTime = checkDateUntilEndIsDayOrSec(findItem.getCreatedAt(), patchDto.getEnd_time(), findItem);
 
             findItem.setEndTime(endTime);
         }
@@ -454,11 +456,12 @@ public class ItemServiceImpl implements ItemService{
         return false;
     }
 
-    private LocalDateTime checkDateUntilEndIsDayOrSec(LocalDateTime createdAt, int dateUntilEnd) {
+    private LocalDateTime checkDateUntilEndIsDayOrSec(LocalDateTime createdAt, int dateUntilEnd, Item item) {
         if(dateUntilEnd <= MAX_END_DATE) {
             return createdAt.plusDays(dateUntilEnd);
         }
         else {
+            item.setStatus(ItemStatus.BIDDING);
             return createdAt.plusMinutes(USED_BY_TEST_MIN);
         }
     }
