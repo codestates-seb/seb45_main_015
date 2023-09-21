@@ -16,15 +16,17 @@ public interface ItemService {
 
     ItemDto.ResponseDto createItem(Item item, int endTime);
 
-    ItemDto.ResponseDto findItem(Long itemId, Long memberId);
+    ItemDto.ResponseDto findItem(Long itemId, Long watcherId);
 
-    ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, Long memberId);
+    ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, Long watcherId);
 
-    ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, Long categoryId, Long memberId);
+    ItemDto.MultiResponseDto findMyItems(int pageNumber, int pageSize, Long memberId);
 
-    ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, String status, Long sellerId, Long memberId);
+    ItemDto.MultiResponseDto findItemsByCategory(int pageNumber, int pageSize, Long categoryId, Long watcherId);
 
-    ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, String keyword, Long memberId);
+    ItemDto.MultiResponseDto findItemsByStatus(int pageNumber, int pageSize, String status, Long sellerId);
+
+    ItemDto.MultiResponseDto findItemsByKeyword(int pageNumber, int pageSize, String keyword, Long watcherId);
 
     ItemDto.ResponseDto updateItem(ItemDto.PatchDto patchDto, Long itemId);
 

@@ -13,7 +13,6 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Authority {
-
     @Id
     private String authorityName;
 }

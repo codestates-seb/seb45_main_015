@@ -16,24 +16,13 @@ spring:
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
-
 logging:
-  pattern:
-    console: "%white([%d{yyyy-MM-dd HH:mm:ss}]) %yellow([%thread]) %highlight([%-5level]) %white([%-35logger{35}]) %white(%msg  %n)"
   level:
-    root:
-    jpa:
     org:
-      springframework:
-        orm:
-          jpa:
       hibernate:
         type:
           descriptor:
             sql: trace
-
-
-
 cloud:
   aws:
     credentials:

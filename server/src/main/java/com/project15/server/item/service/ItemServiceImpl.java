@@ -36,10 +36,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,14 +82,7 @@ public class ItemServiceImpl implements ItemService{
         Item savedItem = itemRepository.save(item);
 
         //10보다 큰 값으로 들어온 end_time 은 추후 테스트 시현을 위한 초 단위 이므로 따로 초에 더해줌
-        LocalDateTime endTime;
-
-        if(dateUntilEnd < 10) {
-            endTime = item.getCreatedAt().plusDays(dateUntilEnd);
-        }
-        else {
-            endTime = item.getCreatedAt().plusSeconds(dateUntilEnd);
-        }
+        LocalDateTime endTime = checkDateUntilEndIsDayOrSec(item.getCreatedAt(), dateUntilEnd);
 
         savedItem.setEndTime(endTime);
 
@@ -101,19 +91,19 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     @Cacheable(value = "itemCache", key = "#itemId", cacheManager = "cacheManager")
-    public ItemDto.ResponseDto findItem(Long itemId, Long memberId) {
+    public ItemDto.ResponseDto findItem(Long itemId, Long watcherId) {
         Item findItem = findVerifiedItem(itemId);
         Member findMember;
         List<Wish> wishes;
         List<Long> itemIds;
 
         //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
-        if(memberId == null) {
+        if(watcherId == null) {
             itemIds = null;
         }
         else {
             findMember = memberRepository
-                    .findById(memberId)
+                    .findById(watcherId)
                     .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
 
             wishes = findMember.getWishes();
@@ -130,7 +120,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, Long memberId) {
+    public ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, Long watcherId) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
         Page<Item> itemPage = itemRepository.findAll(pageable);
 
@@ -139,6 +129,36 @@ public class ItemServiceImpl implements ItemService{
         List<Long> itemIds;
 
         //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
+        if(watcherId == null) {
+            itemIds = null;
+        }
+        else {
+            findMember = memberRepository
+                    .findById(watcherId)
+                    .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
+
+            wishes = findMember.getWishes();
+            itemIds = wishes.stream()
+                    .map(wish -> wish.getItem().getItemId())
+                    .collect(Collectors.toList());
+        }
+
+        itemPage.getContent().stream()
+                .filter(item -> isStatusBidding(item.getCreatedAt()) && item.getStatus().equals(ItemStatus.WAITING))
+                .forEach(item -> item.setStatus(ItemStatus.BIDDING));
+
+        return itemMapper.itemPageToMultiResponseDto(itemPage, itemIds);
+    }
+
+    public ItemDto.MultiResponseDto findMyItems(int pageNumber, int pageSize, Long memberId) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
+        Page<Item> itemPage = itemRepository.findBySellerMemberId(memberId, pageable);
+
+        Member findMember;
+        List<Wish> wishes;
+        List<Long> itemIds;
+
+        //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
         if(memberId == null) {
             itemIds = null;
         }
@@ -161,7 +181,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, Long categoryId, Long memberId) {
+    public ItemDto.MultiResponseDto findItemsByCategory(int pageNumber, int pageSize, Long categoryId, Long watcherId) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
         Page<Item> itemPage = itemRepository.findByCategoryCategoryId(categoryId, pageable);
 
@@ -170,12 +190,12 @@ public class ItemServiceImpl implements ItemService{
         List<Long> itemIds;
 
         //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
-        if(memberId == null) {
+        if(watcherId == null) {
             itemIds = null;
         }
         else {
             findMember = memberRepository
-                    .findById(memberId)
+                    .findById(watcherId)
                     .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
 
             wishes = findMember.getWishes();
@@ -192,7 +212,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, String itemStatus, Long sellerId, Long memberId) {
+    public ItemDto.MultiResponseDto findItemsByStatus(int pageNumber, int pageSize, String itemStatus, Long sellerId) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
         Page<Item> itemPage = itemRepository.findBySellerMemberIdAndStatus(sellerId, ItemStatus.valueOf(itemStatus), pageable);
 
@@ -201,12 +221,12 @@ public class ItemServiceImpl implements ItemService{
         List<Long> itemIds;
 
         //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
-        if(memberId == null) {
+        if(sellerId == null) {
             itemIds = null;
         }
         else {
             findMember = memberRepository
-                    .findById(memberId)
+                    .findById(sellerId)
                     .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
 
             wishes = findMember.getWishes();
@@ -223,7 +243,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public ItemDto.MultiResponseDto findItems(int pageNumber, int pageSize, String keyword, Long memberId) {
+    public ItemDto.MultiResponseDto findItemsByKeyword(int pageNumber, int pageSize, String keyword, Long watcherId) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
 
         String[] keywordArray = keyword.split(" ");
@@ -231,6 +251,7 @@ public class ItemServiceImpl implements ItemService{
         List<String> keywords = new ArrayList<>(Arrays.asList(keywordArray));
 
         keywords.removeIf(String::isEmpty);
+        keywords.replaceAll(String::trim);
 
         Specification<Item> itemSpecification = ItemSpecification.contentContainsKeywords(keywords);
 
@@ -241,12 +262,12 @@ public class ItemServiceImpl implements ItemService{
         Page<Item> itemPage = itemRepository.findAll(itemSpecification, pageable);
 
         //responseDto에 Item GET요청을 보낸 member의 wish 여부를 적용하기 위한 로직
-        if(memberId == null) {
+        if(watcherId == null) {
             itemIds = null;
         }
         else {
             findMember = memberRepository
-                    .findById(memberId)
+                    .findById(watcherId)
                     .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
 
             wishes = findMember.getWishes();
@@ -284,13 +305,10 @@ public class ItemServiceImpl implements ItemService{
             Category category = categoryService.findVerifiedCategory(patchDto.getCategory_id());
             findItem.setCategory(category);
         }
+
         if (patchDto.getEnd_time() != null) {
-            LocalDateTime endTime;
-            if (patchDto.getEnd_time() < 10) {
-                endTime = findItem.getCreatedAt().plusDays(patchDto.getEnd_time());
-            } else {
-                endTime = findItem.getCreatedAt().plusSeconds(patchDto.getEnd_time());
-            }
+            LocalDateTime endTime = checkDateUntilEndIsDayOrSec(findItem.getCreatedAt(), patchDto.getEnd_time());
+
             findItem.setEndTime(endTime);
         }
 
@@ -370,20 +388,12 @@ public class ItemServiceImpl implements ItemService{
         return false;
     }
 
-    private void checkMemberWishList(Long memberId, List<Long> itemIds, Member findMember, List<Wish> wishes) {
-
-        if(memberId == null) {
-            itemIds = null;
+    private LocalDateTime checkDateUntilEndIsDayOrSec(LocalDateTime createdAt, int dateUntilEnd) {
+        if(dateUntilEnd < 10) {
+            return createdAt.plusDays(dateUntilEnd);
         }
         else {
-            findMember = memberRepository
-                    .findById(memberId)
-                    .orElseThrow(() -> new GlobalException(ExceptionCode.MEMBER_NOT_FOUND));
-
-            wishes = findMember.getWishes();
-            itemIds = wishes.stream()
-                    .map(wish -> wish.getItem().getItemId())
-                    .collect(Collectors.toList());
+            return createdAt.plusSeconds(dateUntilEnd);
         }
     }
 }

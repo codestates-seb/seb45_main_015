@@ -1,6 +1,7 @@
 package com.project15.server.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project15.server.member.entity.MemberProvider;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,13 +20,15 @@ public class MemberDto {
     @NotNull
     private String nickname;
     private String role;
-  /*  private boolean activated = true;*/
 
-   /*private String item;*/
    @Getter
    @Setter
    public static class PasswordChangeRequest {
        private String oldPassword;
        private String newPassword;
    }
+    public MemberProvider getProvider() {
+        return MemberProvider.LOCAL;
+    }
 }
+

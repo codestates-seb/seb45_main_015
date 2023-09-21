@@ -2,19 +2,22 @@ package com.project15.server.utils;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 @Getter
 @Setter
-public class PageDto<T> {
+public class PageDto {
 
-    private int pageNumber;
+    private int page_number;
 
-    private int pageSize;
+    private int page_size;
 
-    public Pageable createPageable() {
-         return PageRequest.of(pageNumber - 1, pageSize, Sort.by("CreatedAt").descending());
-    }
+    private Long watcher_id;
+
+    private Long category_id;
+
+    private String keyword;
+
+    private String item_status;
+
+    private Long seller_id;
 }
