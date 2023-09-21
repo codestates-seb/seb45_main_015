@@ -31,12 +31,4 @@ public class Auditable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDateTime lastModifiedAt;
-
-//    public String getCreatedAtToString() {
-//        return createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//    }
-//
-//    public String getLastModifiedAtToString() {
-//        return lastModifiedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//    }
 }
