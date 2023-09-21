@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class BidServiceImpl implements BidService {
-    final String ITEM_STATUS_BIDDING = "BIDDING";
 
     private final BidRepository bidRepository;
 
