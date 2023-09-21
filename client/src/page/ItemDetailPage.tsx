@@ -236,7 +236,7 @@ function ItemDetailPage() {
               )}
             </Content>
             {data.status === "BIDDING" &&
-              remainingTimeString === "0일 0시간 0분 0초" && (
+              remainingTimeString !== "0일 0시간 0분 0초" && (
                 <Content className="detail-button-content">
                   <Wrapper className="space-between">
                     {Number(data.buyer_id) !== Number(memberId) ? (
