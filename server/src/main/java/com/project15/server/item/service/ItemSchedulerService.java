@@ -18,7 +18,7 @@ public class ItemSchedulerService {
 
     private final ItemRepository itemRepository;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 300000)
     public void changeToWaiting() {
         List<Item> waitingItemList= itemRepository.findByStatus(ItemStatus.WAITING);
 
@@ -32,7 +32,7 @@ public class ItemSchedulerService {
         itemRepository.flush();
     }
 
-    @Scheduled(fixedRate = 60000, initialDelay = 10000)
+    @Scheduled(fixedRate = 300000, initialDelay = 10000)
     public void changeToTrading() {
         List<Item> biddingItemList= itemRepository.findByStatus(ItemStatus.BIDDING);
 
@@ -46,7 +46,7 @@ public class ItemSchedulerService {
         itemRepository.flush();
     }
 
-    @Scheduled(fixedRate = 60000, initialDelay = 20000)
+    @Scheduled(fixedRate = 300000, initialDelay = 20000)
     public void changeToFailed() {
         List<Item> biddingItemList= itemRepository.findByStatus(ItemStatus.BIDDING);
 
