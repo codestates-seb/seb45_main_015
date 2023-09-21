@@ -501,11 +501,11 @@ export const useMyTrade = (tradeStatus: string) => {
   let statusAPI = "";
   const convertStatusEng = (status: string) => {
     switch (status) {
-      case "경매대기중":
-        statusAPI = `/items/my-item/sells?page_number=1&page_size=2&seller_id=1`;
+      case "내가 등록한 물건":
+        statusAPI = `/items/my-item/sells?page_number=1&page_size=2&seller_id=${memberId}`;
         break;
       case "입찰 진행중":
-        statusAPI = `/items/my-item/bids?page_number=1&page_size=2&buyer_id=1`;
+        statusAPI = `/items/my-item/bids?page_number=1&page_size=2&buyer_id=${memberId}`;
         break;
       // FIXME
       case "거래중":
@@ -515,7 +515,7 @@ export const useMyTrade = (tradeStatus: string) => {
         statusAPI = `/items/my-item/trade?page_number=1&page_size=2&item_status=CLOSED&member_id=${memberId}`;
         break;
       case "유찰된 물품":
-        statusAPI = `/items/my-item/status?page_number=1&page_size=2&item_status=FAILED&seller_id=1`;
+        statusAPI = `/items/my-item/status?page_number=1&page_size=2&item_status=FAILED&seller_id=${memberId}`;
         break;
       default:
         statusAPI = "";
@@ -526,7 +526,7 @@ export const useMyTrade = (tradeStatus: string) => {
   const fetchMyTrade = async (tradeStatus: string) => {
     const tradeEndPoint =
       convertStatusEng(tradeStatus) === ""
-        ? `/items/my-item/home?page_number=1&page_size=2&member_id=1`
+        ? `/items/my-item/home?page_number=1&page_size=2&member_id=${memberId}`
         : statusAPI;
     try {
       const response = await req.get(tradeEndPoint);
