@@ -46,6 +46,7 @@ export const ImgContainer = styled.div`
 export const Icon = styled.button`
   cursor: pointer;
   position: absolute;
+  z-index: 1;
   margin: 0 0 128px 186px;
   padding: 0;
   font-size: 36px;
