@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import globalTokens from "../../design_tokens/global.json";
 
 export const Container = styled.div`
   position: fixed;
@@ -81,5 +82,67 @@ export const Button = styled.button`
     border: solid 2px #0064ff;
     background-color: #fff;
     color: #0064ff;
+  }
+`;
+
+// 찜목록 모달-------------------
+export const ModalContainer = styled.div`
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: Default;
+  & .modalWrap {
+    width: 400px;
+    height: 200px;
+    background: white;
+    position: absolute;
+    z-index: 4;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  & .ButtonWrap {
+    width: 60%;
+    height: 100px;
+    z-index: 4;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  & .ButtonWrap > div {
+    width: 40%;
+    height: 60%;
+  }
+  & button {
+    cursor: pointer;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    color: ${globalTokens.Button.default.value};
+    background: white;
+    border: 2px solid ${globalTokens.Button.default.value};
+    &:hover {
+      color: white;
+      background: ${globalTokens.Button.default.value};
+    }
+  }
+  & .text {
+    z-index: 4;
+    color: black;
+    font-size: 20px;
+    margin: 10% 0;
+  }
+  & .qwe {
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.5);
   }
 `;

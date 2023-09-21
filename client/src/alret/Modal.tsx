@@ -12,6 +12,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import React, { useState } from "react";
+import { ModalContainer } from "./alret_style/Modal_styled";
+
+interface ModalProps {
+  isOpen: any;
+  onCancel: () => void;
+  onConfirm: () => void;
+}
 
 type Modes = {
   [key: string]: {
@@ -35,7 +42,13 @@ const modes: Modes = {
   },
 };
 
-function Modal({ mode, closeModal }: { mode: string; closeModal: () => void }) {
+export const Modal = ({
+  mode,
+  closeModal,
+}: {
+  mode: string;
+  closeModal: () => void;
+}) => {
   const [star, setStar] = useState<number>(3);
   const currentMode = modes[mode];
 
@@ -82,6 +95,54 @@ function Modal({ mode, closeModal }: { mode: string; closeModal: () => void }) {
       </Content>
     </Container>
   );
-}
+};
 
 export default Modal;
+
+//--------찜목록 모달
+
+export const AllFavoriteModal: React.FC<ModalProps> = ({
+  isOpen,
+  onCancel,
+  onConfirm,
+}) => {
+  return isOpen ? (
+    <ModalContainer>
+      <div className="qwe" onClick={onCancel}></div>
+      <div className="modalWrap">
+        <p className="text">찜목록 모두를 삭제 하시겠습니까?</p>
+        <div className="ButtonWrap">
+          <div>
+            <button onClickCapture={onConfirm}>확인 </button>
+          </div>
+          <div>
+            <button onClickCapture={onCancel}>취소 </button>
+          </div>
+        </div>
+      </div>
+    </ModalContainer>
+  ) : null;
+};
+
+export const SelectFavoriteModal: React.FC<ModalProps> = ({
+  isOpen,
+  onCancel,
+  onConfirm,
+}) => {
+  return isOpen ? (
+    <ModalContainer>
+      <div className="qwe" onClick={onCancel}></div>
+      <div className="modalWrap">
+        <p className="text">선택한 찜목록을 삭제 하시겠습니까?</p>
+        <div className="ButtonWrap">
+          <div>
+            <button onClickCapture={onConfirm}>확인 </button>
+          </div>
+          <div>
+            <button onClickCapture={onCancel}>취소 </button>
+          </div>
+        </div>
+      </div>
+    </ModalContainer>
+  ) : null;
+};

@@ -8,6 +8,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../loading/Loading";
+import { SelectFavoriteModal, AllFavoriteModal } from "../alret/Modal";
 
 interface objTest {
   bid_unit: number;
@@ -33,6 +34,15 @@ const FavoritePage: React.FC = () => {
   const [selectMode, setSelectMode] = useState<boolean>(false); //선택모드
   const [buttonOption, setButtonOption] = useState<string>("delete"); //현재 선택된버튼
   const [deleteList, setDeleteList] = useState<number[]>([]); //체크된목록
+  const [isOpen, setIsOpen] = useState(false); //모달창
+
+  //모달창
+  const modalClosed = () => {
+    setIsOpen(false);
+  };
+  const modalOpen = () => {
+    setIsOpen(true);
+  };
 
   //찜목록 선택항목 추가or삭제--------------------
   const handledAddOrDeleteId = (newId: number) => {
@@ -109,6 +119,7 @@ const FavoritePage: React.FC = () => {
   );
   const handleSelectDelete = () => {
     deleteSelectMutate();
+    setIsOpen(false);
   };
 
   //전체삭제
@@ -131,6 +142,7 @@ const FavoritePage: React.FC = () => {
   });
   const handleAllDelete = () => {
     deleteMutate();
+    setIsOpen(false);
   };
 
   //더보기
@@ -180,13 +192,23 @@ const FavoritePage: React.FC = () => {
           </button>
         </div>
         <div className="topButton">
-          <button className="allDelete" onClick={handleAllDelete}>
+          <button className="allDelete" onClickCapture={modalOpen}>
+            <AllFavoriteModal
+              isOpen={isOpen}
+              onCancel={modalClosed}
+              onConfirm={handleAllDelete}
+            />
             전체상품 삭제
           </button>
         </div>
         {buttonOption === "select" || buttonOption === "allSelect" ? (
           <div className="topButton">
-            <button className="allDelete" onClick={handleSelectDelete}>
+            <button className="allDelete" onClickCapture={modalOpen}>
+              <SelectFavoriteModal
+                isOpen={isOpen}
+                onCancel={modalClosed}
+                onConfirm={handleSelectDelete}
+              />
               선택상품 삭제
             </button>
           </div>
