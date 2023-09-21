@@ -19,6 +19,7 @@ import SupportButton from "./components/SupportButton";
 import SearchPage from "./page/SearchPage";
 import LandingPage from "./page/LandingPage";
 import { LoginStateContext } from "./context/LoginStateContext";
+import ScrollToTop from "./hooks/ScrollToTop";
 
 const App: React.FC = () => {
   const currentLogin = useRef(false);
@@ -30,6 +31,7 @@ const App: React.FC = () => {
           <Header />
           {/* <Toast /> */}
           <div className="Main">
+            <ScrollToTop />
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
