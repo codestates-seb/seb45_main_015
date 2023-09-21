@@ -25,7 +25,7 @@ const nav = [
 
 function HeaderDropDown() {
   const { currentLogin } = useContext(LoginStateContext);
-
+  const nickname = localStorage.getItem("memberName");
   const mutation = useLogout();
 
   const logoutHandler = () => {
@@ -36,7 +36,7 @@ function HeaderDropDown() {
   return (
     <DropDown>
       <Container>
-        <UserName>(사용자 이름) 님</UserName>
+        <UserName>{nickname}님</UserName>
         {nav.map(item => (
           <Link to={item.router} key={item.page}>
             <Wrapper>
