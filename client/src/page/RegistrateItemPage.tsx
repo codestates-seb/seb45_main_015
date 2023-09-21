@@ -30,6 +30,8 @@ import {
   RegistrateItemDataField,
 } from "../type/type";
 import RegistrateSpecification from "../components/RegistrateSpecification";
+import { useNavigate } from "react-router-dom";
+import Loading from "../loading/Loading";
 
 function RegistInputForm({
   field,
@@ -185,6 +187,14 @@ function RegistrateItemPage() {
   const [totalItemInfo, setTotalItemInfo] = useState<RegistrateItemDataField>();
   const [specification, setSpecification] = useState<boolean>(false);
   const memberId = localStorage.getItem("memberId");
+  const navigator = useNavigate();
+
+  // 로그인이 안되있으면 로그인 페이지로 유도
+  useEffect(() => {
+    if (!memberId) {
+      navigator("/login");
+    }
+  }, [memberId, navigator]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -291,7 +301,7 @@ function RegistrateItemPage() {
       seller_id: Number(memberId),
       title: itemTitle,
       content: itemContent,
-      auction_time: Number(itemAuctionTime),
+      end_time: Number(itemAuctionTime),
       category_id: itemCategory[0].id,
       start_price: Number(itemstartPrice),
       bid_unit: Number(itemBidUnit),
