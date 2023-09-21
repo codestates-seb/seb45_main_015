@@ -123,19 +123,19 @@ export function ItemCard({
               {shortenString(cardData.title)}
             </Text>
             <Wrapper>
-              <Text className="itemCard-product-key">최저가</Text>
+              <Text className="itemCard-product-key">호가</Text>
               <Text className="itemCard-product-value">
-                {cardData.start_price}
+                {cardData.bid_unit}
               </Text>
             </Wrapper>
             <Wrapper>
-              <Text className="itemCard-product-key">입찰가</Text>
+              <Text className="itemCard-product-key">상위입찰가</Text>
               <Text className="itemCard-product-value">
                 {cardData.current_price}
               </Text>
             </Wrapper>
             <Wrapper>
-              <Text className="itemCard-product-key">최고가</Text>
+              <Text className="itemCard-product-key">즉시구매가</Text>
               <Text className="itemCard-product-value">
                 {cardData.buy_now_price}
               </Text>
