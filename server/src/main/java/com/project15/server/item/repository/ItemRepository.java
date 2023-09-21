@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
 import java.util.Optional;
 
 public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificationExecutor<Item> {
@@ -38,4 +39,6 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
 
     @Query("SELECT i FROM Item AS i WHERE i.content LIKE %:searchKeyword%")
     Page<Item> findByTitleContaining(@Param("searchKeyword") String searchKeyword, Pageable pageable);
+
+    List<Item> findByStatus(ItemStatus itemStatus);
 }
