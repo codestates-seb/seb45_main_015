@@ -77,6 +77,8 @@ public class SecurityConfig {
                 .antMatchers("/items/categories").permitAll()
                 .antMatchers("/items/search").permitAll()
                 .antMatchers("/categories").permitAll()
+                .antMatchers("/email/{email}/send-code").permitAll()
+                .antMatchers("/email/{email}/code").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider))
@@ -99,11 +101,10 @@ public class SecurityConfig {
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("*"));
         configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }
-
-
