@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .antMatchers("/members/login").permitAll()
                 .antMatchers("/members/signup").permitAll()
                 .antMatchers("/favicon.ico").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider)); // JwtFilter를 addFilterBefore로 등록했던 JwtSecurityConfig class 적용
@@ -64,11 +64,12 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(""));
-        configuration.setAllowedMethods(Arrays.asList(""));
-        configuration.setAllowedHeaders(Arrays.asList(""));
-        configuration.setExposedHeaders(Arrays.asList(""));
+        configuration.setAllowedOrigins(Arrays.asList("https://apic.app" , "http://localhost:8080" , "http://localhost:3000","*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("*","Authorization","Refresh"));
         configuration.addAllowedHeader("*");
+
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
