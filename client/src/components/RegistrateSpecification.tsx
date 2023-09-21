@@ -32,7 +32,7 @@ function RegistrateSpecification({
 
   const total: SpecificationField[] = [
     { title: "상품명", value: totalItemInfo.title },
-    { title: "경매기간", value: totalItemInfo.auction_time, unit: "일" },
+    { title: "경매기간", value: totalItemInfo.end_time, unit: "일" },
     {
       title: "시작가격",
       value: totalItemInfo.start_price.toLocaleString(),

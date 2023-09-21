@@ -79,8 +79,16 @@ export const Text = styled.p`
     font-size: 24px;
   }
 
+  &.detail-guide {
+    font-size: 32px;
+    color: #0064ff;
+    margin-top: 40px;
+  }
+
   &.detail-description {
     max-width: 100%;
+    font-size: 24px;
+    margin-top: 10px;
     white-space: pre-wrap; /* 텍스트를 줄 바꿈하도록 설정 */
   }
 `;

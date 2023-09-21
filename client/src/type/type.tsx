@@ -66,7 +66,7 @@ export interface RegistrateItemDataField {
   seller_id: number;
   title: string;
   content: string;
-  auction_time: number;
+  end_time: number;
   category_id: number;
   start_price: number;
   bid_unit: number;

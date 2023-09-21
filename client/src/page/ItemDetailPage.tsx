@@ -31,7 +31,6 @@ import { LargeButtonA, LargeButtonC } from "../components/ButtonComponent";
 import { useParams } from "react-router-dom";
 import Loading from "../loading/Loading";
 import { RemainingTime } from "../hooks/RemainingTime";
-import { current } from "@reduxjs/toolkit";
 
 function ItemDetailPage() {
   const queryClient = useQueryClient();
@@ -81,8 +80,6 @@ function ItemDetailPage() {
     };
   }, [data, isLoading]);
 
-  console.log(data);
-
   if (isLoading) {
     return <Loading />;
   }
@@ -108,12 +105,32 @@ function ItemDetailPage() {
   };
 
   const handleBidButton = () => {
+    if (!memberId) {
+      alert("로그인 후에 이용 가능합니다.");
+      return;
+    }
+
+    if (Number(memberId) === data.seller_id) {
+      alert("자신이 등록한 상품은 입찰할 수 없습니다.");
+      return;
+    }
+
+    if (
+      remainingTimeString === "0일 0시간 0분 0초" ||
+      remainingTimeString === "경매가 종료되었습니다."
+    ) {
+      alert("해당 상품의 경매가 종료되었습니다.");
+      return;
+    }
+    console.log(data);
+
     let bidPrice = 0;
     if (data.current_price === 0) {
       bidPrice = data.start_price;
     } else {
       bidPrice = data.current_price + data.bid_unit;
     }
+    console.log(bidPrice);
 
     if (data.buy_now_price <= bidPrice) {
       if (itemId) {
@@ -125,17 +142,37 @@ function ItemDetailPage() {
       }
     } else {
       if (itemId) {
+        console.log(bidPrice);
         const bidData = {
-          item_id: itemId,
+          item_id: Number(itemId),
           buyer_id: Number(memberId),
-          bid_price: bidPrice,
+          bid_price: Number(bidPrice),
         };
+        console.log(bidData);
         postItemDetailBid(bidData);
       }
     }
   };
 
   const handleBuyNowButton = () => {
+    if (!memberId) {
+      alert("로그인 후에 이용 가능합니다.");
+      return;
+    }
+
+    if (Number(memberId) === data.seller_id) {
+      alert("자신이 등록한 상품은 구매할 수 없습니다.");
+      return;
+    }
+
+    if (
+      remainingTimeString === "0일 0시간 0분 0초" ||
+      remainingTimeString === "경매가 종료되었습니다."
+    ) {
+      alert("해당 상품의 경매가 종료되었습니다.");
+      return;
+    }
+
     if (itemId) {
       const buyNowData = {
         item_id: itemId,
@@ -144,9 +181,27 @@ function ItemDetailPage() {
       postItemDetailBuyNow(buyNowData);
     }
   };
+  console.log(data);
 
   const handleIsfavoriteButton = () => {
-    console.log(data.item_id);
+    if (!memberId) {
+      alert("로그인 후에 이용 가능합니다.");
+      return;
+    }
+
+    if (Number(memberId) === data.seller_id) {
+      alert("자신이 등록한 상품은 찜할 수 없습니다.");
+      return;
+    }
+
+    if (
+      remainingTimeString === "0일 0시간 0분 0초" ||
+      remainingTimeString === "경매가 종료되었습니다."
+    ) {
+      alert("해당 상품의 경매가 종료되었습니다.");
+      return;
+    }
+
     if (data.in_wish_list) {
       deleteItem([Number(data.item_id)]);
     } else if (!data.in_wish_list) {
@@ -236,10 +291,11 @@ function ItemDetailPage() {
               )}
             </Content>
             {data.status === "BIDDING" &&
-              remainingTimeString === "0일 0시간 0분 0초" && (
+              remainingTimeString !== "0일 0시간 0분 0초" && (
                 <Content className="detail-button-content">
                   <Wrapper className="space-between">
-                    {Number(data.buyer_id) !== Number(memberId) ? (
+                    {data.buyer_id === null ||
+                    Number(data.buyer_id) !== Number(memberId) ? (
                       <ButtonWrapper
                         className="margin-right"
                         onClick={handleBidButton}
@@ -271,6 +327,11 @@ function ItemDetailPage() {
               </ButtonWrapper> */}
                 </Content>
               )}
+            {data.status === "WAITING" && (
+              <Content>
+                <Text className="detail-guide">경매 대기상태입니다.</Text>
+              </Content>
+            )}
           </ContentSection>
         </ItemDetailContent>
         <ItemDetailContent className="column">
