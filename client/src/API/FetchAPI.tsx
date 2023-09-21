@@ -74,11 +74,11 @@ export const useLogin = (data: LoginData) => {
     navigator("/allList");
   };
 
-  const handleLoginError = (error: string) => {
-    // 에러 처리 (예: 오류 메시지 표시)
-    console.error("로그인 실패:", error);
-    // 사용자에게 에러 메시지 표시 등 추가 처리 필요
-  };
+  // const handleLoginError = (error: string) => {
+  //   // 에러 처리 (예: 오류 메시지 표시)
+  //   console.error("로그인 실패:", error);
+  //   // 사용자에게 에러 메시지 표시 등 추가 처리 필요
+  // };
 
   const login = async () => {
     try {
@@ -96,7 +96,7 @@ export const useLogin = (data: LoginData) => {
       handleLoginSuccess(token);
     } catch (error) {
       // 에러 처리
-      handleLoginError(error);
+      // handleLoginError(error);
     }
   };
 
@@ -498,43 +498,36 @@ export const useMyTrade = (tradeStatus: string) => {
   const req = useAxiosRequestWithAuth();
   const memberId = localStorage.getItem("memberId");
 
-  let converResult = "";
+  let statusAPI = "";
   const convertStatusEng = (status: string) => {
     switch (status) {
       case "경매대기중":
-        converResult = "WAITING";
+        statusAPI = `/items/my-item/sells?page_number=1&page_size=2&seller_id=1`;
         break;
       case "입찰 진행중":
-        converResult = "BIDDING";
+        statusAPI = `/items/my-item/bids?page_number=1&page_size=2&buyer_id=1`;
         break;
+      // FIXME
       case "거래중":
-        converResult = "TRADING";
-        break;
-      case "유찰된 물품":
-        converResult = "FAILED";
+        statusAPI = `/items/my-item/trade?page_number=1&page_size=2&item_status=TRADING&member_id=${memberId}`;
         break;
       case "거래완료":
-        converResult = "CLOSED";
+        statusAPI = `/items/my-item/trade?page_number=1&page_size=2&item_status=CLOSED&member_id=${memberId}`;
+        break;
+      case "유찰된 물품":
+        statusAPI = `/items/my-item/status?page_number=1&page_size=2&item_status=FAILED&seller_id=1`;
         break;
       default:
-        converResult = "";
+        statusAPI = "";
     }
-    return converResult;
+    return statusAPI;
   };
-
-  // NOTE : 배포전에 이 코드로 교체
-  // const tradeEndPoint = `/items/my-item?page_number=1&page_size=2&member_id=${memberId}`;
 
   const fetchMyTrade = async (tradeStatus: string) => {
     const tradeEndPoint =
       convertStatusEng(tradeStatus) === ""
-        ? `/items/my-item?page_number=1&page_size=2&member_id=1`
-        : `/items/status?page_number=1&page_size=2&item_status=${converResult}&seller_id=1`;
-
-    console.log(`converResult 영어: ${converResult}`);
-    // FIXME : 이게 한글임.
-    console.log(`tradeStatus 한글: ${tradeStatus}`);
-
+        ? `/items/my-item/home?page_number=1&page_size=2&member_id=1`
+        : statusAPI;
     try {
       const response = await req.get(tradeEndPoint);
       return response.data;
