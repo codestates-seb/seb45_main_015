@@ -65,8 +65,9 @@ export const useLogin = (data: LoginData) => {
     // 토큰에서 멤버아이디 추출
     const decodeToken: DecodeToken = jwtDecode(cookies.jwt);
     const memberId = decodeToken.memberId;
-
+    const memberName = decodeToken.nickname;
     // 추출한 멤버아이디 로컬에 저장
+    localStorage.setItem("memberName", memberName);
     localStorage.setItem("memberId", memberId.toString());
     localStorage.setItem("token", token);
 
@@ -124,6 +125,7 @@ export const useLogout = () => {
     onSuccess(data) {
       localStorage.removeItem("memberId");
       localStorage.removeItem("token");
+      localStorage.removeItem("memberName");
       removeCookie("jwt");
       navigator("/login");
     },
