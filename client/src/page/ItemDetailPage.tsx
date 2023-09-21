@@ -122,7 +122,6 @@ function ItemDetailPage() {
       alert("해당 상품의 경매가 종료되었습니다.");
       return;
     }
-    console.log(data);
 
     let bidPrice = 0;
     if (data.current_price === 0) {
@@ -130,7 +129,6 @@ function ItemDetailPage() {
     } else {
       bidPrice = data.current_price + data.bid_unit;
     }
-    console.log(bidPrice);
 
     if (data.buy_now_price !== 0 && data.buy_now_price <= bidPrice) {
       if (itemId) {
@@ -186,7 +184,6 @@ function ItemDetailPage() {
       postItemDetailBuyNow(buyNowData);
     }
   };
-  console.log(data);
 
   const handleIsfavoriteButton = () => {
     if (!memberId) {
