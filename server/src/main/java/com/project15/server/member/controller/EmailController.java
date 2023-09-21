@@ -18,13 +18,13 @@ public class EmailController {
     private final EmailService emailService;
 
     @GetMapping("/{email}/send-code")
-    public ResponseEntity<String> sendEmailPath(@PathVariable String email) throws MessagingException {
+    public ResponseEntity<String> sendEmailPath(@PathVariable ("email") String email) throws MessagingException {
         emailService.sendEmail(email);
         return ResponseEntity.ok("이메일을 확인하세요");
     }
 
     @PostMapping("/{email}/code")
-    public ResponseEntity<String> sendEmailAndCode(@PathVariable String email, @RequestParam ("code")String code) throws NoSuchAlgorithmException {
+    public ResponseEntity<String> sendEmailAndCode(@PathVariable ("email") String email, @RequestParam ("code")String code) throws NoSuchAlgorithmException {
         if (emailService.verifyEmailCode(email, code)) {
             return ResponseEntity.ok("이메일 인증 성공");
         }
