@@ -13,12 +13,16 @@ export const LoginPageContainer = styled.main`
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
+    padding: 0 160px;
   }
   .google-login-btn {
     width: 100%;
     margin-top: 30px;
     display: flex;
     justify-content: center;
+  }
+  @media (max-width: 768px) {
+    padding: 0;
   }
 `;
 

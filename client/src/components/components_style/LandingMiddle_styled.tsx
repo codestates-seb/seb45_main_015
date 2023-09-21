@@ -51,11 +51,18 @@ export const LandingMiddeBox = styled.div`
   }
   & .popularWrap {
     display: flex;
+    width: 100%;
   }
   & .popularWrap ul {
     list-style: none;
     display: flex;
+    width: 100%;
     flex-wrap: wrap;
+    justify-content: space-around;
+    padding-left: 0;
+  }
+  & .popularWrap ul li {
+    display: flex;
     justify-content: space-around;
   }
   & .categotyItem {

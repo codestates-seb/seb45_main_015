@@ -2,6 +2,11 @@ import styled from "styled-components";
 import globalTokens from "../../design_tokens/global.json";
 
 const FavoritePageContainer = styled.div`
+  & > h2 {
+    font-size: 38px;
+    margin-top: 60px;
+  }
+
   & .topButtonWrap {
     margin: 0 auto;
     display: flex;
@@ -12,6 +17,7 @@ const FavoritePageContainer = styled.div`
     width: 120px;
     height: 40px;
     margin-right: 24px;
+    margin-bottom: 24px;
   }
   & .topButton > button {
     width: 120px;
@@ -69,6 +75,11 @@ const FavoritePageContainer = styled.div`
       grid-template-columns: repeat(4, auto);
     }
   }
+
+  & .itemcontainer > ul > li {
+    margin-right: 24px;
+  }
+
   & .noneItemContainer {
     width: 100%;
     height: 600px;

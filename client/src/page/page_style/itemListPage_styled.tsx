@@ -6,7 +6,7 @@ const ItemListPageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  @media (max-width: 1209px) {
+  @media (max-width: 1024px) {
   }
 
   & .listPageCarousel {
@@ -15,7 +15,7 @@ const ItemListPageContainer = styled.div`
   & .mainListcontainer {
     width: 100%;
     display: flex;
-    @media (max-width: 1209px) {
+    @media (max-width: 1024px) {
       flex-direction: column;
     }
   }
@@ -26,7 +26,7 @@ const ItemListPageContainer = styled.div`
     flex-direction: column;
     align-items: center;
     list-style: none;
-    @media (max-width: 1209px) {
+    @media (max-width: 1024px) {
       border: none;
     }
   }
@@ -34,6 +34,8 @@ const ItemListPageContainer = styled.div`
     width: 100%;
   }
   & .content > div > ul {
+    padding: 0;
+    margin: 0;
     display: grid;
     justify-items: center;
     flex-wrap: wrap;
@@ -43,12 +45,8 @@ const ItemListPageContainer = styled.div`
       grid-template-columns: repeat(2, auto);
       transition: 500ms;
     }
-    @media (min-width: 1025px) {
+    @media (min-width: 624px) {
       grid-template-columns: repeat(3, auto);
-      transition: 500ms;
-    }
-    @media (min-width: 1210px) {
-      grid-template-columns: repeat(2, auto);
       transition: 500ms;
     }
     @media (min-width: 1485px) {
@@ -56,18 +54,32 @@ const ItemListPageContainer = styled.div`
       transition: 500ms;
     }
   }
+
   & .content:nth-child() > div {
     justify-content: space-around;
   }
   & .contenTitle {
-    margin-top: 40px;
+    margin-top: 60px;
     padding-left: 35px;
-    font-size: 1.8rem;
+    font-size: 38px;
+
+    @media (max-width: 1024px) {
+      padding-left: 0;
+      margin-top: 48px;
+    }
+
+    @media (max-width: 1280px) {
+      font-size: 28px;
+    }
   }
   & .moreButton {
     width: 340px;
     height: 48px;
-    margin: 100px 0 100px 0;
+    margin: 100px 0;
+
+    @media (max-width: 1280px) {
+      margin: 60px 0;
+    }
   }
 `;
 
