@@ -23,7 +23,7 @@ const MyTrade: React.FC = () => {
         <TradeTitle>나의 거래</TradeTitle>
         <div id="trade-list-contents">
           {/* FIXME : KEY 추가 */}
-          {isLoading ? (
+          {data.items.length === 0 ? (
             <h1>거래한 내역이 없습니다</h1>
           ) : (
             data.items.map((item: any) => <ItemListCard {...item} />)
