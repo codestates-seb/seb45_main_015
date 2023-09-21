@@ -132,7 +132,7 @@ function ItemDetailPage() {
     }
     console.log(bidPrice);
 
-    if (data.buy_now_price <= bidPrice) {
+    if (data.buy_now_price !== 0 && data.buy_now_price <= bidPrice) {
       if (itemId) {
         const buyNowData = {
           item_id: itemId,
@@ -157,6 +157,11 @@ function ItemDetailPage() {
   const handleBuyNowButton = () => {
     if (!memberId) {
       alert("로그인 후에 이용 가능합니다.");
+      return;
+    }
+
+    if (data.buy_now_price === 0) {
+      alert("즉시구매가 불가능한 상품입니다.");
       return;
     }
 
