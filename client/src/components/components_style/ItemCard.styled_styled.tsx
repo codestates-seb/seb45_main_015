@@ -67,7 +67,7 @@ export const Icon = styled.button`
   }
   @media (max-width: 1280px) {
     & {
-      height: 114px;
+      height: 30px;
       font-size: 28px;
       margin: 0 0 64px 108px;
     }
