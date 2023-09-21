@@ -99,7 +99,7 @@ function Header() {
           <UserWrapper>
             {!searchdropDown && (
               <Button
-                className="header-icon header-screen-1024px"
+                className="header-icon header-screen-768px"
                 onClick={handleSearchDropDown}
               >
                 <FontAwesomeIcon icon={faMagnifyingGlass} />

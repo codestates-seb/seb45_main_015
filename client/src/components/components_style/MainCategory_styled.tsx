@@ -5,15 +5,14 @@ const CategoryNav = styled.div`
   width: 187px;
   margin-right: 10px;
   color: black;
-  @media (max-width: 1209px) {
+  @media (max-width: 1024px) {
     width: 100%;
   }
   & .categoryWrap {
     width: 100%;
-    @media (max-width: 1209px) {
+    @media (max-width: 1024px) {
       overflow-x: auto;
       white-space: nowrap;
-      margin-bottom: 30px;
       border-bottom: 1px solid ${globalTokens.heart.default.value};
       &::-webkit-scrollbar {
         width: 10px;
@@ -30,8 +29,9 @@ const CategoryNav = styled.div`
     }
   }
   & h2 {
-    margin: 48px 0 56px 0;
-    font-size: 1.5rem;
+    margin-top: 48px;
+    margin-bottom: 0;
+    font-size: 24px;
     font-weight: 700;
   }
 
@@ -50,7 +50,7 @@ const CategoryNav = styled.div`
     font-weight: 500;
     cursor: pointer;
     white-space: nowrap;
-    @media (max-width: 1209px) {
+    @media (max-width: 1024px) {
       display: inline-block;
       margin-right: 30px;
       font-size: 15px;
@@ -62,7 +62,7 @@ const CategoryNav = styled.div`
   & li:hover {
     color: #0056b3;
   }
-  @media (max-width: 1209px) {
+  @media (max-width: 1024px) {
     display: block;
   }
 `;

@@ -13,6 +13,11 @@ export const ChangePasswordPageContainer = styled.main`
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
+    padding: 0 160px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0;
   }
 `;
 

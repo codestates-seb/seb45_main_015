@@ -18,7 +18,7 @@ a:visited {
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .Main {
     padding: 75px 40px 0 40px;
     margin: 0 auto;

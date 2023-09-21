@@ -3,18 +3,20 @@ import styled from "styled-components";
 interface ContainerProps {
   isCheck?: boolean;
 }
+
 export const Container = styled.div<ContainerProps>`
   width: 240px;
   border-radius: 20px 20px;
   height: 383px;
-  margin: 25px 8px 0 3px;
   border: solid 1px #b1b5c3;
+  margin-bottom: 28px;
   overflow: hidden;
   color: black;
-  @media (max-width: 1209px) {
+  @media (max-width: 1280px) {
     & {
       width: 167px;
       height: 242px;
+      margin-bottom: 18px;
     }
   }
 `;
@@ -29,7 +31,7 @@ export const ImgContainer = styled.div`
   border-radius: 20px 20px 0 0;
   overflow: hidden;
 
-  @media (max-width: 1209px) {
+  @media (max-width: 1280px) {
     & {
       height: 114px;
       border-radius: 12px 12px 0 0;
@@ -62,7 +64,7 @@ export const Icon = styled.button`
   & .check {
     color: green;
   }
-  @media (max-width: 1209px) {
+  @media (max-width: 1280px) {
     & {
       height: 114px;
       font-size: 28px;
@@ -99,7 +101,7 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   margin-top: 10px;
 
-  @media (max-width: 1209px) {
+  @media (max-width: 1280px) {
     & {
       margin-top: 5px;
     }
@@ -133,7 +135,7 @@ export const Text = styled.p`
     font-size: 13px;
     margin-top: -2px;
   }
-  @media (max-width: 1209px) {
+  @media (max-width: 1280px) {
     & {
       font-size: 14px;
     }

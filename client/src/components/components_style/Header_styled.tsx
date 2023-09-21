@@ -18,13 +18,7 @@ export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 1120px;
-  margin: 15px 320px;
-
-  @media (max-width: 768px) {
-    & {
-      margin: 15px 0;
-    }
-  }
+  margin: 15px 20px;
 `;
 
 export const HeaderContent = styled.div`
@@ -40,7 +34,6 @@ export const HeaderContent = styled.div`
   @media (max-width: 768px) {
     & {
       justify-content: space-between;
-      padding: 0 15px;
     }
   }
 `;
@@ -93,7 +86,7 @@ export const Button = styled.button`
     cursor: default;
   }
 
-  &.header-screen-1024px {
+  &.header-screen-768px {
     display: none;
     font-size: 18px;
   }
@@ -110,8 +103,8 @@ export const Button = styled.button`
     height: 55px;
   }
 
-  @media (max-width: 1024px) {
-    &.header-screen-1024px {
+  @media (max-width: 768px) {
+    &.header-screen-768px {
       display: block;
     }
   }
@@ -122,7 +115,7 @@ export const SearchWrapper = styled.div`
   min-width: 100px;
   margin-left: 11px;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 768px) {
     & {
       display: none;
     }

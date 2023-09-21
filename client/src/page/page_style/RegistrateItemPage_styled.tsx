@@ -12,7 +12,6 @@ export const Container = styled.div`
 export const RegistrateContent = styled.div`
   max-width: 800px;
   width: 100%;
-  color: #2a2a2a;
 `;
 
 export const Title = styled.h1`
@@ -162,7 +161,6 @@ export const Button = styled.button`
   white-space: nowrap;
   font-size: 16px;
   font-weight: bold;
-  color: #2a2a2a;
   height: 40px;
   padding: 0 20px;
 
