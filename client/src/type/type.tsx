@@ -8,6 +8,7 @@ export type SignupData = {
   confirmPassword?: string;
   old_password?: string;
   new_password?: string;
+  verify?: string;
 };
 
 // 마이페이지 데이터

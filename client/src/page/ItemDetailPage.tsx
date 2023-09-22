@@ -186,6 +186,7 @@ function ItemDetailPage() {
   };
 
   const handleIsfavoriteButton = () => {
+
     if (!memberId) {
       alert("로그인 후에 이용 가능합니다.");
       return;
@@ -203,7 +204,7 @@ function ItemDetailPage() {
       alert("해당 상품의 경매가 종료되었습니다.");
       return;
     }
-
+    
     if (data.in_wish_list) {
       deleteItem([Number(data.item_id)]);
     } else if (!data.in_wish_list) {

@@ -98,9 +98,6 @@ const FavoritePage: React.FC = () => {
       setSelectMode(true);
     }
   };
-  useEffect(() => {
-    console.log(deleteList);
-  }, [deleteList]);
 
   //선택항목 삭제
   const selectDelete = async () => {
@@ -128,7 +125,7 @@ const FavoritePage: React.FC = () => {
     const all_Id = result.wishes.map((el: objTest) => {
       return el.item_id;
     });
-    console.log(all_Id);
+
     return all_Id;
   };
   const deleteData = async () => {
