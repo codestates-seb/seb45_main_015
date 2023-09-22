@@ -553,11 +553,7 @@ export const usefetchMyPage = () => {
 
   const fetchMyPageData = async () => {
     try {
-      const response = await req.get(`/members/${memberId}`, {
-        params: {
-          memberId: memberId,
-        },
-      });
+      const response = await req.get(`/members/${memberId}`);
       return response.data;
     } catch (error) {
       console.error(error);
