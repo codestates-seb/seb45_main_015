@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatPostRequest {
     private Long itemId;
-
-
+    private Long buyer_id;
+    private Long seller_id;
 }

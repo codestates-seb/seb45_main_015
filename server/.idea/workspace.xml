@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="daa22ed4-70ec-4347-af72-55b385b93a72" name="변경" comment="fix: 채팅기능 수정 및 추가">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/member/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/member/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/dto/ChatPostRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/dto/ChatPostRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,6 +109,7 @@
       <workItem from="1695256752603" duration="15230000" />
       <workItem from="1695345668508" duration="2000" />
       <workItem from="1695345681264" duration="374000" />
+      <workItem from="1695346371754" duration="1696000" />
     </task>
     <task id="LOCAL-00001" summary="fix: 채팅기능 수정 및 추가">
       <created>1695097098594</created>
@@ -133,5 +134,17 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix: 채팅기능 수정 및 추가" />
     <option name="LAST_COMMIT_MESSAGE" value="fix: 채팅기능 수정 및 추가" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/MessageController.java</url>
+          <line>29</line>
+          <properties field="chatService" class="com.project15.server.chat.controller.MessageController" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
