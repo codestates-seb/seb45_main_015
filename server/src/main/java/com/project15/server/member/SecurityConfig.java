@@ -79,7 +79,7 @@ public class SecurityConfig {
                 .antMatchers("/categories").permitAll()
                 .antMatchers("/email/{email}/send-code").permitAll()
                 .antMatchers("/email/{email}/code").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider))
                 .and()

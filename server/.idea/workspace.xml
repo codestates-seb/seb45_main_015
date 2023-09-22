@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daa22ed4-70ec-4347-af72-55b385b93a72" name="변경" comment="fix: 채팅기능 수정 및 추가" />
+    <list default="true" id="daa22ed4-70ec-4347-af72-55b385b93a72" name="변경" comment="fix: 채팅기능 수정 및 추가">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/member/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/member/SecurityConfig.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,6 +107,8 @@
       <workItem from="1695174619018" duration="3874000" />
       <workItem from="1695211631818" duration="3055000" />
       <workItem from="1695256752603" duration="15230000" />
+      <workItem from="1695345668508" duration="2000" />
+      <workItem from="1695345681264" duration="374000" />
     </task>
     <task id="LOCAL-00001" summary="fix: 채팅기능 수정 및 추가">
       <created>1695097098594</created>
