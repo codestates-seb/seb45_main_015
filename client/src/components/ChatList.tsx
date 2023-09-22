@@ -14,6 +14,8 @@ import {
 } from "./components_style/ChatList_styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
+import axios from "axios";
 
 function ChatList({
   handleActiveChange,
