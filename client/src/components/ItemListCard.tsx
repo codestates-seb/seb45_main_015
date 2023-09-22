@@ -58,7 +58,12 @@ const ItemListCard: React.FC = (props: MyTradeType) => {
     <Container>
       <ItemContent>
         <ImgContainer>
-          <img src="" alt="" />
+          <img
+            src={
+              props.item_image_urls.length === 0 ? "" : props.item_image_urls[0]
+            }
+            alt="item_image"
+          />
         </ImgContainer>
         <InfoContainer>
           <TitleWrapper>

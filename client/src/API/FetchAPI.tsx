@@ -21,6 +21,7 @@ type DecodeToken = {
   auth: any;
   nickname: string;
   memberId: number;
+  guestId: number;
   exp: number;
 };
 
@@ -136,11 +137,11 @@ export const useGuestLogin = () => {
     setCookie("jwt", token);
     // 토큰에서 멤버아이디 추출
     const decodeToken: DecodeToken = jwtDecode(cookies.jwt);
-    const memberId = decodeToken.memberId;
+    const guestId = decodeToken.guestId;
     const memberName = decodeToken.nickname;
     // 추출한 멤버아이디 로컬에 저장
     localStorage.setItem("memberName", memberName);
-    localStorage.setItem("memberId", memberId.toString());
+    localStorage.setItem("guestId", guestId.toString());
     localStorage.setItem("token", token);
 
     // 페이지 리다이렉션
@@ -156,7 +157,7 @@ export const useGuestLogin = () => {
       handleGuestLoginSuccess(token);
     } catch (error) {
       // 에러 처리
-      // handleLoginError(error);
+      console.error(error);
     }
   };
   return guestLogin;
