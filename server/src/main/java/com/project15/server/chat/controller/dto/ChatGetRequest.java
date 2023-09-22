@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatGetRequest {
 
-    private Long memberId;
+    private Long member_id;
 }

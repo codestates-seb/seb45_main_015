@@ -1,5 +1,6 @@
 package com.project15.server.chat.entity;
 
+import com.project15.server.audit.Auditable;
 import com.project15.server.item.entity.Item;
 import com.project15.server.member.entity.Member;
 import lombok.Getter;
@@ -10,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
-public class ChatRoom {
+@Getter
+@Setter
+public class ChatRoom extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +21,7 @@ public class ChatRoom {
 
     @OneToOne
     @JoinColumn(name = "item_id")
-    private Item itemId;
+    private Item item;
 
     @Enumerated(EnumType.STRING)
     private ChatRoomStatus status = ChatRoomStatus.ACTIVATE;
@@ -37,11 +39,29 @@ public class ChatRoom {
     private Member seller;
 
     @OneToMany(mappedBy = "chatRoom")
+    private List<ChatMessage> chatMessages = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "chatRoom")
+//    private List<ChatEntry> chatEntryList = new ArrayList<>();
 
-    private List<ChatMessage> messages = new ArrayList<>();
+    public void setBuyer(Long buyerId) {
+        Member buyer = new Member();
+        buyer.setMemberId(buyerId);
 
-    @OneToMany(mappedBy = "chatRoom")
+        this.buyer = buyer;
+    }
 
-    private List<ChatEntry> chatEntryList = new ArrayList<>();
+    public void setSeller(Long sellerId) {
+        Member seller = new Member();
+        seller.setMemberId(sellerId);
 
+        this.seller = seller;
+    }
+
+    public void setItem(Long itemId) {
+        Item item = new Item();
+        item.setItemId(itemId);
+
+        this.item = item;
+    }
 }
