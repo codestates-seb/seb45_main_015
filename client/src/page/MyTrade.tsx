@@ -14,6 +14,7 @@ import { MyTradeType } from "../type/type";
 const MyTrade: React.FC = () => {
   const [tradeStatus, setTradeStatus] = useState("");
   const { data, isLoading } = useMyTrade(tradeStatus);
+  const guestMember = localStorage.getItem("memberName") === "Guest";
 
   return (
     <TradePageContainer>
@@ -21,8 +22,9 @@ const MyTrade: React.FC = () => {
       <TradeList>
         <TradeTitle>나의 거래</TradeTitle>
         <div id="trade-list-contents">
-          {/* FIXME : KEY 추가 */}
-          {data.items.length === 0 ? (
+          {isLoading ? (
+            <Loading />
+          ) : data?.items === undefined ? (
             <h1>거래한 내역이 없습니다</h1>
           ) : (
             data.items.map((item: any) => <ItemListCard {...item} />)

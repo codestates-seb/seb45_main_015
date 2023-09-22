@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
 
   const loginFunc = useLogin(userInfo);
 
-  const guestLoginMutation = useGuestLogin();
+  const guestLogin = useGuestLogin();
 
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,7 +45,7 @@ const LoginPage: React.FC = () => {
         <button
           className="guest-login-btn"
           onClick={() => {
-            guestLoginMutation.mutate();
+            guestLogin();
             currentLogin.current = true;
           }}
         >
