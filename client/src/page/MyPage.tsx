@@ -20,6 +20,8 @@ import Loading from "../loading/Loading";
 function MyPage() {
   const { data, isLoading } = usefetchMyPage();
 
+  const guestMember = localStorage.getItem("memberName") === "Guest";
+
   // 입력한 값 평가와 에러메세지
   const {
     nickNameMessage,
@@ -78,7 +80,7 @@ function MyPage() {
                 name="text"
                 labelText="현재 사용자 이름"
                 placeholder={""}
-                nameValue={data.nickname}
+                nameValue={guestMember ? "게스트" : data.nickname}
                 setStateValue={setUserInfo}
               />
               <InputComponent
@@ -95,7 +97,7 @@ function MyPage() {
                 name="email"
                 labelText="사용중인 이메일"
                 placeholder={""}
-                nameValue={data.email}
+                nameValue={guestMember ? "게스트" : data.email}
                 setStateValue={setUserInfo}
               />
             </Section>

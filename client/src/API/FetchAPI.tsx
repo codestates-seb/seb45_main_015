@@ -128,28 +128,38 @@ export const useLogout = () => {
 
 // 게스트 로그인
 export const useGuestLogin = () => {
-  const req = useAxiosRequestWithAuth();
   const navigator = useNavigate();
+  const [cookies, setCookie] = useCookies(["jwt"]);
 
+  const handleGuestLoginSuccess = (token: string) => {
+    // 토큰 저장 (보안 고려 필요)
+    setCookie("jwt", token);
+    // 토큰에서 멤버아이디 추출
+    const decodeToken: DecodeToken = jwtDecode(cookies.jwt);
+    const memberId = decodeToken.memberId;
+    const memberName = decodeToken.nickname;
+    // 추출한 멤버아이디 로컬에 저장
+    localStorage.setItem("memberName", memberName);
+    localStorage.setItem("memberId", memberId.toString());
+    localStorage.setItem("token", token);
+
+    // 페이지 리다이렉션
+    navigator("/allList");
+  };
   const guestLogin = async () => {
     try {
-      const response = await req.post("/members/guest-login");
+      const response = await axios.post(
+        "http://15.164.84.204:8080/members/guest-login",
+      );
+      const { token } = response.data;
+      // 로그인 성공 시 처리
+      handleGuestLoginSuccess(token);
     } catch (error) {
-      return;
+      // 에러 처리
+      // handleLoginError(error);
     }
   };
-
-  const mutation = useMutation(guestLogin, {
-    onSuccess(data) {
-      localStorage.setItem("memberName", "게스트");
-
-      navigator("/allList");
-    },
-    onError(error) {
-      return;
-    },
-  });
-  return mutation;
+  return guestLogin;
 };
 
 // FIXME : 비밀번호 찾기 이메일 입력 ////////////////////////////////////////
@@ -210,12 +220,18 @@ export const useChange = (data: ChangePWData) => {
 export const getItem = async (page: number) => {
   const memberId = localStorage.getItem("memberId");
   const token = localStorage.getItem("token");
+  const guestMember = localStorage.getItem("memberName") === "Guest";
+
+  const isGuest = guestMember
+    ? `http://15.164.84.204:8080/items?page_number=1&page_size=${page}`
+    : `http://15.164.84.204:8080/items?page_number=1&page_size=${page}${
+        memberId ? `&watcher_id=${memberId}` : ""
+      }`;
+
   try {
     const response = await axios({
       method: "get",
-      url: `http://15.164.84.204:8080/items?page_number=1&page_size=${page}${
-        memberId ? `&watcher_id=${memberId}` : ""
-      }`,
+      url: isGuest,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -497,7 +513,6 @@ export const useMyTrade = (tradeStatus: string) => {
       case "입찰 진행중":
         statusAPI = `/items/my-item/bids?page_number=1&page_size=2&buyer_id=${memberId}`;
         break;
-      // FIXME
       case "거래중":
         statusAPI = `/items/my-item/trade?page_number=1&page_size=2&item_status=TRADING&member_id=${memberId}`;
         break;
