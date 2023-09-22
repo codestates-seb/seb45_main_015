@@ -102,14 +102,15 @@ public class MemberController {
         }
     }
     @PostMapping("/verify-email")
-    public ResponseEntity<String> verifyEmail(@RequestParam("email") String email, Long memberId) {
+    public ResponseEntity<String> verifyEmail(@RequestParam("email") String email) {
         try {
-            memberService.verifyEmail(email);
-            return ResponseEntity.ok("member_id :" + memberId);
+            Long memberId = memberService.findMemberIdByEmail(email);
+            return ResponseEntity.ok("member_id: " + memberId);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
         }
     }
+
     @PatchMapping("/find-password/{member-id}")
     public ResponseEntity<String> changePassword(@PathVariable("member-id") Long memberId,
                                                  @RequestParam("new_password") String newPassword,

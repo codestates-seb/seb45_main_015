@@ -52,6 +52,9 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'io.lettuce:lettuce-core:6.2.1.RELEASE'
+	implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
 }
 
 tasks.named('test') {

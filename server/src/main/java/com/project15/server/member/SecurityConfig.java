@@ -53,7 +53,16 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/members/login").permitAll()
                 .antMatchers("/members/signup").permitAll()
-                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("/members/guest-login").permitAll()
+                .antMatchers("/members/verify-email").permitAll()
+                .antMatchers("/members/find-password/{member-id}").permitAll()
+                .antMatchers("/items/{item-id}").permitAll()
+                .antMatchers("/items").permitAll()
+                .antMatchers("/items/categories").permitAll()
+                .antMatchers("/items/search").permitAll()
+                .antMatchers("/categories").permitAll()
+                .antMatchers("/email/{email}/send-code").permitAll()
+                .antMatchers("/email/{email}/code").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
@@ -75,5 +84,3 @@ public class SecurityConfig {
         return source;
     }
 }
-
-

@@ -35,6 +35,10 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         return optionalMember.orElse(null);
     }
+    public Member findByMemberId(Long memberId) {
+        Optional<Member> optionlMember = memberRepository.findByMemberId(memberId);
+        return optionlMember.orElse(null);
+    }
     private boolean isValidEmailFormat(String email) {
         return EMAIL_PATTERN.matcher(email).matches();
     }
@@ -186,5 +190,13 @@ public class MemberService {
     public void updateMemberRole(Member member) {
         member.setRole(MemberRole.USER);
         memberRepository.save(member);
+    }
+    public Long findMemberIdByEmail(String email) throws UserNotFoundException {
+        Optional<Member> memberOptional = memberRepository.findByEmail(email);
+        if (memberOptional.isPresent()) {
+            return memberOptional.get().getMemberId();
+        } else {
+            throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
+        }
     }
 }

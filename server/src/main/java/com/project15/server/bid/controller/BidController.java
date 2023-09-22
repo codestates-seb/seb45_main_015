@@ -5,6 +5,7 @@ import com.project15.server.bid.entity.Bid;
 import com.project15.server.bid.mapper.BidMapper;
 import com.project15.server.bid.service.BidService;
 import com.project15.server.bid.service.BidServiceImpl;
+import com.project15.server.item.dto.ItemDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class BidController {
     public HttpStatus postBid(@RequestBody BidDto.PostDto postDto) {
         Bid bid = bidMapper.postToBid(postDto);
 
-        bidService.createBid(bid);
+        bidService.createBid(bid, bid.getItem().getItemId());
 
         return HttpStatus.CREATED;
     }
@@ -35,5 +36,15 @@ public class BidController {
         bidService.buyNow(postDto.getBuyer_id(), postDto.getItem_id());
 
         return HttpStatus.OK;
+    }
+
+    //나의 거래 페이지에서 내가 입찰한 물품의 전체 목록
+    @GetMapping("/items/my-item/bids")
+    public ResponseEntity getMyBids(@RequestParam("page_number") int pageNumber,
+                                    @RequestParam("page_size") int pageSize,
+                                    @RequestParam("buyer_id") Long buyerId) {
+        ItemDto.MultiResponseDto multiResponseDto = bidService.findMyBids(pageNumber, pageSize, buyerId);
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 }
