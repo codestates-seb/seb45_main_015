@@ -4,26 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daa22ed4-70ec-4347-af72-55b385b93a72" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/MessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/dto/ChatPostRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/dto/ChatPostRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/dto/MessageSendRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/dto/MessageSendRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/dto/MessageSendResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/controller/dto/MessageSendResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/dto/ChatEntryChatRoomDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/dto/ChatEntryChatRoomDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/dto/ChatEntryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/dto/ChatEntryDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/dto/ChatEntryMessageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/dto/ChatEntryMessageDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/dto/MessageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/dto/MessageDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/entity/ChatEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/entity/ChatEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/entity/ChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/entity/ChatMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/entity/ChatRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/entity/ChatRoom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/mapper/ChatMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/mapper/ChatMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/repository/ChatEntryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/repository/ChatEntryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/service/ChatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project15/server/chat/service/ChatService.java" afterDir="false" />
-    </list>
+    <list default="true" id="daa22ed4-70ec-4347-af72-55b385b93a72" name="변경" comment="fix: 채팅기능 수정 및 추가" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -119,11 +100,33 @@
       <workItem from="1694987664616" duration="625000" />
       <workItem from="1695011521025" duration="5119000" />
       <workItem from="1695068286125" duration="5605000" />
-      <workItem from="1695096483122" duration="490000" />
+      <workItem from="1695096483122" duration="1231000" />
+      <workItem from="1695174619018" duration="3874000" />
+      <workItem from="1695211631818" duration="3055000" />
+      <workItem from="1695256752603" duration="15230000" />
     </task>
+    <task id="LOCAL-00001" summary="fix: 채팅기능 수정 및 추가">
+      <created>1695097098594</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1695097098594</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fix: 채팅기능 수정 및 추가">
+      <created>1695302409220</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1695302409220</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix: 채팅기능 수정 및 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: 채팅기능 수정 및 추가" />
   </component>
 </project>

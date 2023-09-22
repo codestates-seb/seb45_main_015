@@ -19,7 +19,7 @@ public class ChatEntryChatRoomDto {
         public ChatEntryChatRoomDto(ChatEntry o) {
 //        this.chatEntryId = o.getChatEntryId();
             this.name = o.getMemberId().getNickname();
-//            this.memberId = o.getMemberId();
+            this.memberId = o.getMemberId().getMemberId();
            // this.deletedAt = o.getDeleteAt();
         }
 }

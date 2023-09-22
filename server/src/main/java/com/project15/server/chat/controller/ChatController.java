@@ -5,6 +5,7 @@ import com.project15.server.chat.dto.ChatEntryDto;
 import com.project15.server.chat.dto.ChatEntryMessageDto;
 import com.project15.server.chat.dto.MessageDto;
 import com.project15.server.chat.service.ChatService;
+import com.project15.server.member.entity.Member;
 import com.project15.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,17 +44,17 @@ public class ChatController {
 
     }
 
-//    @GetMapping("/chat")
-//    public ResponseEntity getChatRoom()
-//    {
-//        Member loginMember = memberService.findLoggingMember();
-//
-//        log.info("loginMember : " + loginMember.getEmail());
-//
-//        List<ChatEntryDto> findChatRooms = chatService.findMyChatRooms(loginMember.getMemberId());
-//
-//        return new ResponseEntity(findChatRooms, HttpStatus.OK);
-//    }
+    @GetMapping("/chat")
+    public ResponseEntity getChatRoom()
+    {
+        Member loginMember = memberService.findLoggingMember();
+
+        log.info("loginMember : " + loginMember.getEmail());
+
+        List<ChatEntryDto> findChatRooms = chatService.findMyChatRooms(loginMember.getMemberId());
+
+        return new ResponseEntity(findChatRooms, HttpStatus.OK);
+    }
 
     @GetMapping("/chat/{room-id}")
     public ResponseEntity getMessage(@PathVariable("room-id") Long chatRoomId)
