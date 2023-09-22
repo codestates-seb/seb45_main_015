@@ -22,7 +22,8 @@ import { LoginStateContext } from "./context/LoginStateContext";
 import ScrollToTop from "./hooks/ScrollToTop";
 
 const App: React.FC = () => {
-  const currentLogin = useRef(false);
+  const isExistedMember = localStorage.memberName;
+  const currentLogin = useRef(isExistedMember);
 
   return (
     <div className="App">
