@@ -81,6 +81,35 @@ export const SignupFormItem = styled.div`
   width: 100%;
   gap: 20px;
 
+  & > .verify-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  & > .verify-container > .verify-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    width: 100%;
+  }
+
+  & > .verify-container > .verify-item > .verify-btn {
+    background-color: #0064ff;
+    font-size: 16px;
+    color: white;
+    padding: 0;
+    width: 100px;
+    height: 44px;
+    border: none;
+    border-radius: 6px;
+  }
+  & > .verify-container > .verify-item > .verify-btn:hover {
+    background-color: white;
+    border: 2px solid #0064ff;
+    color: #0064ff;
+  }
+
   & > h2 {
     font-size: 36px;
   }

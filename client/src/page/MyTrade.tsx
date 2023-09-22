@@ -14,7 +14,6 @@ import { MyTradeType } from "../type/type";
 const MyTrade: React.FC = () => {
   const [tradeStatus, setTradeStatus] = useState("");
   const { data, isLoading } = useMyTrade(tradeStatus);
-  console.log(tradeStatus);
 
   return (
     <TradePageContainer>

@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import { useQueryClient } from "@tanstack/react-query";
 
 import GoogleLoginBtn from "../components/GoogleLogin";
 import { useSignup } from "../API/FetchAPI";
 import useInputValidate from "../hooks/InputValidata";
 import InputComponent from "../components/InputComponent";
+import VerifyTimer from "../components/VerifyTimer";
 import {
   SignupPageContainer,
   SignupPageImage,
@@ -17,7 +20,6 @@ import { LargeButtonB } from "../components/ButtonComponent";
 import Loading from "../loading/Loading";
 
 const SignupPage: React.FC = () => {
-  const navigator = useNavigate();
   // 데이터 유효성 검사 훅
   const {
     nickNameMessage,
@@ -27,8 +29,46 @@ const SignupPage: React.FC = () => {
     setUserInfo,
     inputHandler,
   } = useInputValidate({ nickname: "", email: "", password: "" });
+  const { data, mutate, isLoading } = useSignup(userInfo);
+  const navigator = useNavigate();
+  // 인증요청 클릭시 상태변경
+  const [verifiedRequest, setVerifiedRequest] = useState(false);
+  // 인증하기 클릭시 상태변경
+  const [isVerified, setIsVerified] = useState(false);
 
-  const { data, status, mutate, isLoading, isError } = useSignup(userInfo);
+  // 메일로 코드 보내기
+  const handleVerifyEmail = async (email: string) => {
+    try {
+      await axios
+        .get(`http://15.164.84.204:8080/email/${email}/send-code`)
+        .then(res =>
+          res.status === 200
+            ? setVerifiedRequest(true)
+            : setVerifiedRequest(false),
+        );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 인증 코드 서버로 요청
+  const handleVerifyCode = async (email: string) => {
+    const code = userInfo.verify;
+    try {
+      await axios
+        .post(`http://15.164.84.204:8080/email/${email}/code?code=${code}`)
+        .then(res => {
+          if (res.data === "이메일 인증 성공") {
+            setIsVerified(prev => !prev);
+            setVerifiedRequest(false);
+          }
+          setIsVerified(false);
+          setVerifiedRequest(true);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSumbitSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,15 +96,61 @@ const SignupPage: React.FC = () => {
                 setStateValue={setUserInfo}
                 errorMessage={nickNameMessage}
               />
-              <InputComponent
-                type="email"
-                name="email"
-                labelText="이메일"
-                placeholder="이메일을 입력해주세요"
-                stateValue={userInfo}
-                setStateValue={setUserInfo}
-                errorMessage={emailMessage}
-              />
+              <div className="verify-container">
+                <div className="verify-item">
+                  <InputComponent
+                    type="email"
+                    name="email"
+                    labelText="이메일"
+                    placeholder="이메일을 입력해주세요"
+                    stateValue={userInfo}
+                    setStateValue={setUserInfo}
+                    errorMessage={emailMessage}
+                  />
+                  {verifiedRequest ? (
+                    <VerifyTimer
+                      verifyStatus={{ verifiedRequest, setVerifiedRequest }}
+                    />
+                  ) : (
+                    <button
+                      className="verify-btn"
+                      type="button"
+                      onClick={() =>
+                        handleVerifyEmail(userInfo.email as string)
+                      }
+                    >
+                      인증요청
+                    </button>
+                  )}
+                </div>
+                {isVerified ? (
+                  ""
+                ) : (
+                  <div className="verify-item">
+                    <InputComponent
+                      type="text"
+                      name="verify"
+                      labelText="인증번호"
+                      placeholder="인증번호를 입력해주세요"
+                      stateValue={userInfo}
+                      setStateValue={setUserInfo}
+                    />
+                    {verifiedRequest ? (
+                      <button
+                        className="verify-btn"
+                        type="button"
+                        onClick={() =>
+                          handleVerifyCode(userInfo.email as string)
+                        }
+                      >
+                        인증하기
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                )}
+              </div>
               <InputComponent
                 type="password"
                 name="password"

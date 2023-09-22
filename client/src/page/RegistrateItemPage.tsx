@@ -193,9 +193,7 @@ function RegistrateItemPage() {
         setCategoryTag(
           data.filter((tag: { id: number; name: string }) => tag.id !== 1),
         );
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     fetchData();

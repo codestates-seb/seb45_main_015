@@ -81,8 +81,6 @@ function ItemDetailPage() {
     };
   }, [data, isLoading]);
 
-  console.log(data);
-
   if (isLoading) {
     return <Loading />;
   }
@@ -146,7 +144,6 @@ function ItemDetailPage() {
   };
 
   const handleIsfavoriteButton = () => {
-    console.log(data.item_id);
     if (data.in_wish_list) {
       deleteItem([Number(data.item_id)]);
     } else if (!data.in_wish_list) {

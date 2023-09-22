@@ -34,21 +34,17 @@ export const useSignup = (userData: SignupData) => {
     try {
       const response = await req.post("/members/signup", userData);
       if (!response.data) {
-        console.log("Failed fetch");
-        return console.log(response);
+        return response.data;
       }
-    } catch (error) {
-      console.log(`sign 함수 에러`);
-    }
+    } catch (error) {}
   };
 
   const mutation = useMutation(signup, {
     onSuccess(data) {
       navigator("/login");
-      console.log(`useMutation 성공: ${data}`);
     },
     onError(error) {
-      console.log(`useMutation 실패: ${error}`);
+      return;
     },
   });
   return mutation;
@@ -74,12 +70,6 @@ export const useLogin = (data: LoginData) => {
     // 페이지 리다이렉션
     navigator("/allList");
   };
-
-  // const handleLoginError = (error: string) => {
-  //   // 에러 처리 (예: 오류 메시지 표시)
-  //   console.error("로그인 실패:", error);
-  //   // 사용자에게 에러 메시지 표시 등 추가 처리 필요
-  // };
 
   const login = async () => {
     try {
@@ -130,7 +120,7 @@ export const useLogout = () => {
       navigator("/login");
     },
     onError(error) {
-      console.log(error);
+      return;
     },
   });
   return mutation;
@@ -144,19 +134,19 @@ export const useGuestLogin = () => {
   const guestLogin = async () => {
     try {
       const response = await req.post("/members/guest-login");
-      return console.log(response);
     } catch (error) {
-      console.log(`게스트로그인 함수 에러`);
+      return;
     }
   };
 
   const mutation = useMutation(guestLogin, {
     onSuccess(data) {
+      localStorage.setItem("memberName", "게스트");
+
       navigator("/allList");
-      console.log(`[mutation] 게스트 로그인 성공: ${data}`);
     },
     onError(error) {
-      console.log(`[mutation] 게스트 로그인 실패: ${error}`);
+      return;
     },
   });
   return mutation;
@@ -172,9 +162,8 @@ export const useFind = (data: FindPWData) => {
       const response = await req.post(
         `/members/verify-email?email=${data.email}`,
       );
-      return console.log(response);
     } catch (error) {
-      console.log(`find 함수 에러`);
+      return;
     }
   };
 
@@ -184,11 +173,11 @@ export const useFind = (data: FindPWData) => {
       // 응답 멤버아이디가 있으면 비빌먼호 변경페이지로 네비게이션 설정 추가
       const { member_id } = data;
       localStorage.setItem("verifyMemberID", member_id);
-      console.log(`[mutation] 비번찾기 이메일 전송 성공: ${data}`);
+
       navigator("/change-password");
     },
     onError(error) {
-      console.log(`[mutation] 비번찾기 이메일 전송 실패: ${error}`);
+      return;
     },
   });
   return mutation;
@@ -210,9 +199,8 @@ export const useChange = (data: ChangePWData) => {
 
   const mutation = useMutation(changePw, {
     onSuccess(data) {
-      console.log(data);
       localStorage.removeItem("verifyMemberId");
-      // navigator("/login");
+      navigator("/login");
     },
   });
   return mutation;
@@ -321,7 +309,7 @@ export const useRegistrateItem = async (
     });
 
     if (response.status === 201) {
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     }
   } catch (error) {
@@ -576,10 +564,10 @@ export const useChangeNickname = (inputData: ChangeNickNameData) => {
 
   const mutation = useMutation(changeNickName, {
     onSuccess(data) {
-      console.log("닉네임 변경성공");
+      // console.log("닉네임 변경성공");
     },
     onError(error) {
-      console.log(`닉네임 변경실패 : ${error}`);
+      // console.log(`닉네임 변경실패 : ${error}`);
     },
   });
 
@@ -596,10 +584,10 @@ export const useChangePassword = (inputData: ChangePWData) => {
   };
   const mutation = useMutation(changePassword, {
     onSuccess(data) {
-      console.log("비밀번호 변경성공");
+      // console.log("비밀번호 변경성공");
     },
     onError(error) {
-      console.log(`비밀번호 변경실패 : ${error}`);
+      // console.log(`비밀번호 변경실패 : ${error}`);
     },
   });
 
