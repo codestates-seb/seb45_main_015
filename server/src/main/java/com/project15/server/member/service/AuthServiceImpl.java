@@ -1,9 +1,9 @@
 package com.project15.server.member.service;
 
-import com.project15.server.member.entity.GuestUser;
+import com.project15.server.member.entity.Member;
 import com.project15.server.member.entity.MemberRole;
 import com.project15.server.member.repository.AuthService;
-import com.project15.server.member.repository.UserRepository;
+import com.project15.server.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,11 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -28,25 +29,25 @@ public class AuthServiceImpl implements AuthService {
     public String guestLogin() {
         String randomPassword = generateRandomPassword();
 
-        GuestUser guestUser = new GuestUser();
-        guestUser.setUsername("Guest");
-        guestUser.setPassword(passwordEncoder.encode(randomPassword));
-        guestUser.setRole(MemberRole.GUEST);
+        Member member = new Member();
+        member.setNickname("Guest" + UUID.randomUUID());
+        member.setPassword(passwordEncoder.encode(randomPassword));
+        member.setRole(MemberRole.GUEST);
 
-        userRepository.save(guestUser);
+        memberRepository.save(member);
 
-        String token = generateJwtToken(guestUser);
+        String token = generateJwtToken(member);
 
         return token;
     }
     @Value("${jwt.secret}") private String secret;
-    private String generateJwtToken(GuestUser user) {
+    private String generateJwtToken(Member member) {
         long expirationMs = 86400000; // 24시간 (밀리초)
 
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put("memberId", user.getGuestId());
-        claims.put("nickname", user.getUsername());
+        claims.put("guestId", member.getMemberId());
+        claims.put("nickname", member.getNickname());
 
         return Jwts.builder()
                 .setClaims(claims)
