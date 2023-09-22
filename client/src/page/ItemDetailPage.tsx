@@ -39,6 +39,7 @@ function ItemDetailPage() {
   const [mainImage, setMainImage] = useState<number>(0);
   const [remainingTimeString, setRemainingTimeString] = useState<string>("");
   const [isAuctionEnded, setIsAuctionEnded] = useState<boolean>(false);
+  const [isfavorite, setIsfavorite] = useState<boolean>(false);
   const memberId = localStorage.getItem("memberId");
 
   const { data, isLoading } = useQuery(
@@ -206,8 +207,12 @@ function ItemDetailPage() {
 
     if (data.in_wish_list) {
       deleteItem([Number(data.item_id)]);
+      setIsfavorite(false);
+      alert("찜목록에서 삭제되었습니다.");
     } else if (!data.in_wish_list) {
       postItem(Number(data.item_id));
+      setIsfavorite(true);
+      alert("찜목록에 추가되었습니다.");
     }
   };
 
