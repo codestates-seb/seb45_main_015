@@ -125,6 +125,7 @@ const FavoritePage: React.FC = () => {
     const all_Id = result.wishes.map((el: objTest) => {
       return el.item_id;
     });
+
     return all_Id;
   };
   const deleteData = async () => {

@@ -46,9 +46,6 @@ function MyPage() {
     const newPasswordMatches =
       userInfo.newPassword === userInfo.confirmPassword;
 
-    console.log(`닉네임 검사 : ${isNickName}, 비밀번호 검사: ${isPassword}`);
-    console.log(newPasswordMatches);
-
     // 새로운 사용자 이름만 입력된 경우
     if (isNickName) {
       changeNickName.mutate();

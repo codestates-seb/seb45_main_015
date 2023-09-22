@@ -19,8 +19,6 @@ import { MyTradeType } from "../type/type";
 const ItemListCard: React.FC = (props: MyTradeType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log(props);
-
   const convertStatusKorean = (status: string) => {
     let converResult = "";
     switch (status) {
@@ -44,7 +42,6 @@ const ItemListCard: React.FC = (props: MyTradeType) => {
         converResult = "거래완료";
         break;
       default:
-        console.log("default");
     }
     return converResult;
   };
