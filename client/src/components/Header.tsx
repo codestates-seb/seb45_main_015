@@ -38,6 +38,7 @@ function Header() {
   const [keyWord, setKeyWord] = useState("");
   const navigate = useNavigate();
   const { currentLogin } = useContext(LoginStateContext);
+  console.log(currentLogin.current);
 
   const handleShowMypageDropDown = () => {
     setMypageDropDown(true);
