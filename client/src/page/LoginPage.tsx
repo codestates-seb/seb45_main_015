@@ -16,6 +16,7 @@ import {
 import { LargeButtonB } from "../components/ButtonComponent";
 import Loading from "../loading/Loading";
 import { LoginStateContext } from "../context/LoginStateContext";
+import { current } from "@reduxjs/toolkit";
 
 const LoginPage: React.FC = () => {
   const navigator = useNavigate();
@@ -43,7 +44,10 @@ const LoginPage: React.FC = () => {
       <LoginFormDiv>
         <button
           className="guest-login-btn"
-          onClick={() => guestLoginMutation.mutate()}
+          onClick={() => {
+            guestLoginMutation.mutate();
+            currentLogin.current = true;
+          }}
         >
           게스트
         </button>
