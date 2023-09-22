@@ -13,16 +13,15 @@ public class ChatEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long chatEntryId;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member memberId;
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private Member member;
     //private LocalDateTime deleteAt;
 
 
-    @ManyToOne
-    @JoinColumn(name = "chatroom_id")
-    private ChatRoom chatRoom;
+//    @ManyToOne
+//    @JoinColumn(name = "chatroom_id")
+//    private ChatRoom chatRoom;
 }

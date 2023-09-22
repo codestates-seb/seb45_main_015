@@ -1,17 +1,14 @@
 package com.project15.server.chat.controller;
 
+import com.project15.server.chat.controller.dto.ChatMultiResponse;
 import com.project15.server.chat.controller.dto.ChatPostRequest;
-import com.project15.server.chat.dto.ChatEntryDto;
-import com.project15.server.chat.dto.ChatEntryMessageDto;
+import com.project15.server.chat.controller.dto.ChatResponse;
 import com.project15.server.chat.dto.MessageDto;
 import com.project15.server.chat.service.ChatService;
 import com.project15.server.member.entity.Member;
 import com.project15.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.project15.server.chat.dto.ChatEntryChatRoomDto;
-import com.project15.server.chat.entity.ChatEntry;
-import com.project15.server.chat.entity.ChatMessage;
 import com.project15.server.chat.entity.ChatRoom;
 import com.project15.server.chat.mapper.ChatMapper;
 
@@ -36,24 +33,25 @@ public class ChatController {
     @PostMapping("/chat")
     public ResponseEntity postChatRoom(@RequestBody ChatPostRequest request)
     {
-
-
         ChatRoom chatRoom = chatMapper.postDtoToChatRoom(request);
-
-        return new ResponseEntity(chatService.createChatRoom(chatRoom), HttpStatus.OK);
+        ChatRoom savedChatRoom = chatService.createChatRoom(chatRoom);
+        ChatResponse chatResponse = chatMapper.chatRoomToResponse(savedChatRoom);
+        return new ResponseEntity<>(chatResponse, HttpStatus.OK);
 
     }
 
     @GetMapping("/chat")
-    public ResponseEntity getChatRoom()
+    public ResponseEntity getChatRoom(@RequestParam("member_id") Long memberId)
     {
-        Member loginMember = memberService.findLoggingMember();
+        Member loginMember = memberService.findByMemberId(memberId);
 
         log.info("loginMember : " + loginMember.getEmail());
 
-        List<ChatEntryDto> findChatRooms = chatService.findMyChatRooms(loginMember.getMemberId());
+        List<ChatRoom> findChatRooms = chatService.findMyChatRooms(loginMember.getMemberId());
 
-        return new ResponseEntity(findChatRooms, HttpStatus.OK);
+        ChatMultiResponse chatMultiResponse = chatMapper.chatRoomListToMultiResponse(findChatRooms);
+
+        return new ResponseEntity<>(chatMultiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/chat/{room-id}")
@@ -62,7 +60,7 @@ public class ChatController {
 
         List<MessageDto> findMessages = chatService.findMessages(chatRoomId);
 
-        return new ResponseEntity(findMessages, HttpStatus.OK);
+        return new ResponseEntity<>(findMessages, HttpStatus.OK);
 
     }
 

@@ -1,57 +1,62 @@
 package com.project15.server.chat.service;
 
-import com.project15.server.chat.dto.ChatEntryDto;
 import com.project15.server.chat.dto.MessageDto;
 import com.project15.server.chat.repository.ChatRoomRepository;
+import com.project15.server.exception.ExceptionCode;
+import com.project15.server.exception.GlobalException;
+import com.project15.server.item.entity.Item;
+import com.project15.server.item.service.ItemServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.project15.server.chat.entity.ChatEntry;
 import com.project15.server.chat.entity.ChatRoom;
 import com.project15.server.chat.entity.ChatMessage;
-import com.project15.server.chat.repository.ChatEntryRepository;
 import com.project15.server.chat.repository.MessageRepository;
 //import com.project15.server.member.entity.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Slf4j
 public class ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
-    private final ChatEntryRepository chatEntryRepository;
     private final MessageRepository messageRepository;
 
-    @Transactional
-    public Long createChatRoom(ChatRoom chatRoom) {
+    private final ItemServiceImpl itemService;
 
-        ChatRoom saveChatRoom = chatRoomRepository.save(chatRoom);
+    public ChatRoom createChatRoom(ChatRoom chatRoom) {
+        //item검증
+        Item findItem = itemService.findVerifiedItem(chatRoom.getItem().getItemId());
 
-        return saveChatRoom.getChatRoomId();
+        //seller와 buyer 검증
+        if(!findItem.getSeller().getMemberId().equals(chatRoom.getSeller().getMemberId())) {
+            throw new GlobalException(ExceptionCode.SELLER_MISS_MATCH);
+        }
+        if(!findItem.getBuyer().getMemberId().equals(chatRoom.getBuyer().getMemberId())) {
+            throw new GlobalException(ExceptionCode.SELLER_OR_BUYER_MISS_MATCH);
+        }
+
+        //존재하는 채팅방인지 확인
+        verifyExistChatRoom(chatRoom.getItem().getItemId());
+
+        ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
+
+        return savedChatRoom;
     }
 
-    public List<ChatEntryDto> findMyChatRooms(Long memberId) {
+    public List<ChatRoom> findMyChatRooms(Long memberId) {
 
-        List<ChatEntry> findChatRooms = chatEntryRepository.findByMemberId(memberId);
+        List<ChatRoom> findChatRooms = chatRoomRepository.findByBuyerMemberIdOrSellerMemberId(memberId, memberId);
 
-        List<ChatEntryDto> response = findChatRooms.stream()
-                .map(o -> new ChatEntryDto(o))
-                .collect(Collectors.toList());
-        log.info("ChatEntryDto : " + response.toString());
-
-        return response;
-
-        //return findChatRooms;
+        return findChatRooms;
     }
 
-//    @Transactional
 //    public void deleteChatRoom(Long chatRoomId, Long memberId) {
 //        ChatRoom findChatRoom = findChatRoom(chatRoomId);
 //
@@ -63,19 +68,20 @@ public class ChatService {
     public List<MessageDto> findMessages(Long chatRoomId) {
         ChatRoom findChatRoom = findChatRoom(chatRoomId);
 
-        List<ChatMessage> findMessages = messageRepository.findByChatRoom(findChatRoom);
+        List<ChatMessage> findMessages = messageRepository.findByChatRoomChatRoomId(findChatRoom.getChatRoomId());
 
-        List<MessageDto> response = findMessages.stream()
-                .map(o -> new MessageDto(o))
-                .collect(Collectors.toList());
-
-        return response;
-       //return findMessages;
+        return null;
     }
 
     public ChatRoom findChatRoom(Long chatRoomId) {
         Optional<ChatRoom> findChatRoom = chatRoomRepository.findById(chatRoomId);
 
         return findChatRoom.orElseThrow();
+    }
+
+    private void verifyExistChatRoom(Long itemId) {
+        if(chatRoomRepository.findByItemItemId(itemId).isPresent()) {
+            throw new GlobalException(ExceptionCode.CHAT_ROOM_EXISTS);
+        }
     }
 }
