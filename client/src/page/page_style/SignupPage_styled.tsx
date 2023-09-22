@@ -110,6 +110,12 @@ export const SignupFormItem = styled.div`
     color: #0064ff;
   }
 
+  & > .verify-container > .verify-item > .verify-btn:disabled {
+    background-color: #1ec800;
+    border: none;
+    color: white;
+  }
+
   & > h2 {
     font-size: 36px;
   }

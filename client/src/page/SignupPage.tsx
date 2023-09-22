@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import GoogleLoginBtn from "../components/GoogleLogin";
 import { useSignup } from "../API/FetchAPI";
@@ -54,16 +54,16 @@ const SignupPage: React.FC = () => {
   // 인증 코드 서버로 요청
   const handleVerifyCode = async (email: string) => {
     const code = userInfo.verify;
+    console.log(code);
+
     try {
       await axios
         .post(`http://15.164.84.204:8080/email/${email}/code?code=${code}`)
         .then(res => {
-          if (res.data === "이메일 인증 성공") {
-            setIsVerified(prev => !prev);
+          if (res.status === 200) {
+            setIsVerified(true);
             setVerifiedRequest(false);
           }
-          setIsVerified(false);
-          setVerifiedRequest(true);
         });
     } catch (error) {
       console.log(error);
@@ -115,11 +115,12 @@ const SignupPage: React.FC = () => {
                     <button
                       className="verify-btn"
                       type="button"
+                      disabled={isVerified ? true : false}
                       onClick={() =>
                         handleVerifyEmail(userInfo.email as string)
                       }
                     >
-                      인증요청
+                      {isVerified ? "인증성공" : "인증요청"}
                     </button>
                   )}
                 </div>
