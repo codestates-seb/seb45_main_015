@@ -25,9 +25,9 @@ function SupportButton() {
 
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
 
-  // const handleChatOpen = () => {
-  //   setIsChatOpen(!isChatOpen);
-  // };
+  const handleChatOpen = () => {
+    setIsChatOpen(!isChatOpen);
+  };
 
   return (
     <Container>
@@ -41,14 +41,14 @@ function SupportButton() {
           <Text className="top-button">Top</Text>
         </ButtonTextWrapper>
       </Button>
-      {/* <Button>
+      <Button>
         <ButtonTextWrapper onClick={handleChatOpen}>
           <Icon>
             <FontAwesomeIcon icon={defaultChat} />
           </Icon>
           <Text>Chat</Text>
         </ButtonTextWrapper>
-      </Button> */}
+      </Button>
     </Container>
   );
 }

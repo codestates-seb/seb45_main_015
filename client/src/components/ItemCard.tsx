@@ -101,17 +101,17 @@ export function ItemCard({
     deleteMutate();
     setState(!state);
   };
-
+  const memberId = localStorage.getItem("memberId");
   return (
     <Container>
       <Link to={`/item/${cardData.item_id}`}>
         <ImgContainer>
           <img src={`${cardData.item_image_urls[0]}`} />
           <Icon
-            className={state ? "favorite-on" : "favorite-off"}
+            className={memberId && state ? "favorite-on" : "favorite-off"}
             onClick={e => {
               e.preventDefault();
-              state ? handleFavoriteDelete() : handleFavoriteAdd();
+              memberId && state ? handleFavoriteDelete() : handleFavoriteAdd();
             }}
           >
             <FontAwesomeIcon icon={faHeart} />

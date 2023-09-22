@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ItemListPageContainer from "./page_style/itemListPage_styled";
 import MainCategory from "../components/MainCategory";
 // import MyCarousel from "../components/Carousel";
@@ -7,6 +7,7 @@ import { MediumButtonB } from "../components/ButtonComponent";
 import { getItem } from "../API/FetchAPI";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../loading/Loading";
+import axios from "axios";
 
 // const carouselItems = [
 //   {
@@ -28,6 +29,26 @@ import Loading from "../loading/Loading";
 
 const ItemListPage: React.FC = () => {
   const [page, setPage] = useState<number>(18);
+  // const getChatList = async () => {
+  //   const token = localStorage.getItem("token");
+  //   try {
+  //     const response = await axios({
+  //       method: "get",
+  //       url: `http://15.164.84.204:8080/chat`,
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     const result = response.data;
+  //     return console.log("asd");
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
+  // useEffect(() => {
+  //   getChatList();
+  // }, []);
 
   const handleLoadMore = () => {
     setPage(page + 18);

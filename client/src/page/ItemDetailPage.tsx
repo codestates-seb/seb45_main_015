@@ -186,7 +186,6 @@ function ItemDetailPage() {
   };
 
   const handleIsfavoriteButton = () => {
-<<<<<<< HEAD
     if (!memberId) {
       alert("로그인 후에 이용 가능합니다.");
       return;
@@ -205,8 +204,6 @@ function ItemDetailPage() {
       return;
     }
 
-=======
->>>>>>> f80ea96 ([FE] fix: console.log 삭제)
     if (data.in_wish_list) {
       deleteItem([Number(data.item_id)]);
     } else if (!data.in_wish_list) {
