@@ -103,7 +103,7 @@ export type MyTradeType = {
   content: string;
   end_time: string;
   category: string;
-  item_image_urls: [];
+  item_image_urls: string[];
   start_price: number;
   bid_unit: number;
   current_price: number;

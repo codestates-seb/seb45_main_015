@@ -34,6 +34,17 @@ export const ImgContainer = styled.div`
   height: 120px;
   margin-right: 10px;
 
+  & > img {
+    min-width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    @media (max-width: 768px) {
+      min-width: 100px;
+      height: 100px;
+      font-size: 36px;
+    }
+  }
+
   @media (max-width: 768px) {
     & {
       min-width: 100px;
