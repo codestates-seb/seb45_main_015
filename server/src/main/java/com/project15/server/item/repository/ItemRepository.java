@@ -22,7 +22,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
 
     Page<Item> findByCategoryCategoryId(Long categoryId, Pageable pageable);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Lock(LockModeType.PESSIMISTIC_READ)
     @Query("SELECT i FROM Item AS i WHERE i.id = :itemId")
     Optional<Item> findWithIdForUpdate(@Param("itemId") Long itemId);
 
@@ -37,7 +37,9 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
 
     Page<Item> findByBuyerMemberIdAndStatus(Long buyerId, ItemStatus itemStatus, Pageable pageable);
 
-    @Query("SELECT i FROM Item AS i WHERE i.content LIKE %:searchKeyword%")
+    //@Query("SELECT i FROM Item AS i WHERE i.content LIKE %:searchKeyword%")
+    @Query(value = "SELECT i FROM Item AS i WHERE MATCH(i.content) AGAINST(:searchKeywordIN NATURAL LANGUAGE MODE)",
+            nativeQuery = true) //Full Scan 이슈로 인해 LIKE 로 검색하는 방식에서 Full Text Index 로 검색하는 방식으로 변경
     Page<Item> findByTitleContaining(@Param("searchKeyword") String searchKeyword, Pageable pageable);
 
     List<Item> findByStatus(ItemStatus itemStatus);
